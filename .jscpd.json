@@ -1,0 +1,18 @@
+{
+  "threshold": 1,
+  "minTokens": 50,
+  "minLines": 5,
+  "reporters": ["consoleFull", "html"],
+  "output": "reports/jscpd",
+  "gitignore": true,
+  "absolute": false,
+  "format": ["typescript", "html", "css"],
+  "ignore": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/coverage/**",
+    "**/.angular/**",
+    "Nocturne/**",
+    "**/*.spec.ts"
+  ]
+}

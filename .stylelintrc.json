@@ -1,0 +1,29 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
+  "ignoreFiles": ["dist/**", "coverage/**", ".angular/**", "node_modules/**", "Nocturne/**"],
+  "rules": {
+    "selector-class-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*(__[a-z0-9]+(-[a-z0-9]+)*)?(--[a-z0-9]+(-[a-z0-9]+)*)?$",
+      {
+        "message": "Class must be kebab-case or BEM: block__element--modifier",
+        "resolveNestedSelectors": true
+      }
+    ],
+    "custom-property-pattern": [
+      "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+      { "message": "Custom property must be kebab-case: --color-surface-raised" }
+    ],
+    "keyframes-name-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+    "declaration-no-important": true,
+    "max-nesting-depth": [2, { "ignore": ["pseudo-classes"] }],
+    "declaration-property-value-no-unknown": true,
+    "no-unknown-animations": true,
+    "color-named": "never",
+    "font-family-no-missing-generic-family-keyword": true,
+    "shorthand-property-no-redundant-values": true,
+    "declaration-block-no-redundant-longhand-properties": true,
+    "comment-empty-line-before": null,
+    "custom-property-empty-line-before": null,
+    "no-empty-source": null
+  }
+}

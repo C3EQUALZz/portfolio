@@ -1,0 +1,10 @@
+dist/
+coverage/
+reports/
+.angular/
+.stryker-tmp/
+node_modules/
+package-lock.json
+
+# Vendored design system: keep byte-for-byte as received
+Nocturne/

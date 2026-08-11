@@ -29,6 +29,12 @@ yarn-error.log
 !.vscode/mcp.json
 .history/*
 
+# Quality tooling output
+/reports
+/.cache
+/.stryker-tmp
+.eslintcache
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/

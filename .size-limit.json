@@ -1,0 +1,14 @@
+[
+  {
+    "name": "initial JS (gzip)",
+    "path": ["dist/portfolio/browser/*.js"],
+    "limit": "200 kB",
+    "gzip": true
+  },
+  {
+    "name": "initial CSS (gzip)",
+    "path": ["dist/portfolio/browser/*.css"],
+    "limit": "30 kB",
+    "gzip": true
+  }
+]

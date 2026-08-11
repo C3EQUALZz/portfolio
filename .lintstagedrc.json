@@ -1,0 +1,5 @@
+{
+  "*.{ts,html,css,json,md,yml,yaml}": ["prettier --write"],
+  "*.{ts,html}": ["eslint --fix --max-warnings=0 --no-warn-ignored"],
+  "*.css": ["stylelint --fix --max-warnings=0 --allow-empty-input"]
+}
