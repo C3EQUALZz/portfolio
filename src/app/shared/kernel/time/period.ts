@@ -1,4 +1,4 @@
-import { err, ok, type Result } from './result';
+import { err, ok, type Result } from '../result/result';
 import { yearMonth, type YearMonth } from './year-month';
 
 /** A work interval: month to month, or "to present". */

@@ -1,5 +1,5 @@
-import { nonEmptyString, type NonEmptyString } from './non-empty-string';
-import { err, ok, type Result } from './result';
+import { nonEmptyString, type NonEmptyString } from '../non-empty-string/non-empty-string';
+import { err, ok, type Result } from '../result/result';
 
 /**
  * Content text in two locales (ADR-0001). Both are required and live side by

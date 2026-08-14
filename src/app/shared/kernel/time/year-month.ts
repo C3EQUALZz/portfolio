@@ -1,5 +1,5 @@
-import type { Brand } from './brand';
-import { err, ok, type Result } from './result';
+import type { Brand } from '../brand/brand';
+import { err, ok, type Result } from '../result/result';
 
 /** A month of a specific year — the date precision used in the resume. */
 export type YearMonth = Brand<string, 'YearMonth'>;

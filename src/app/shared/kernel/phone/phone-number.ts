@@ -1,5 +1,5 @@
-import type { Brand } from './brand';
-import { err, ok, type Result } from './result';
+import type { Brand } from '../brand/brand';
+import { err, ok, type Result } from '../result/result';
 
 /** Phone number in E.164 format: '+' plus up to 15 digits, the first one not zero. */
 export type PhoneNumber = Brand<string, 'PhoneNumber'>;

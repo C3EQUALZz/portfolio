@@ -1,6 +1,6 @@
-import { nonEmptyString, type NonEmptyString } from './non-empty-string';
-import { ok, type Result } from './result';
-import { slug, type Slug } from './slug';
+import { nonEmptyString, type NonEmptyString } from '../non-empty-string/non-empty-string';
+import { ok, type Result } from '../result/result';
+import { slug, type Slug } from '../slug/slug';
 
 /**
  * A named tool, language or service. One spelling per document:

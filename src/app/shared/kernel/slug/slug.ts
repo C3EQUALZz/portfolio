@@ -1,5 +1,5 @@
-import type { Brand } from './brand';
-import { err, ok, type Result } from './result';
+import type { Brand } from '../brand/brand';
+import { err, ok, type Result } from '../result/result';
 
 /** Kebab-case identifier: `^[a-z0-9]+(-[a-z0-9]+)*$`. */
 export type Slug = Brand<string, 'Slug'>;

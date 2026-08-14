@@ -1,5 +1,5 @@
-import type { Brand } from './brand';
-import { err, ok, type Result } from './result';
+import type { Brand } from '../brand/brand';
+import { err, ok, type Result } from '../result/result';
 
 /** Outbound link. HTTPS only: insecure schemes are rejected at the boundary. */
 export type HttpsUrl = Brand<string, 'HttpsUrl'>;

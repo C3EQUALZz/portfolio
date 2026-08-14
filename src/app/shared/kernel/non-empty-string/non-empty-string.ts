@@ -1,5 +1,5 @@
-import type { Brand } from './brand';
-import { err, ok, type Result } from './result';
+import type { Brand } from '../brand/brand';
+import { err, ok, type Result } from '../result/result';
 
 /** A string guaranteed to contain at least one non-whitespace character. */
 export type NonEmptyString = Brand<string, 'NonEmptyString'>;
