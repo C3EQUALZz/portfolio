@@ -1,0 +1,369 @@
+<!-- @template name="Landing" description="A one-page product landing in the system's own voice — an invented product (Pounce: devtools for cats), a lit hero, stat band, feature rows, a blended photograph and a sign-up close" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Nocturne — landing</title>
+<script src="./ds-base.js"></script>
+<style>
+/* Template scaffolding — page layout and web-scale sizing only; every color,
+   font, radius and shadow comes from ../../styles.css. The voice is the
+   reviewed deck's, re-derived for a scrolling, responsive page (the deck's
+   numbers live at projection scale and never port as-is — see
+   ../../../deck-templates.md for the rules that do).
+
+   THE RHYTHM: text sits on a 28px leading unit (--leading: the 17px body at
+   its ~1.65 web leading), 14px half-step for compact runs. The deck's
+   pixel-seat exactness becomes per-block discipline here: every line-height
+   and block margin is a unit multiple, heads are cap-trimmed (text-box) so
+   block edges are baselines, and the ?baselines/B-key overlay reviews the
+   rhythm — but a fluid page has no 1080px stage, so nothing is seat-pinned.
+   Display sizes step fluidly (clamp); the display header's LEADING is
+   ratio-governed (law #3's ≈1.11) rather than lattice-snapped — the deck's
+   display-block exemption — while its cap-trimmed edges hand clean
+   baselines to the cluster's grid margins. The system's own interface components
+   (nav links, buttons, inputs) keep their styles.css leading and sit off
+   the lattice by design — the rhythm governs the page's text, not the
+   controls — so the ?baselines overlay reads correctly around them.
+
+   THE VOICE (the deck's, unchanged): the lit ground — an accent-tinted
+   bloom from the top right and a black fall-off at the lower left, shade
+   not color — over the flat ground token; full-width rules fade to
+   transparent over 48px a side; short accent marks stay solid; the accent
+   is a line and a glow, never a flood; layouts hug the left edge and leave
+   the right to air; buttons stay outlined; the photograph blends in
+   through the lighten wrapper and stays swappable (image-slot). Inter's
+   measured values carry over verbatim where the machinery ports: optical
+   margins -0.06em where caps lead a display line, quote hang -0.474em,
+   attribution hang -1.267em, tabular figures wherever numbers stand. */
+:root {
+  --leading: 28px;
+  --half: 14px;
+  --edge: clamp(20px, 5vw, 72px);   /* page gutter */
+  --measure: 58ch;
+}
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  /* the deck's lit ground at page scale: bloom pinned to the top of the
+     document (not the viewport), fall-off at the foot. At the bloom's peak
+     composite the inks measure text 12.5:1 and accent 4.7:1 (the derivation
+     lives at the deck template's .slide ground rule, ../deck/Deck.dc.html);
+     the page uses the same inks on the same composite or darker */
+  background:
+    radial-gradient(1200px 720px at 82% -160px,
+      color-mix(in srgb, var(--color-accent-900) 75%, transparent), transparent 60%),
+    radial-gradient(1100px 800px at -10% 100%,
+      color-mix(in srgb, black 30%, transparent), transparent 55%),
+    var(--color-bg);
+  text-wrap: pretty; /* inherited: better breaks, no orphans on wrapped blocks */
+}
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--edge); }
+/* the component demo pads the masthead with its own spacing; on the page the
+   masthead's contents take the page gutter and sit on the wrap's text axis
+   (padding-only — full-width paint such as a masthead rule is untouched) */
+.nav { padding-inline: max(var(--edge), calc((100% - 1200px) / 2 + var(--edge))); }
+.nav a { white-space: nowrap; }
+.nav a[aria-current='location'] { color: var(--color-accent); } /* in-page anchor, not
+   a page link — 'location' is the truthful value; carry the component's active ink */
+@media (max-width: 480px) { .nav a { display: none; } } /* phone width: the nav
+   keeps brand + the one action (layout-only — the component's look is
+   untouched); the full link row's min-content crosses narrow-phone widths */
+
+/* — fading rules (the DS-wide treatment: 1px, transparent over 48px ends) — */
+.rule { height: 1px; border: 0; margin: 0; /* a SECTION separator — the divider
+     token, as the system's own hr and the deck's divider system set it */
+  background: linear-gradient(to right, transparent, var(--color-divider) 48px calc(100% - 48px), transparent); }
+
+/* — kicker grammar (the deck's: solid 44px accent dash, uppercase, tnum) — */
+.kicker {
+  position: relative; display: block;
+  font-size: 13px; line-height: var(--half); letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--color-accent); font-feature-settings: "tnum" 1;
+  margin: 0 0 calc(var(--leading) - var(--half));
+}
+.kicker::before { content: ""; position: absolute; left: -64px; top: calc(50% - 0.5px);
+  width: 44px; height: 1px; background: var(--color-accent); }
+/* the dash hangs 64px into the gutter; below 1280px the 5vw gutter drops
+   under that hang and the mark would crop at the viewport edge — it folds
+   away rather than cramping (measured: at 1100px the dash clips 9px) */
+@media (max-width: 1280px) { .kicker::before { display: none; } }
+
+/* — hero — */
+.hero { padding: calc(4 * var(--leading)) 0 calc(3 * var(--leading)); }
+.display {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(44px, 6.4vw, 88px);
+  line-height: clamp(49px, 7.13vw, 98px); /* law #3: tight display leading,
+     ratio-governed (≈1.11) rather than lattice-snapped — at mobile no 14px
+     multiple is both tighter than the old 56 and clear of collisions, so
+     the display header carries the deck's display-block exemption: its
+     internal leading follows the ratio, while its cap-trimmed edges still
+     hand clean baselines to the cluster's grid margins */
+  letter-spacing: -0.015em; margin: 0;
+  margin-left: -0.06em; /* optical left alignment — Inter's wide flat-stem bearings;
+     measured for the deck, em-scaled so it holds at any display size. Caps lead here. */
+  text-box: trim-both cap alphabetic;
+}
+/* THE LANDING LAWS (shared by all six systems' landing templates):
+   #1 — a display header breaks per SENTENCE: each sentence starts its own
+   line (.line spans, display:block), never wrapping as one run. A long
+   sentence may still wrap at narrow widths; the law is about where lines
+   BEGIN.
+   #2 — the landing advertises a concrete INVENTED PRODUCT in a real voice,
+   never abstract design-system copy — nocturne's is Pounce, devtools for
+   cats (deadpan professional, cat truths played straight). Each system
+   gets its own product; the design stays the system's, the words sell the
+   product.
+   #3 — spacing is cluster-scoped: display headers take TIGHT leading
+   (≈1.11 here), a text cluster (head, subline, CTAs) holds tight
+   single-unit gaps and reads as one unit, and the generous air lives
+   BETWEEN sections, not inside clusters.
+   #4 — no hero eyebrow: the nav brand already names the product; kickers
+   survive as section wayfinding only. */
+.display .line { display: block; }
+.hero .sub { font-size: 17px; line-height: var(--leading); max-width: var(--measure);
+  margin: calc(1.5 * var(--leading) - 1cap) 0 0; color: var(--color-text);
+  text-box: trim-both cap alphabetic; } /* law #3: the hero is one cluster — but the
+     display's descenders reach ~0.22em (≈19px) below its trimmed baseline edge,
+     so the sub keeps 1.5 units: baseline-to-cap ≈30px clears the descenders
+     with Linear-tight air rather than a collision */
+.hero .row { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-top: var(--leading); } /* law #3: one unit off the subline */
+
+/* — stat band (the deck's hero-figure grammar at web scale) — */
+/* Sits on the deep-indigo section ground — the system's one saturated move,
+   presence at section scale, exactly as the deck's dividers use it (ink
+   derivations at the deck template's .divider rule: paper text on
+   --color-section, the ghosted step for support). The band's figures are
+   the PRODUCT's claims — fiction, played straight (law #2); the design-side
+   measurement that matters here is the label ink's, at .stat-label. */
+.stats { background:
+    radial-gradient(900px 420px at 85% -40%,
+      color-mix(in srgb, var(--color-section-glow) 70%, transparent), transparent 64%),
+    var(--color-section);
+  padding: calc(2.5 * var(--leading)) 0; }
+.stats .grid { display: grid; grid-template-columns: repeat(4, auto); justify-content: space-between; gap: calc(1.5 * var(--leading)) var(--leading); }
+.stat-num { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(36px, 3.6vw, 52px); line-height: calc(2 * var(--leading));
+  color: var(--color-text); /* display figures stay proportional — the deck's figure policy */
+  margin: 0; margin-left: -0.055em; /* digits lead — the deck's digit-population value */
+  text-box: trim-both cap alphabetic; }
+.stat-label { font-size: 13px; line-height: var(--half); letter-spacing: 0.06em; text-transform: uppercase;
+  color: color-mix(in srgb, var(--color-text) 64%, transparent); /* measured on the
+     section ground: 5.4:1 flat, 4.7:1 at the glow's peak composite — ≥4.5 at 13px */
+  margin: var(--half) 0 0; }
+
+/* — feature rows (numbered, rule-parted, asymmetric: no equal cards) — */
+.features { padding: calc(3.5 * var(--leading)) 0 calc(2.5 * var(--leading)); } /* law #3: the air lives between sections */
+.feature { display: grid; grid-template-columns: minmax(64px, 160px) minmax(0, 420px) minmax(0, 1fr);
+  gap: var(--leading) clamp(24px, 4vw, 72px); align-items: baseline; /* the number,
+     title and first copy line share one baseline across the row */
+  padding: calc(1.5 * var(--leading)) 0; }
+.feature + .feature { border: 0; position: relative; }
+.feature + .feature::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-neutral-700) 48px calc(100% - 48px), transparent); }
+  /* in-content structural rules take neutral-700, the ink the deck's quadrant
+     crosshairs use — a step above the divider token so the row structure holds
+     beside 24px titles; the page's section separator (.rule) stays on the
+     divider token */
+.f-num { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 15px; line-height: var(--leading); color: var(--color-accent);
+  font-feature-settings: "tnum" 1; margin: 0; text-box: trim-both cap alphabetic; }
+.f-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 24px; line-height: var(--leading); letter-spacing: -0.01em;
+  margin: 0; text-box: trim-both cap alphabetic; }
+.f-copy { font-size: 15.5px; line-height: var(--leading); margin: 0;
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  max-width: 52ch; text-box: trim-both cap alphabetic; }
+
+/* — imagery split (the photograph as a grid object, blended, swappable) — */
+.split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--leading) clamp(24px, 5vw, 96px); align-items: center;
+  padding: calc(2 * var(--leading)) 0 calc(3 * var(--leading)); }
+.split-copy .note { font-size: 15.5px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  margin: calc(var(--leading) - 1cap) 0 0; max-width: 48ch; text-box: trim-both cap alphabetic; }
+.split-title { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 32px; line-height: calc(1.5 * var(--leading)); letter-spacing: -0.012em;
+  margin: 0; text-box: trim-both cap alphabetic; }
+.split-figure { margin: 0; }
+.split-figure image-slot { width: 100%; aspect-ratio: 1600 / 1261; } /* the bundled
+   photograph's natural ratio pins the box, so a swapped image cover-crops
+   into the same frame (cover framing is the component's own); the lighten
+   wrapper blends whatever is swapped in — dark grounds sink away, which is
+   the treatment's intent and the swap caveat the deck documents */
+
+/* — quote (hanging punctuation, measured for Inter) — */
+.quote { padding: calc(2.5 * var(--leading)) 0 calc(3.5 * var(--leading)); }
+.quote blockquote {
+  font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: clamp(24px, 2.6vw, 34px); line-height: calc(1.5 * var(--leading));
+  letter-spacing: -0.01em; max-width: 32ch; margin: 0;
+  text-indent: -0.474em; /* hang the opening “ (measured advance in Inter) */
+  text-box: trim-both cap alphabetic;
+}
+.quote figcaption { font-size: 15.5px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 64%, transparent);
+  margin: calc(2 * var(--leading) - 1cap) 0 0; /* two grid units below the quote's
+     last baseline — one reads as part of the quote block; the attribution needs air */
+  text-indent: -1.267em; /* hang the leading em-dash + space (measured in Inter) */
+  text-box: trim-both cap alphabetic; }
+
+@media (max-width: 720px) {
+  /* the phone gutter (--edge bottoms out at 20px) is narrower than the hung
+     marks' measured advances, so a hung “ or em-dash would press into or past
+     the viewport edge — seat the quote flush below this width; the hang
+     returns with the wider gutter */
+  .quote blockquote, .quote figcaption { text-indent: 0; }
+}
+
+/* — close / signup — */
+.close { padding: calc(2.5 * var(--leading)) 0 calc(2 * var(--leading)); }
+.close h3 { font-family: var(--font-heading); font-weight: var(--font-heading-weight);
+  font-size: 24px; line-height: var(--leading); margin: 0; text-box: trim-both cap alphabetic; }
+.close .sub { font-size: 15.5px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 78%, transparent);
+  margin: calc(var(--leading) - 1cap) 0 0; max-width: var(--measure); text-box: trim-both cap alphabetic; }
+.signup { display: flex; gap: var(--space-3); align-items: stretch; max-width: 480px;
+  margin-top: var(--leading); } /* law #3: the close is one cluster */
+.signup .input { flex: 1; }
+.signup .input, .signup .btn { min-height: 36px; } /* one control height floor; the row
+  stretches, so whichever of the pair is taller sets both and they read as one row */
+footer { padding: calc(2 * var(--leading)) 0; font-size: 13px; line-height: var(--leading);
+  color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+
+/* — responsive collapse — */
+/* the feature grid's fixed-max columns (160 + 420 + gaps) crush the copy
+   column in the tablet band, so it collapses earlier than the page */
+@media (max-width: 880px) {
+  .feature { grid-template-columns: 1fr; gap: var(--half); }
+  .f-copy { max-width: var(--measure); }
+}
+@media (max-width: 720px) {
+  .hero { padding-top: calc(2.5 * var(--leading)); }
+  .stats .grid { grid-template-columns: repeat(2, 1fr); justify-content: start; }
+  .split { grid-template-columns: 1fr; }
+  .split-figure { order: -1; } /* the photograph leads on one column — it blends
+     into the ground either way, and the title stays adjacent to its copy */
+}
+
+/* Review aid: the 28px rhythm drawn as hairlines (14px half-steps fainter) —
+   debug chrome, toggled by ?baselines or the B key, never part of the look. */
+body[data-baselines] { position: relative; } /* the overlay's containing block —
+   without this the inset:0 pseudo resolves against the viewport-sized initial
+   containing block and the hairlines die after the first screen */
+body[data-baselines]::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    repeating-linear-gradient(to bottom,
+      color-mix(in srgb, var(--color-accent) 35%, transparent) 0 1px,
+      transparent 1px var(--leading)),
+    repeating-linear-gradient(to bottom,
+      transparent 0 var(--half),
+      color-mix(in srgb, var(--color-accent) 16%, transparent) var(--half) calc(var(--half) + 1px),
+      transparent calc(var(--half) + 1px) var(--leading));
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <span class="nav-brand">Pounce</span>
+  <a href="#product" aria-current="location">Product</a>
+  <a href="#darkmode">Dark mode</a>
+  <a href="#start">Start</a>
+  <button type="button" class="btn btn-primary">Get started</button>
+</nav>
+<div class="wrap">
+
+  <section class="hero">
+    <h1 class="display"><span class="line">Ship at 3 a.m.</span> <span class="line">Land on your feet.</span></h1>
+    <p class="sub">Pounce is the debugger, profiler and crash reporter for engineers who are cats: trace every pounce, profile the zoomies, and land every fall. Nine lives included on every plan.</p>
+    <div class="row">
+      <button type="button" class="btn btn-primary">Start free</button>
+      <button type="button" class="btn btn-ghost">See it hunt</button>
+    </div>
+  </section>
+
+</div><!-- /wrap: the stat band runs full-bleed — the section ground is the
+     system's one saturated move, and it reads as a band of the page, not a
+     card in the column (the deck's divider logic at page scale) -->
+  <section class="stats" aria-label="Pounce, by the numbers">
+    <div class="wrap">
+      <div class="grid">
+        <div><p class="stat-num">9</p><p class="stat-label">Lives per incident</p></div>
+        <div><p class="stat-num">3 a.m.</p><p class="stat-label">Peak deploy window</p></div>
+        <div><p class="stat-num">42ms</p><p class="stat-label">Nap-to-alert latency</p></div>
+        <div><p class="stat-num">100%</p><p class="stat-label">Falls landed on feet</p></div>
+      </div>
+    </div>
+  </section>
+<div class="wrap">
+
+  <section class="features" id="product">
+    <span class="kicker">What Pounce does</span>
+    <div class="feature">
+      <p class="f-num">01</p>
+      <h2 class="f-title">Pawprint tracing</h2>
+      <p class="f-copy">Distributed tracing at paw level: follow a single pounce from trigger to landing, across every service it knocks off the shelf. Spans are batted, inspected, and left exactly where they fell.</p>
+    </div>
+    <div class="feature">
+      <p class="f-num">02</p>
+      <h2 class="f-title">Zoomies profiler</h2>
+      <p class="f-copy">Flame graphs for the 3 a.m. sprint. Pin the exact hallway lap that burned the CPU, correlate it with the red dot, and see what the tail was doing at the time.</p>
+    </div>
+    <div class="feature">
+      <p class="f-num">03</p>
+      <h2 class="f-title">Nine-lives recovery</h2>
+      <p class="f-copy">Crash reporting that always lands on its feet. Every incident ships with a fresh life, a clean stack, and no memory whatsoever of the vase.</p>
+    </div>
+  </section>
+
+  <section class="split" id="darkmode">
+    <div class="split-copy">
+      <span class="kicker">Dark mode</span>
+      <h2 class="split-title">Built for the dark</h2>
+      <p class="note">Cats ship at night, so Pounce does too: a near-black interface tuned for slit pupils and zero sleep schedule, where every panel sinks into the ground and only the work glows. There is no light theme.</p>
+    </div>
+    <figure class="split-figure lighten">
+      <image-slot id="photo-split" shape="rect" src="../../assets/photo.jpg" role="img" aria-label="Product photograph blending into the dark page ground"></image-slot>
+    </figure>
+  </section>
+
+  <section class="quote">
+    <figure>
+      <!-- keep the leading “ — the blockquote's negative text-indent hangs it in the margin -->
+      <blockquote>“We went from chasing our own tails to shipping nightly. The zoomies profiler alone paid for itself in vases.”</blockquote>
+      <!-- keep the leading "— " — the figcaption's negative text-indent hangs it -->
+      <figcaption>— Mochi, staff engineer (tabby)</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule" />
+
+  <section class="close" id="start">
+    <h3>Take the night shift</h3>
+    <p class="sub">Start free — the first life is on us. Or subscribe for release notes, shipped nightly at 3 a.m. sharp.</p>
+    <div class="signup">
+      <input class="input" type="email" placeholder="you@example.com" aria-label="Email address" />
+      <button type="button" class="btn btn-primary">Subscribe</button>
+    </div>
+  </section>
+
+  <footer>Built from this project’s theme.json — see readme.md.</footer>
+</div>
+<script src="image-slot.js"></script>
+<script>
+// Review aid: baseline-grid overlay — add ?baselines to the URL, or press B to toggle.
+(() => {
+  if (new URLSearchParams(location.search).has('baselines')) document.body.setAttribute('data-baselines', '');
+  addEventListener('keydown', (e) => {
+    const t = e.target;
+    if (t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName))) return;
+    if ((e.key === 'b' || e.key === 'B') && !e.metaKey && !e.ctrlKey && !e.altKey) document.body.toggleAttribute('data-baselines');
+  });
+})();
+</script>
+</body>
+</html>

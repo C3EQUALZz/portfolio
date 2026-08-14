@@ -127,8 +127,9 @@ module.exports = {
     {
       name: 'shared-kernel-is-pure',
       severity: 'error',
-      comment: 'shared/kernel is the domain foundation: no framework, no other layers.',
-      from: { path: '^src/app/shared/kernel/' },
+      comment:
+        'shared/kernel is the domain foundation: no framework, no other layers. Specs are exempt — they may import the test runner.',
+      from: { path: '^src/app/shared/kernel/', pathNot: String.raw`\.spec\.ts$` },
       to: { pathNot: ['^src/app/shared/kernel/'] },
     },
     {

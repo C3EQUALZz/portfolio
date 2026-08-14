@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Engineer portfolio" description="Long-form personal portfolio + resume: hero, metric band, experience timeline, selected work, stack, contact." -->
+<helmet>
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<script src="./ds-base.js"></script>
+<style>
+@keyframes nc-drift{0%{transform:translate3d(-4%,-2%,0) scale(1)}50%{transform:translate3d(4%,3%,0) scale(1.08)}100%{transform:translate3d(-4%,-2%,0) scale(1)}}
+@keyframes nc-caret{0%,45%{opacity:1}50%,95%{opacity:0}100%{opacity:1}}
+@keyframes nc-pulse{0%{opacity:.35;transform:scale(.7)}70%{opacity:0;transform:scale(2.4)}100%{opacity:0;transform:scale(2.4)}}
+@keyframes nc-spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes nc-spin-r{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+@keyframes nc-float{0%{transform:translateY(0)}50%{transform:translateY(-9px)}100%{transform:translateY(0)}}
+@media (prefers-reduced-motion:reduce){[data-ring],[data-ring] *{animation:none!important}}
+html{scroll-behavior:smooth}
+body{margin:0;overflow-x:hidden}
+::selection{background:color-mix(in srgb,var(--color-accent) 35%,transparent)}
+a:hover{color:var(--color-accent-300)}
+[data-reveal]{transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+</style>
+</helmet>
+<div style="background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);min-height:100vh;position:relative">
+
+<header style="position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--color-bg) 82%,transparent);border-bottom:1px solid var(--color-divider)">
+<nav style="max-width:1120px;margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:28px">
+<a href="#top" style="font-family:var(--font-heading);font-weight:500;font-size:15px;color:var(--color-text);text-decoration:none;letter-spacing:-0.01em;display:flex;align-items:center;gap:9px">
+<span style="width:7px;height:7px;border-radius:50%;background:var(--color-accent);box-shadow:0 0 12px var(--color-accent);flex:none"></span>Portfolio</a>
+<div style="flex:1"></div>
+<div style="display:flex;gap:22px;align-items:center;font-size:13px" data-nav>
+<a href="#about" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none;transition:color .25s">About</a>
+<a href="#experience" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none;transition:color .25s">Experience</a>
+<a href="#work" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none;transition:color .25s">Work</a>
+<a href="#stack" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none;transition:color .25s">Stack</a>
+<a href="#contact" style="color:color-mix(in srgb,var(--color-text) 62%,transparent);text-decoration:none;transition:color .25s">Contact</a>
+</div>
+</nav>
+</header>
+
+<section id="top" style="position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden">
+<div data-glow style="position:absolute;top:-18%;left:-6%;width:70vw;height:70vw;max-width:960px;max-height:960px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--color-accent) 26%,transparent) 0%,transparent 62%);filter:blur(30px);animation:nc-drift 22s ease-in-out infinite;pointer-events:none"></div>
+<div style="position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,var(--color-bg) 100%);pointer-events:none"></div>
+<div style="position:relative;max-width:1120px;margin:0 auto;padding:140px 32px 96px;width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:clamp(24px,4vw,56px)">
+<div style="flex:1 1 400px;min-width:0">
+<p style="display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:0.09em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 60%,transparent);margin:0 0 28px">
+<span style="position:relative;display:inline-flex;width:7px;height:7px;flex:none"><span style="position:absolute;inset:0;border-radius:50%;background:var(--color-accent-400);animation:nc-pulse 2.6s ease-out infinite"></span><span style="position:absolute;inset:0;border-radius:50%;background:var(--color-accent)"></span></span>
+Rostov-on-Don &nbsp;·&nbsp; open to Moscow / St. Petersburg</p>
+<h1 style="font-size:clamp(46px,7.2vw,92px);line-height:1.02;letter-spacing:-0.03em;margin:0 0 22px;max-width:15ch">Danil Kovalev</h1>
+<p style="font-size:clamp(20px,2.3vw,29px);line-height:1.25;margin:0 0 30px;color:color-mix(in srgb,var(--color-text) 88%,transparent);font-family:var(--font-heading)">Backend engineer building<br><span data-roles style="display:inline-block;color:var(--color-accent-300);transition:opacity .4s ease,transform .4s cubic-bezier(.2,.7,.2,1)">high-load Rust services</span></p>
+<p style="max-width:60ch;font-size:16px;line-height:1.65;color:color-mix(in srgb,var(--color-text) 66%,transparent);margin:0 0 40px;text-wrap:pretty;max-width:52ch">Three and a half years across security tooling, AI assistants and microservice platforms — mostly the unglamorous parts that decide whether a system holds: async architecture, message transport, observability and the quality gates around them. Rust and Python, self-hosted infrastructure, and a habit of deleting the legacy path rather than working around it.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+<a href="#work" style="display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border:1px solid var(--color-accent);border-radius:var(--radius-md);color:var(--color-accent-200);text-decoration:none;font-size:14px;transition:background .25s,transform .25s" style-hover="background:color-mix(in srgb,var(--color-accent) 16%,transparent);transform:translateY(-2px)">Selected work<i class="ph ph-arrow-down-right" style="font-size:15px"></i></a>
+<a href="mailto:dan.kovalev2013@gmail.com" style="display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border:1px solid var(--color-neutral-800);border-radius:var(--radius-md);color:color-mix(in srgb,var(--color-text) 82%,transparent);text-decoration:none;font-size:14px;transition:border-color .25s,color .25s" style-hover="border-color:var(--color-neutral-600);color:var(--color-text)"><i class="ph ph-envelope-simple" style="font-size:15px"></i>dan.kovalev2013@gmail.com</a>
+<a href="https://t.me/computerScienceEnjoyer" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;padding:12px 22px;border:1px solid var(--color-neutral-800);border-radius:var(--radius-md);color:color-mix(in srgb,var(--color-text) 82%,transparent);text-decoration:none;font-size:14px;transition:border-color .25s,color .25s" style-hover="border-color:var(--color-neutral-600);color:var(--color-text)"><i class="ph ph-telegram-logo" style="font-size:15px"></i>Telegram</a>
+</div>
+</div>
+<div data-ring style="flex:0 1 400px;min-width:280px;max-width:470px;aspect-ratio:1;position:relative;animation:nc-float 9s ease-in-out infinite">
+<div style="position:absolute;inset:4%;border-radius:50%;border:1px solid var(--color-divider)"></div>
+<div style="position:absolute;inset:22%;border-radius:50%;border:1px solid var(--color-divider)"></div>
+<div style="position:absolute;inset:40%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--color-accent) 30%,transparent),transparent 72%);filter:blur(8px)"></div>
+<div style="position:absolute;inset:38%;border-radius:50%;border:1px solid var(--color-divider)"></div>
+<div style="position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:var(--color-accent);box-shadow:0 0 18px 4px color-mix(in srgb,var(--color-accent) 55%,transparent)"></div>
+<div style="position:absolute;inset:0;animation:nc-spin 32s linear infinite">
+<div style="position:absolute;left:67%;top:50%;margin:-22px 0 0 -22px;animation:nc-spin-r 32s linear infinite"><div style="width:44px;height:44px;border-radius:13px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/fastapi/fastapi-original.svg" alt="FastAPI" width="23" height="23"></div></div>
+<div style="position:absolute;left:55.3%;top:66.2%;margin:-22px 0 0 -22px;animation:nc-spin-r 32s linear infinite"><div style="width:44px;height:44px;border-radius:13px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/sqlalchemy/sqlalchemy-original.svg" alt="SQLAlchemy" width="23" height="23" style="filter:invert(1) brightness(1.6)"></div></div>
+<div style="position:absolute;left:36.2%;top:60%;margin:-22px 0 0 -22px;animation:nc-spin-r 32s linear infinite"><div style="width:44px;height:44px;border-radius:13px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="./ag2-mark.png" alt="AG2" width="26" height="26" style="opacity:.92"></div></div>
+<div style="position:absolute;left:36.2%;top:40%;margin:-22px 0 0 -22px;animation:nc-spin-r 32s linear infinite"><div style="width:44px;height:44px;border-radius:13px;overflow:hidden;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://avatars.githubusercontent.com/reagento" alt="reagento" width="44" height="44" style="display:block"></div></div>
+<div style="position:absolute;left:55.3%;top:33.8%;margin:-22px 0 0 -22px;animation:nc-spin-r 32s linear infinite"><div style="width:44px;height:44px;border-radius:13px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center;font-family:var(--font-mono,ui-monospace);font-size:9.5px;color:color-mix(in srgb,var(--color-text) 80%,transparent)">serde</div></div>
+</div>
+<div style="position:absolute;inset:0;animation:nc-spin 60s linear infinite">
+<div style="position:absolute;left:95%;top:50%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/rust/rust-original.svg" alt="Rust" width="28" height="28" style="filter:invert(1) brightness(1.7)"></div></div>
+<div style="position:absolute;left:81.8%;top:81.8%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/python/python-original.svg" alt="Python" width="29" height="29"></div></div>
+<div style="position:absolute;left:50%;top:95%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/java/java-original.svg" alt="Java" width="29" height="29"></div></div>
+<div style="position:absolute;left:18.2%;top:81.8%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/spring/spring-original.svg" alt="Spring" width="28" height="28"></div></div>
+<div style="position:absolute;left:5%;top:50%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" width="29" height="29"></div></div>
+<div style="position:absolute;left:18.2%;top:18.2%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/mongodb/mongodb-original.svg" alt="MongoDB" width="29" height="29"></div></div>
+<div style="position:absolute;left:50%;top:5%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/docker/docker-original.svg" alt="Docker" width="30" height="30"></div></div>
+<div style="position:absolute;left:81.8%;top:18.2%;margin:-27px 0 0 -27px;animation:nc-spin-r 60s linear infinite"><div style="width:54px;height:54px;border-radius:15px;background:color-mix(in srgb,#fff 7%,transparent);border:1px solid var(--color-neutral-800);backdrop-filter:blur(6px);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes" width="29" height="29"></div></div>
+</div>
+<div style="position:absolute;inset:0;animation:nc-spin-r 44s linear infinite">
+<div style="position:absolute;left:50%;top:78%;margin:-24px 0 0 -24px;animation:nc-spin 44s linear infinite"><div style="width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center;font-family:var(--font-mono,ui-monospace);overflow:hidden"><img src="https://avatars.githubusercontent.com/tokio-rs" alt="Tokio" width="48" height="48" style="display:block"></div></div>
+<div style="position:absolute;left:23.4%;top:58.7%;margin:-24px 0 0 -24px;animation:nc-spin 44s linear infinite"><div style="width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/redis/redis-original.svg" alt="Redis" width="25" height="25"></div></div>
+<div style="position:absolute;left:33.5%;top:27.3%;margin:-24px 0 0 -24px;animation:nc-spin 44s linear infinite"><div style="width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/rabbitmq/rabbitmq-original.svg" alt="RabbitMQ" width="25" height="25"></div></div>
+<div style="position:absolute;left:66.5%;top:27.3%;margin:-24px 0 0 -24px;animation:nc-spin 44s linear infinite"><div style="width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center;font-family:var(--font-mono,ui-monospace);font-size:10.5px;letter-spacing:0.02em;color:color-mix(in srgb,var(--color-text) 80%,transparent)">NATS</div></div>
+<div style="position:absolute;left:76.6%;top:58.7%;margin:-24px 0 0 -24px;animation:nc-spin 44s linear infinite"><div style="width:48px;height:48px;border-radius:14px;background:color-mix(in srgb,#fff 6%,transparent);border:1px solid var(--color-neutral-800);display:grid;place-items:center"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons/apachekafka/apachekafka-original.svg" alt="Kafka" width="24" height="24" style="filter:invert(1) brightness(1.7)"></div></div>
+</div>
+</div>
+</div>
+<a href="#about" style="position:absolute;bottom:30px;left:50%;transform:translateX(-50%);color:color-mix(in srgb,var(--color-text) 40%,transparent);font-size:20px;text-decoration:none;transition:color .25s" style-hover="color:var(--color-accent)"><i class="ph ph-arrow-down"></i></a>
+</section>
+
+<section id="about" style="max-width:1120px;margin:0 auto;padding:110px 32px 30px">
+<h6 data-reveal style="color:var(--color-accent-300);margin:0 0 14px;transition:opacity .8s,transform .8s">About</h6>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,72px);align-items:start">
+<div>
+<p data-reveal style="font-size:clamp(21px,2.1vw,27px);line-height:1.4;letter-spacing:-0.015em;font-family:var(--font-heading);margin:0 0 22px;text-wrap:pretty;transition:opacity .8s,transform .8s">A Python/Rust developer with experience across fintech, EdTech, e-commerce and information security.</p>
+<p data-reveal style="font-size:15.5px;line-height:1.7;color:color-mix(in srgb,var(--color-text) 68%,transparent);margin:0;text-wrap:pretty;transition:opacity .8s,transform .8s">I have designed both high-load services with strict transactional-accuracy and delivery-guarantee requirements, and the infrastructure components underneath them. My main interests are high-load microservices, realtime systems and AI components — agents and RAG.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:22px">
+<div data-reveal style="display:grid;grid-template-columns:20px 1fr;gap:14px;transition:opacity .8s,transform .8s">
+<i class="ph ph-blueprint" style="font-size:19px;color:var(--color-accent);line-height:1.4"></i>
+<p style="margin:0;font-size:15px;line-height:1.65;color:color-mix(in srgb,var(--color-text) 76%,transparent);text-wrap:pretty">I work from DDD, Clean Architecture and event-driven design, go deep on observability — OpenTelemetry and the Grafana stack — and spend real time optimising legacy rather than routing around it.</p>
+</div>
+<div data-reveal style="display:grid;grid-template-columns:20px 1fr;gap:14px;transition:opacity .8s,transform .8s">
+<i class="ph ph-git-pull-request" style="font-size:19px;color:var(--color-accent);line-height:1.4"></i>
+<p style="margin:0;font-size:15px;line-height:1.65;color:color-mix(in srgb,var(--color-text) 76%,transparent);text-wrap:pretty">I contribute to the Python open-source ecosystem: I build and maintain integrations between the dishka DI container and popular frameworks.</p>
+</div>
+<div data-reveal style="display:grid;grid-template-columns:20px 1fr;gap:14px;transition:opacity .8s,transform .8s">
+<i class="ph ph-users-three" style="font-size:19px;color:var(--color-accent);line-height:1.4"></i>
+<p style="margin:0;font-size:15px;line-height:1.65;color:color-mix(in srgb,var(--color-text) 76%,transparent);text-wrap:pretty">I take part in code review and architecture discussions, and use AI tooling — Cursor, Claude Code — as part of daily development to shorten the delivery cycle.</p>
+</div>
+</div>
+</div>
+</section>
+
+<section id="experience" style="max-width:1120px;margin:0 auto;padding:110px 32px 30px">
+<h6 data-reveal style="color:var(--color-accent-300);margin:0 0 14px;transition:opacity .8s,transform .8s">Experience</h6>
+<h2 data-reveal style="font-size:clamp(30px,3.6vw,44px);letter-spacing:-0.025em;margin:0 0 12px;transition:opacity .8s,transform .8s">Three years of taking the slow path out</h2>
+<p data-reveal style="max-width:56ch;color:color-mix(in srgb,var(--color-text) 62%,transparent);font-size:15px;margin:0 0 56px;transition:opacity .8s,transform .8s">Each role has been a rewrite of something that had stopped scaling — a monolith, a hand-rolled WebSocket server, a SaaS monitoring bill.</p>
+
+<div style="display:flex;flex-direction:column;gap:0">
+<article data-reveal data-role style="position:relative;display:grid;grid-template-columns:190px 1fr;gap:40px;padding:40px 0;border-top:1px solid var(--color-divider);transition:opacity .8s,transform .8s">
+<div>
+<p style="font-size:12px;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 6px">Dec 2025 — now</p>
+<p style="font-size:13px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">9 months · on-site</p>
+</div>
+<div>
+<h3 style="font-size:24px;margin:0 0 4px;letter-spacing:-0.02em">Middle Developer — SRI Spetsvuzavtomatika</h3>
+<p style="font-size:14px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px">Automated SAST/DAST analysis platform for Android applications — backend, infrastructure and AppSec integrations.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px;padding:20px 0 24px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);margin-bottom:26px">
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="4" data-prefix="×" data-suffix="">×0</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Analysis throughput after the Rust rewrite</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)">seconds</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">To locate an incident across the DAST log volume</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)">horizontal</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Realtime scaling, connections in their own layer</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)">compile-time</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Where UB and races now fail, not in production</p></div>
+</div>
+<ul style="list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:12px">
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Rebuilt the DAST architecture</strong> — moved the analysis pipeline off a Django + Celery monolith onto async Rust (Axum, Tokio, independent workers), multiplying throughput at a fraction of the runtime overhead and retiring the technical debt with it.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Decomposed the realtime bottleneck</strong> — replaced the hand-written WebSocket servers with Centrifugo, isolating connection management so realtime scales horizontally without touching backend services.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Built observability from zero</strong> — Prometheus, Grafana, Vector and Tempo across the analysis pipelines, with ElasticSearch for full-text search over the DAST log volume: incidents are found in seconds and anomalies surface on their own.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Found a cheaper way to read an APK</strong> — researched extraction that skips full reverse-engineering through apktool, cutting a whole fragile stage out of the product and weeks out of the schedule.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Set the quality floor</strong> — Keycloak + oauth2-proxy for central auth instead of home-grown user logic; Clippy, rustfmt, cargo-deny and pre-commit in CI; sccache/mold for fast local builds; AGENTS.md so AI agents work the codebase safely. Whole classes of bug — UB, races — now fail at compile time.</span></li>
+</ul>
+<div data-tags style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">Rust</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">Axum · Tokio · SQLx</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">PostgreSQL · Redis · RabbitMQ</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">MinIO · Centrifugo · Kong</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">Frida · Androguard · YARA</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">Vector · Tempo · Grafana</span>
+</div>
+</div>
+</article>
+
+<article data-reveal data-role style="position:relative;display:grid;grid-template-columns:190px 1fr;gap:40px;padding:40px 0;border-top:1px solid var(--color-divider);transition:opacity .8s,transform .8s">
+<div>
+<p style="font-size:12px;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 6px">Jun — Dec 2025</p>
+<p style="font-size:13px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">7 months · Rostov-on-Don</p>
+</div>
+<div>
+<h3 style="font-size:24px;margin:0 0 4px;letter-spacing:-0.02em">Backend Developer — Iktin Group</h3>
+<p style="font-size:14px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 24px">«Elya» — an AI assistant for CDEK franchisees, shipped as an official CDEK integration module.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px;padding:20px 0 24px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);margin-bottom:26px">
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="40" data-prefix="−" data-suffix="%">−0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Manager load, once RAG answered the routine requests</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="30" data-prefix="−" data-suffix="%">−0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Key operation time — rewritten SQL plus Redis caching</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)">voice</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Waybill creation — the product's headline feature</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)">official</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">CDEK integration module, published in their catalogue</p></div>
+</div>
+<ul style="list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:12px">
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Designed the RAG answering system</strong> (LangChain, ChromaDB, GigaChat) that closes routine requests without a human — manager load fell 40%.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Built the speech-recognition library</strong> (SaluteSpeech) behind voice-created waybills — the product's headline feature — and set up Label Studio so managers annotate their own data.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Moved a legacy codebase to Clean Architecture</strong>, event-driven messaging and DI (dishka), and started the Celery → FastStream migration so inter-service communication is typed rather than hopeful.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Cut key operation time ~30%</strong> by rewriting the critical SQL and adding Redis caching; refactored the user service under unit tests; added ruff, mypy and semgrep, moved the project to uv, and hardened infrastructure with automatic backups and TLS for PostgreSQL.</span></li>
+</ul>
+<div data-tags style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">Python 3.12</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">FastAPI · FastStream</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">LangChain · ChromaDB · GigaChat</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">dishka · Pydantic · SQLAlchemy</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">PostgreSQL · MongoDB · Redis</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">Traefik · Loki · Sentry</span>
+</div>
+</div>
+</article>
+
+<article data-reveal data-role style="position:relative;display:grid;grid-template-columns:190px 1fr;gap:40px;padding:40px 0;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);transition:opacity .8s,transform .8s">
+<div>
+<p style="font-size:12px;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-accent-300);margin:0 0 6px">Sep 2022 — Dec 2024</p>
+<p style="font-size:13px;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0">2 yrs 4 months · outstaff</p>
+</div>
+<div>
+<h3 style="font-size:24px;margin:0 0 4px;letter-spacing:-0.02em">Python Backend Developer — Ecom.tech</h3>
+<p style="font-size:14px;color:color-mix(in srgb,var(--color-text) 58%,transparent);margin:0 0 20px">A corporate messenger built from scratch for pickup-point staff — an open-source alternative to Mattermost, on microservices. Full cycle: API design through production and observability.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:22px;padding:20px 0 24px;border-top:1px solid var(--color-divider);border-bottom:1px solid var(--color-divider);margin-bottom:26px">
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="50" data-prefix="+" data-suffix="%">+0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Fan-out throughput after the Centrifugo layer</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="40" data-prefix="−" data-suffix="%">−0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Dropped connections — the reason Mattermost was dropped</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="50" data-prefix="−" data-suffix="%">−0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Incident MTTR on the self-hosted monitoring stack</p></div>
+<div><div style="font-family:var(--font-heading);font-size:27px;line-height:1;letter-spacing:-0.025em;color:var(--color-accent-300)" data-count="100" data-suffix="%">0%</div><p style="margin:9px 0 0;font-size:12.5px;line-height:1.45;color:color-mix(in srgb,var(--color-text) 55%,transparent)">Microservices covered by metrics and traces</p></div>
+</div>
+<ul style="list-style:none;padding:0;margin:0 0 22px;display:flex;flex-direction:column;gap:12px">
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Laid out the microservice landscape</strong> — REST, GraphQL and gRPC contracts, Kong as the gateway for routing, rate-limiting and central auth, RabbitMQ/Kafka for async work, so auth, chat and notification evolve and scale independently.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Moved WebSocket connections into a dedicated Centrifugo layer</strong> (pub/sub): fan-out throughput up ~50%, dropped connections down ~40%, and the delivery instability that made the team abandon Mattermost in the first place was gone.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Migrated monitoring off SaaS</strong> onto Prometheus, Loki and Grafana with OpenTelemetry tracing and Sentry — coverage to 100%, MTTR down ~50%, the subscription bill to zero.</span></li>
+<li style="display:grid;grid-template-columns:16px 1fr;gap:12px;font-size:14.5px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 78%,transparent)"><span style="color:var(--color-accent);font-size:12px;padding-top:5px">◆</span><span><strong style="font-weight:500;color:var(--color-text)">Made the logs machine-readable</strong> — structlog JSON with trace_id and request_id threaded through every service, so Loki can aggregate and alert; root-cause search ~30% faster. Also shipped the LLM services (OpenAI API) that put assistants inside the messenger.</span></li>
+</ul>
+<div data-tags style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">Python 3 · FastAPI</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-accent-900);color:var(--color-accent-300);border:1px solid color-mix(in srgb,var(--color-accent) 26%,transparent)">Strawberry GraphQL · gRPC</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">Kafka · RabbitMQ · Celery</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">Kong · Nginx · Docker</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">OpenTelemetry · Loki · Sentry</span>
+<span style="font-size:11.5px;padding:4px 10px;border-radius:999px;background:var(--color-neutral-900);color:var(--color-neutral-300);border:1px solid var(--color-neutral-800)">pytest · testcontainers</span>
+</div>
+</div>
+</article>
+</div>
+</section>
+
+<section id="work" style="max-width:1120px;margin:0 auto;padding:110px 32px 30px">
+<h6 data-reveal style="color:var(--color-accent-300);margin:0 0 14px;transition:opacity .8s,transform .8s">Selected work</h6>
+<h2 data-reveal style="font-size:clamp(30px,3.6vw,44px);letter-spacing:-0.025em;margin:0 0 12px;transition:opacity .8s,transform .8s">Open source: dishka integrations</h2>
+<p data-reveal style="max-width:60ch;color:color-mix(in srgb,var(--color-text) 62%,transparent);font-size:15px;margin:0 0 48px;transition:opacity .8s,transform .8s">Dependency injection is the part of a Python service that decides how testable the rest of it will be. I use <a href="https://github.com/reagento/dishka" target="_blank" rel="noopener" style="color:var(--color-accent-300)">dishka</a> in production, and where a framework had no container integration I wrote and published one — each library carries the same scope model, its own tests and packaging.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px">
+<a data-reveal data-card href="https://github.com/C3EQUALZz/dishka-ag2" target="_blank" rel="noopener" style="display:flex;flex-direction:column;padding:26px;background:var(--color-surface);border:1px solid var(--color-neutral-800);border-radius:var(--radius-lg);text-decoration:none;color:var(--color-text);transition:opacity .8s,transform .5s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;box-shadow:var(--shadow-sm)" style-hover="border-color:color-mix(in srgb,var(--color-accent) 50%,transparent);box-shadow:var(--shadow-md);transform:translateY(-4px)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+<i class="ph ph-robot" style="font-size:22px;color:var(--color-accent)"></i>
+<i class="ph ph-arrow-up-right" style="font-size:15px;color:color-mix(in srgb,var(--color-text) 40%,transparent)"></i>
+</div>
+<h4 style="margin:0 0 8px;font-size:19px;letter-spacing:-0.015em">dishka-ag2</h4>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 64%,transparent);flex:1">Container integration for AG2 multi-agent applications: agents and tools receive their dependencies from dishka instead of holding module-level globals, so an agent graph stays unit-testable.</p>
+<div style="display:flex;gap:14px;font-size:12px;color:color-mix(in srgb,var(--color-text) 48%,transparent)"><span>Python</span><span>·</span><span>library</span><span>·</span><span>DI · agents</span></div>
+</a>
+<a data-reveal data-card href="https://github.com/C3EQUALZz/dishka-airflow" target="_blank" rel="noopener" style="display:flex;flex-direction:column;padding:26px;background:var(--color-surface);border:1px solid var(--color-neutral-800);border-radius:var(--radius-lg);text-decoration:none;color:var(--color-text);transition:opacity .8s,transform .5s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;box-shadow:var(--shadow-sm)" style-hover="border-color:color-mix(in srgb,var(--color-accent) 50%,transparent);box-shadow:var(--shadow-md);transform:translateY(-4px)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+<i class="ph ph-git-fork" style="font-size:22px;color:var(--color-accent)"></i>
+<i class="ph ph-arrow-up-right" style="font-size:15px;color:color-mix(in srgb,var(--color-text) 40%,transparent)"></i>
+</div>
+<h4 style="margin:0 0 8px;font-size:19px;letter-spacing:-0.015em">dishka-airflow</h4>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 64%,transparent);flex:1">DI for Airflow DAGs and operators — a request scope per task run, so pipeline code declares what it needs and the container resolves connections, clients and sessions around it.</p>
+<div style="display:flex;gap:14px;font-size:12px;color:color-mix(in srgb,var(--color-text) 48%,transparent)"><span>Python</span><span>·</span><span>library</span><span>·</span><span>data pipelines</span></div>
+</a>
+<a data-reveal data-card href="https://github.com/C3EQUALZz/dishka-jobify" target="_blank" rel="noopener" style="display:flex;flex-direction:column;padding:26px;background:var(--color-surface);border:1px solid var(--color-neutral-800);border-radius:var(--radius-lg);text-decoration:none;color:var(--color-text);transition:opacity .8s,transform .5s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;box-shadow:var(--shadow-sm)" style-hover="border-color:color-mix(in srgb,var(--color-accent) 50%,transparent);box-shadow:var(--shadow-md);transform:translateY(-4px)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+<i class="ph ph-queue" style="font-size:22px;color:var(--color-accent)"></i>
+<i class="ph ph-arrow-up-right" style="font-size:15px;color:color-mix(in srgb,var(--color-text) 40%,transparent)"></i>
+</div>
+<h4 style="margin:0 0 8px;font-size:19px;letter-spacing:-0.015em">dishka-jobify</h4>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 64%,transparent);flex:1">Background jobs with a proper lifetime: each job runs inside its own container scope, so sessions and clients are opened and closed with the job rather than leaked across the worker.</p>
+<div style="display:flex;gap:14px;font-size:12px;color:color-mix(in srgb,var(--color-text) 48%,transparent)"><span>Python</span><span>·</span><span>library</span><span>·</span><span>workers</span></div>
+</a>
+<a data-reveal data-card href="https://github.com/C3EQUALZz/dishka-flet" target="_blank" rel="noopener" style="display:flex;flex-direction:column;padding:26px;background:var(--color-surface);border:1px solid var(--color-neutral-800);border-radius:var(--radius-lg);text-decoration:none;color:var(--color-text);transition:opacity .8s,transform .5s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .3s;box-shadow:var(--shadow-sm)" style-hover="border-color:color-mix(in srgb,var(--color-accent) 50%,transparent);box-shadow:var(--shadow-md);transform:translateY(-4px)">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px">
+<i class="ph ph-app-window" style="font-size:22px;color:var(--color-accent)"></i>
+<i class="ph ph-arrow-up-right" style="font-size:15px;color:color-mix(in srgb,var(--color-text) 40%,transparent)"></i>
+</div>
+<h4 style="margin:0 0 8px;font-size:19px;letter-spacing:-0.015em">dishka-flet</h4>
+<p style="margin:0 0 20px;font-size:14px;line-height:1.6;color:color-mix(in srgb,var(--color-text) 64%,transparent);flex:1">The same container model on the client side of Flet: a scope per user session, so UI views resolve services the way a backend handler does — one architecture across the stack.</p>
+<div style="display:flex;gap:14px;font-size:12px;color:color-mix(in srgb,var(--color-text) 48%,transparent)"><span>Python</span><span>·</span><span>library</span><span>·</span><span>UI</span></div>
+</a>
+</div>
+</section>
+
+<section id="stack" style="max-width:1120px;margin:0 auto;padding:110px 32px 30px">
+<h6 data-reveal style="color:var(--color-accent-300);margin:0 0 14px;transition:opacity .8s,transform .8s">Stack</h6>
+<h2 data-reveal style="font-size:clamp(30px,3.6vw,44px);letter-spacing:-0.025em;margin:0 0 48px;transition:opacity .8s,transform .8s">What I reach for</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:36px">
+<div data-reveal style="transition:opacity .8s,transform .8s">
+<p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--color-divider)">Languages &amp; runtime</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Rust</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Python</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Tokio</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Serde</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">asyncio</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Java</span>
+</div>
+</div>
+<div data-reveal style="transition:opacity .8s,transform .8s">
+<p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--color-divider)">Data &amp; transport</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">PostgreSQL</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Redis</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Kafka</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">RabbitMQ</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">NATS</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">MongoDB</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">gRPC</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">ELK stack</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">S3 / MinIO</span>
+</div>
+</div>
+<div data-reveal style="transition:opacity .8s,transform .8s">
+<p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--color-divider)">Platform &amp; observability</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Docker</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Kubernetes</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Linux</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Grafana stack</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Sentry</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">OpenTelemetry</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">GitLab CI</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">GitHub Actions</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Docker Compose</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Vector</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">SonarQube</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">CodeRabbit</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">zizmor</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">just</span>
+
+</div>
+</div>
+<div data-reveal style="transition:opacity .8s,transform .8s">
+<p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--color-divider)">Frameworks &amp; libraries</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Axum</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">FastAPI</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">FastStream</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Spring</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Hibernate</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">MapStruct</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">SQLAlchemy</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Pydantic</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">dishka</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">LangChain</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">AG2</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">pytest</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">testcontainers</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">aiogram</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">httpx</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Flet</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">taskiq</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Celery</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">SQLx</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">adaptix</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">dature</span>
+</div>
+</div>
+<div data-reveal style="transition:opacity .8s,transform .8s">
+<p style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in srgb,var(--color-text) 50%,transparent);margin:0 0 16px;padding-bottom:10px;border-bottom:1px solid var(--color-divider)">Practice</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px">
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Distributed systems</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Microservices</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Telegram bots &amp; integrations</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">AppSec tooling</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">RAG / LLM integration</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">LLM agents</span>
+<span style="font-size:12.5px;padding:5px 11px;border-radius:var(--radius-sm);background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);color:color-mix(in srgb,var(--color-text) 82%,transparent);transition:border-color .25s" style-hover="border-color:var(--color-accent-700)">Desktop applications</span>
+</div>
+</div>
+</div>
+</section>
+
+<section style="max-width:1120px;margin:0 auto;padding:96px 32px 30px">
+<div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:36px;padding-top:36px;border-top:1px solid var(--color-divider);transition:opacity .8s,transform .8s">
+<div>
+<h6 style="color:var(--color-accent-300);margin:0 0 14px">Education</h6>
+<p style="margin:0 0 4px;font-size:16px;font-family:var(--font-heading)">Don State Technical University</p>
+<p style="margin:0;font-size:14px;color:color-mix(in srgb,var(--color-text) 60%,transparent)">Computer Security, Institute of Informatics &amp; Computing — graduating 2028, Rostov-on-Don</p>
+</div>
+<div>
+<h6 style="color:var(--color-accent-300);margin:0 0 14px">Languages</h6>
+<p style="margin:0 0 4px;font-size:16px;font-family:var(--font-heading)">Russian — native</p>
+<p style="margin:0;font-size:14px;color:color-mix(in srgb,var(--color-text) 60%,transparent)">English — B2, upper-intermediate</p>
+</div>
+<div>
+<h6 style="color:var(--color-accent-300);margin:0 0 14px">Also</h6>
+<p style="margin:0 0 4px;font-size:16px;font-family:var(--font-heading)">Certificates &amp; CTF</p>
+<p style="margin:0;font-size:14px;color:color-mix(in srgb,var(--color-text) 60%,transparent)">Astra Linux AL-1702 / AL-1703, Hack 2025, seven Stepik programmes — listed on the GitHub profile</p>
+</div>
+</div>
+</section>
+
+<section id="contact" style="position:relative;overflow:hidden;margin-top:60px;border-top:1px solid var(--color-divider)">
+<div data-glow-2 style="position:absolute;bottom:-45%;right:-10%;width:60vw;height:60vw;max-width:800px;max-height:800px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--color-accent) 18%,transparent) 0%,transparent 62%);filter:blur(40px);animation:nc-drift 26s ease-in-out infinite reverse;pointer-events:none"></div>
+<div style="position:relative;max-width:1120px;margin:0 auto;padding:110px 32px 72px">
+<h6 data-reveal style="color:var(--color-accent-300);margin:0 0 14px;transition:opacity .8s,transform .8s">Contact</h6>
+<h2 data-reveal style="font-size:clamp(32px,4.6vw,58px);letter-spacing:-0.03em;margin:0 0 22px;max-width:22ch;transition:opacity .8s,transform .8s">Open to Rust and Python backend roles</h2>
+<p data-reveal style="max-width:52ch;color:color-mix(in srgb,var(--color-text) 64%,transparent);font-size:16px;margin:0 0 40px;transition:opacity .8s,transform .8s">Full-time, on-site, in Rostov-on-Don or after a move to Moscow or St. Petersburg. Telegram is the fastest way to reach me.</p>
+<div data-reveal style="display:flex;flex-wrap:wrap;gap:12px;transition:opacity .8s,transform .8s">
+<a href="https://t.me/computerScienceEnjoyer" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border:1px solid var(--color-accent);border-radius:var(--radius-md);color:var(--color-accent-200);text-decoration:none;font-size:14.5px;transition:background .25s,transform .25s" style-hover="background:color-mix(in srgb,var(--color-accent) 16%,transparent);transform:translateY(-2px)"><i class="ph ph-telegram-logo" style="font-size:16px"></i>@computerScienceEnjoyer</a>
+<a href="tel:+79897064596" style="display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border:1px solid var(--color-neutral-800);border-radius:var(--radius-md);color:color-mix(in srgb,var(--color-text) 82%,transparent);text-decoration:none;font-size:14.5px;transition:border-color .25s,color .25s" style-hover="border-color:var(--color-neutral-600);color:var(--color-text)"><i class="ph ph-phone" style="font-size:16px"></i>+7 989 706 45 96</a>
+<a href="mailto:dan.kovalev2013@gmail.com" style="display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border:1px solid var(--color-neutral-800);border-radius:var(--radius-md);color:color-mix(in srgb,var(--color-text) 82%,transparent);text-decoration:none;font-size:14.5px;transition:border-color .25s,color .25s" style-hover="border-color:var(--color-neutral-600);color:var(--color-text)"><i class="ph ph-envelope-simple" style="font-size:16px"></i>Email</a>
+<a href="https://github.com/C3EQUALZz" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border:1px solid var(--color-neutral-800);border-radius:var(--radius-md);color:color-mix(in srgb,var(--color-text) 82%,transparent);text-decoration:none;font-size:14.5px;transition:border-color .25s,color .25s" style-hover="border-color:var(--color-neutral-600);color:var(--color-text)"><i class="ph ph-github-logo" style="font-size:16px"></i>C3EQUALZz</a>
+</div>
+<p style="margin:72px 0 0;padding-top:24px;border-top:1px solid var(--color-divider);font-size:12px;color:color-mix(in srgb,var(--color-text) 42%,transparent)">Danil Kovalev · Backend engineer · Rostov-on-Don · updated August 2026</p>
+</div>
+</section>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;subtle&quot;,&quot;off&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;'full' | 'subtle' | 'off'&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const root = document.querySelector('x-dc') || document;
+    const motion = this.props.motion ?? 'full';
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const still = reduce || motion === 'off';
+
+    const reveals = [...root.querySelectorAll('[data-reveal]')];
+    const show = el => {
+      if (el.dataset.shown) return;
+      el.dataset.shown = '1';
+      const sibs = [...el.parentElement.querySelectorAll(':scope > [data-reveal]')];
+      el.style.transitionDelay = Math.min(Math.max(sibs.indexOf(el), 0), 5) * 70 + 'ms';
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    };
+    if (still) {
+      reveals.forEach(el => { el.style.transition = 'none'; show(el); });
+    } else {
+      reveals.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+      });
+      this._sweep = () => {
+        const limit = window.innerHeight * 0.9;
+        reveals.forEach(el => { if (el.getBoundingClientRect().top < limit) show(el); });
+      };
+      this._sweep();
+      requestAnimationFrame(this._sweep);
+      window.addEventListener('scroll', this._sweep, { passive: true });
+      window.addEventListener('resize', this._sweep, { passive: true });
+    }
+
+    const counters = [...root.querySelectorAll('[data-count]')];
+    const done = new WeakSet();
+    const runCount = el => {
+      const target = parseFloat(el.dataset.count);
+      const dec = parseInt(el.dataset.decimals || '0', 10);
+      const pre = el.dataset.prefix || '';
+      const suf = el.dataset.suffix || '';
+      if (still) { el.textContent = pre + target.toFixed(dec) + suf; return; }
+      const t0 = performance.now(), dur = 1400;
+      const tick = t => {
+        const p = Math.min((t - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = pre + (target * e).toFixed(dec) + suf;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    if (still) counters.forEach(runCount);
+    else {
+      this._countSweep = () => {
+        const limit = window.innerHeight * 0.85;
+        counters.forEach(el => {
+          if (done.has(el)) return;
+          if (el.getBoundingClientRect().top < limit) { done.add(el); runCount(el); }
+        });
+      };
+      this._countSweep();
+      window.addEventListener('scroll', this._countSweep, { passive: true });
+    }
+
+    const roleEl = root.querySelector('[data-roles]');
+    const roles = ['high-load Rust services', 'distributed systems that hold', 'AppSec analysis platforms', 'AI assistants people use'];
+    if (roleEl && !still && motion !== 'subtle') {
+      let i = 0;
+      this._roleTimer = setInterval(() => {
+        roleEl.style.opacity = '0';
+        roleEl.style.transform = 'translateY(-8px)';
+        setTimeout(() => {
+          i = (i + 1) % roles.length;
+          roleEl.textContent = roles[i];
+          roleEl.style.transform = 'translateY(8px)';
+          requestAnimationFrame(() => {
+            roleEl.style.opacity = '1';
+            roleEl.style.transform = 'none';
+          });
+        }, 420);
+      }, 3600);
+    }
+
+    if (!still && motion === 'full') {
+      const glow = root.querySelector('[data-glow]');
+      if (glow) {
+        this._onMove = e => {
+          const x = (e.clientX / window.innerWidth - 0.5) * 60;
+          const y = (e.clientY / window.innerHeight - 0.5) * 40;
+          glow.style.marginLeft = x + 'px';
+          glow.style.marginTop = y + 'px';
+          glow.style.transition = 'margin 1.4s cubic-bezier(.2,.7,.2,1)';
+        };
+        window.addEventListener('pointermove', this._onMove, { passive: true });
+      }
+    }
+
+    const links = [...root.querySelectorAll('[data-nav] a[href^="#"]')];
+    const targets = links.map(a => root.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const paint = () => {
+      let active = null;
+      targets.forEach(t => { if (t.getBoundingClientRect().top < window.innerHeight * 0.4) active = t; });
+      links.forEach(a => {
+        const on = active && a.getAttribute('href') === '#' + active.id;
+        a.style.color = on ? 'var(--color-accent-300)' : 'color-mix(in srgb, var(--color-text) 62%, transparent)';
+      });
+    };
+    this._onScroll = () => requestAnimationFrame(paint);
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    paint();
+  }
+  componentWillUnmount() {
+    clearInterval(this._roleTimer);
+    if (this._sweep) { window.removeEventListener('scroll', this._sweep); window.removeEventListener('resize', this._sweep); }
+    if (this._countSweep) window.removeEventListener('scroll', this._countSweep);
+    if (this._onMove) window.removeEventListener('pointermove', this._onMove);
+    if (this._onScroll) window.removeEventListener('scroll', this._onScroll);
+  }
+  renderVals() { return {}; }
+}
+
+</script>
+</body>
+</html>

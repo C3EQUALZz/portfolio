@@ -33,6 +33,7 @@ yarn-error.log
 /reports
 /.cache
 /.stryker-tmp
+/.scratch
 .eslintcache
 
 # Miscellaneous

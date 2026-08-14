@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+set -e
+
+# 1. Staged files: format + lint + auto-fix (fast, touches only what you commit).
+npx lint-staged
+
+# 2. Whole project: types, architecture, dead code. Catches what per-file linting cannot.
+npm run verify:quick

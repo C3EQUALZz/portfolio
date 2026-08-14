@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+# Full suite before pushing: types, architecture, dead code, tests.
+npm run verify
