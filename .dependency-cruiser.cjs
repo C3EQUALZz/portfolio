@@ -67,7 +67,8 @@ module.exports = {
     {
       name: 'domain-depends-on-nothing',
       severity: 'error',
-      comment: 'Domain may only depend on its own domain and shared/kernel. Specs are exempt — see domain-specs-stay-close.',
+      comment:
+        'Domain may only depend on its own domain and shared/kernel. Specs are exempt — see domain-specs-stay-close.',
       from: { path: `${FEATURE}/domain/`, pathNot: String.raw`\.spec\.ts$` },
       to: {
         path: '^src/',
