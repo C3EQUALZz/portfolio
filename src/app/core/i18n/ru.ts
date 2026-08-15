@@ -13,6 +13,6 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
     brand: 'Портфолио',
   },
   footer: {
-    note: 'Дизайн по шаблону Nocturne, сборка на Angular.',
+    note: 'Данил Ковалёв · Backend-инженер · Ростов-на-Дону',
   },
 };

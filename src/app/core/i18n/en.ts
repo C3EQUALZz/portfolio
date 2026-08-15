@@ -15,6 +15,6 @@ export const EN_TRANSLATIONS = {
     brand: 'Portfolio',
   },
   footer: {
-    note: 'Designed after the Nocturne template, built with Angular.',
+    note: 'Danil Kovalev · Backend engineer · Rostov-on-Don',
   },
 };
