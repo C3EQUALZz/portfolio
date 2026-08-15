@@ -2,12 +2,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { App } from './app';
 import { provideI18n } from './core/i18n/provide-i18n';
+import { provideResumeFeature } from './features/resume';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
-      providers: [provideI18n()],
+      providers: [provideI18n(), provideResumeFeature()],
     }).compileComponents();
   });
 

@@ -14,6 +14,13 @@ export const EN_TRANSLATIONS = {
   header: {
     brand: 'Portfolio',
   },
+  hero: {
+    ctaWork: 'Selected work',
+    ctaContact: 'Get in touch',
+    openTo: 'open to {cities}',
+    experience:
+      '{years, plural, =0 {} one {# year} other {# years}} {months, plural, =0 {} one {# month} other {# months}} of production experience',
+  },
   footer: {
     note: 'Danil Kovalev · Backend engineer · Rostov-on-Don',
   },

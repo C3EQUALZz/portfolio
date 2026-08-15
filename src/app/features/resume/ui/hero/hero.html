@@ -1,0 +1,78 @@
+<section id="top" class="hero">
+  <div class="glow" aria-hidden="true"></div>
+  <div class="fade-bottom" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="hero-main">
+      <p class="availability">
+        @if (isOpen()) {
+          <span class="pulse-dot" aria-hidden="true">
+            <span class="pulse-wave"></span>
+            <span class="pulse-core"></span>
+          </span>
+        }
+        {{ availabilityLine() }}
+        @if (relocatesTo(); as cities) {
+          <span class="relocates"> · {{ 'hero.openTo' | transloco: { cities } }}</span>
+        }
+      </p>
+
+      <h1 class="name">{{ person()?.name }}</h1>
+      <p class="headline">
+        {{ headline() }}<br />
+        <span class="role">{{ roleHeadline() }}</span>
+      </p>
+      <p class="summary">{{ summary() }}</p>
+
+      <div class="cta">
+        <a class="cta-primary" href="#work">
+          {{ 'hero.ctaWork' | transloco }}<i class="ph ph-arrow-down-right" aria-hidden="true"></i>
+        </a>
+        <a class="cta-secondary" href="#contact">{{ 'hero.ctaContact' | transloco }}</a>
+      </div>
+
+      @if (totalExperience(); as total) {
+        <p class="experience">
+          {{ 'hero.experience' | transloco: { years: total.years, months: total.months } }}
+        </p>
+      }
+    </div>
+
+    <div class="ring" data-ring aria-hidden="true">
+      <div class="ring-circle ring-circle-outer"></div>
+      <div class="ring-circle ring-circle-mid"></div>
+      <div class="ring-glow"></div>
+      <div class="ring-circle ring-circle-inner"></div>
+      <div class="ring-center"></div>
+      @for (ring of rings(); track ring.durationSeconds) {
+        <div
+          class="ring-layer"
+          [class.ring-layer-reverse]="ring.reverse"
+          [style.animation-duration]="ring.durationSeconds + 's'"
+        >
+          @for (chip of ring.chips; track chip.name) {
+            <div class="ring-chip-pos" [style.left.%]="chip.left" [style.top.%]="chip.top">
+              <div
+                class="ring-chip-spin"
+                [class.ring-chip-spin-normal]="ring.reverse"
+                [style.animation-duration]="ring.durationSeconds + 's'"
+              >
+                <div
+                  class="ring-chip"
+                  [style.width.px]="ring.chipSize"
+                  [style.height.px]="ring.chipSize"
+                >
+                  {{ chip.name }}
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <a class="scroll-down" href="#about" aria-label="About">
+    <i class="ph ph-arrow-down" aria-hidden="true"></i>
+  </a>
+</section>

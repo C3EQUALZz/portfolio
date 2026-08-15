@@ -1,6 +1,7 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { type EnvironmentProviders, Injectable, isDevMode } from '@angular/core';
 
 import { provideTransloco, type Translation, type TranslocoLoader } from '@jsverse/transloco';
+import { provideTranslocoMessageformat } from '@jsverse/transloco-messageformat';
 
 import { LOCALES } from '../../shared/kernel/localization/localized-text';
 import { EN_TRANSLATIONS } from './en';
@@ -18,15 +19,19 @@ class InlineTranslocoLoader implements TranslocoLoader {
   }
 }
 
-export function provideI18n(): ReturnType<typeof provideTransloco> {
-  return provideTransloco({
-    config: {
-      availableLangs: [...LOCALES],
-      defaultLang: 'en',
-      fallbackLang: 'en',
-      reRenderOnLangChange: true,
-      prodMode: !isDevMode(),
-    },
-    loader: InlineTranslocoLoader,
-  });
+export function provideI18n(): EnvironmentProviders[] {
+  return [
+    ...provideTransloco({
+      config: {
+        availableLangs: [...LOCALES],
+        defaultLang: 'en',
+        fallbackLang: 'en',
+        reRenderOnLangChange: true,
+        prodMode: !isDevMode(),
+      },
+      loader: InlineTranslocoLoader,
+    }),
+    // ICU plurals for durations ("1 year" / "2 года" / "5 лет").
+    provideTranslocoMessageformat({ locales: [...LOCALES] }),
+  ];
 }

@@ -1,0 +1,270 @@
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.glow {
+  position: absolute;
+  top: -18%;
+  left: -6%;
+  width: 70vw;
+  max-width: 960px;
+  height: 70vw;
+  max-height: 960px;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 26%, transparent) 0%,
+    transparent 62%
+  );
+  border-radius: 50%;
+  filter: blur(30px);
+  animation: nc-drift 22s ease-in-out infinite;
+}
+
+.fade-bottom {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, var(--color-bg) 100%);
+}
+
+.hero-inner {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 56px);
+  align-items: center;
+  width: 100%;
+  max-width: 1120px;
+  padding: 140px 32px 96px;
+  margin: 0 auto;
+}
+
+.hero-main {
+  flex: 1 1 400px;
+  min-width: 0;
+}
+
+.availability {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 28px;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.pulse-dot {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+  width: 7px;
+  height: 7px;
+}
+
+.pulse-wave {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent-400);
+  border-radius: 50%;
+  animation: nc-pulse 2.6s ease-out infinite;
+}
+
+.pulse-core {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.relocates {
+  text-transform: none;
+}
+
+.name {
+  max-width: 15ch;
+  margin: 0 0 22px;
+  font-size: clamp(46px, 7.2vw, 92px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.headline {
+  margin: 0 0 30px;
+  font-family: var(--font-heading);
+  font-size: clamp(20px, 2.3vw, 29px);
+  line-height: 1.25;
+  color: color-mix(in srgb, var(--color-text) 88%, transparent);
+}
+
+.role {
+  display: inline-block;
+  color: var(--color-accent-300);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.summary {
+  max-width: 52ch;
+  margin: 0 0 40px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: color-mix(in srgb, var(--color-text) 66%, transparent);
+  text-wrap: pretty;
+}
+
+.cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.cta a {
+  display: inline-flex;
+  gap: 9px;
+  align-items: center;
+  padding: 12px 22px;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  transition:
+    background 0.25s,
+    transform 0.25s,
+    border-color 0.25s,
+    color 0.25s;
+}
+
+.cta-primary {
+  color: var(--color-accent-200);
+  border: 1px solid var(--color-accent);
+}
+
+.cta-primary:hover {
+  background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+  transform: translateY(-2px);
+}
+
+.cta-secondary {
+  color: color-mix(in srgb, var(--color-text) 82%, transparent);
+  border: 1px solid var(--color-neutral-800);
+}
+
+.cta-secondary:hover {
+  color: var(--color-text);
+  border-color: var(--color-neutral-600);
+}
+
+.experience {
+  margin: 28px 0 0;
+  font-size: 13px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+/* — technology ring — */
+.ring {
+  position: relative;
+  flex: 0 1 400px;
+  min-width: 280px;
+  max-width: 470px;
+  aspect-ratio: 1;
+  animation: nc-float 9s ease-in-out infinite;
+}
+
+.ring-circle {
+  position: absolute;
+  border: 1px solid var(--color-divider);
+  border-radius: 50%;
+}
+
+.ring-circle-outer {
+  inset: 4%;
+}
+
+.ring-circle-mid {
+  inset: 22%;
+}
+
+.ring-circle-inner {
+  inset: 38%;
+}
+
+.ring-glow {
+  position: absolute;
+  inset: 40%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 30%, transparent),
+    transparent 72%
+  );
+  border-radius: 50%;
+  filter: blur(8px);
+}
+
+.ring-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  background: var(--color-accent);
+  border-radius: 50%;
+  box-shadow: 0 0 18px 4px color-mix(in srgb, var(--color-accent) 55%, transparent);
+}
+
+.ring-layer {
+  position: absolute;
+  inset: 0;
+  animation: nc-spin linear infinite;
+}
+
+.ring-layer-reverse {
+  animation-name: nc-spin-r;
+}
+
+.ring-chip-pos {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.ring-chip-spin {
+  animation: nc-spin-r linear infinite;
+}
+
+.ring-chip-spin-normal {
+  animation-name: nc-spin;
+}
+
+.ring-chip {
+  display: grid;
+  place-items: center;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  background: color-mix(in srgb, #fff 6%, transparent);
+  border: 1px solid var(--color-neutral-800);
+  border-radius: 13px;
+}
+
+.scroll-down {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  font-size: 20px;
+  color: color-mix(in srgb, var(--color-text) 40%, transparent);
+  text-decoration: none;
+  transform: translateX(-50%);
+  transition: color 0.25s;
+}
+
+.scroll-down:hover {
+  color: var(--color-accent);
+}

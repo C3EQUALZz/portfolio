@@ -496,6 +496,11 @@ export default tseslint.config(
                 to: { element: { captured: { feature: '{{ from.captured.feature }}' } } },
               },
             },
+            // Any spec may use the shared test helpers.
+            {
+              from: { file: { categories: 'test' } },
+              allow: { to: { element: { type: 'shared-testing' } } },
+            },
 
             // shared knows nothing about features.
             {

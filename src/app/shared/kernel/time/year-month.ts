@@ -31,4 +31,13 @@ export const yearMonth = {
   diffInMonths(later: YearMonth, earlier: YearMonth): number {
     return toIndex(later) - toIndex(earlier);
   },
+
+  /**
+   * Derives the YearMonth from a Date (local time). Pure: the impure
+   * `new Date()` stays at the call site, in the application layer.
+   */
+  fromDate(date: Date): YearMonth {
+    const raw = `${date.getFullYear().toString()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    return raw as YearMonth;
+  },
 };

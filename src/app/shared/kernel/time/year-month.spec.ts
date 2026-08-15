@@ -38,4 +38,9 @@ describe('YearMonth', () => {
     expect(yearMonth.diffInMonths(dec2024, jun2025)).toBe(-6);
     expect(yearMonth.diffInMonths(jun2025, jun2025)).toBe(0);
   });
+
+  it('fromDate derives the YearMonth from a Date, local time', () => {
+    expect(yearMonth.fromDate(new Date(2026, 7, 15))).toBe('2026-08');
+    expect(yearMonth.fromDate(new Date(2025, 0, 1))).toBe('2025-01');
+  });
 });

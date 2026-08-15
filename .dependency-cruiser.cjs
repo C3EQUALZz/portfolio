@@ -97,16 +97,17 @@ module.exports = {
     {
       name: 'application-does-not-depend-on-outer-layers',
       severity: 'error',
-      comment: 'Dependencies point inwards: application cannot see infrastructure or ui.',
-      from: { path: `${FEATURE}/application/` },
+      comment:
+        'Dependencies point inwards: application cannot see infrastructure or ui. Specs are exempt: they verify the wiring against the real content.',
+      from: { path: `${FEATURE}/application/`, pathNot: String.raw`\.spec\.ts$` },
       to: { path: `${FEATURE}/(infrastructure|ui)/` },
     },
     {
       name: 'ui-does-not-touch-infrastructure',
       severity: 'error',
       comment:
-        'UI depends on an application port; the adapter is wired by the feature DI provider.',
-      from: { path: `${FEATURE}/ui/` },
+        'UI depends on an application port; the adapter is wired by the feature DI provider. Specs are exempt: they verify the wiring against the real content.',
+      from: { path: `${FEATURE}/ui/`, pathNot: String.raw`\.spec\.ts$` },
       to: { path: `${FEATURE}/infrastructure/` },
     },
     {
