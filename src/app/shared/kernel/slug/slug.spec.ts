@@ -13,4 +13,13 @@ describe('Slug', () => {
       expect(slug.create(raw)).toEqual({ ok: false, error: { kind: 'InvalidSlug' } });
     },
   );
+
+  it('derive нормализует имя: строчные буквы, дефисы вместо прочих символов', () => {
+    expect(slug.derive('Dishka AG2')).toEqual({ ok: true, value: 'dishka-ag2' });
+    expect(slug.derive('dishka-ag2')).toEqual({ ok: true, value: 'dishka-ag2' });
+  });
+
+  it('derive отклоняет имя, из которого не выводится slug', () => {
+    expect(slug.derive('   ')).toEqual({ ok: false, error: { kind: 'InvalidSlug' } });
+  });
 });

@@ -18,20 +18,13 @@ export interface InvalidTechnology {
 
 const INVALID: InvalidTechnology = { kind: 'InvalidTechnology' };
 
-function toSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 export const technology = {
   create(name: string): Result<Technology, InvalidTechnology> {
     const validName = nonEmptyString.create(name);
     if (!validName.ok) {
       return { ok: false, error: INVALID };
     }
-    const parsedSlug = slug.create(toSlug(validName.value));
+    const parsedSlug = slug.derive(validName.value);
     return parsedSlug.ok
       ? ok({ name: validName.value, slug: parsedSlug.value })
       : { ok: false, error: INVALID };
