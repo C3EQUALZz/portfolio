@@ -123,3 +123,11 @@ deep-import в чужую фичу, `localStorage` в use-case) — каждое
   Правило stylelint проверяет анимации по одному файлу и не видит глобальные
   `@keyframes` из компонентных стилей; альтернатива — дублировать keyframes в каждый
   компонент, что ловит jscpd как копипасту.
+- **Transloco в шаблонах — только через `translateSignal`, не через pipe.** В zoneless
+  `markForCheck` из pipe не планирует перерисовку; сигналы — планируют. Динамические
+  ключи внутри `computed` — через `transloco.translate(...)`, там реактивность даёт
+  чтение `LocaleService.locale()`.
+- **`LocaleService.locale()` переключается после загрузки словаря.** `setActiveLang`
+  в Transloco эмитит смену языка синхронно, а словарь догружается асинхронно — без
+  этого computed с `transloco.translate` пересчитывались бы по незагруженной локали.
+  В тестах после `setLocale` нужен один макротик (`setTimeout 0`) перед `whenStable`.

@@ -31,6 +31,8 @@ describe('Header', () => {
     const ruButton = buttons.find((button) => button.textContent.trim() === 'ru');
 
     ruButton?.click();
+    // Translations load asynchronously; whenStable alone does not await them.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     await fixture.whenStable();
 
     const nav = (fixture.nativeElement as HTMLElement).querySelector('.links');

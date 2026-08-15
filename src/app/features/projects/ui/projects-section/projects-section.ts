@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translateSignal, TranslocoService } from '@jsverse/transloco';
 
 import { showcasedProject } from '../../domain/showcased-project/showcased-project';
 
@@ -29,7 +29,7 @@ interface ProjectCard {
   readonly description: string;
   readonly repository: string;
   readonly language: string;
-  readonly kindKey: string;
+  readonly kindText: string;
   readonly topics: string;
   readonly icon: string;
   readonly stars: number | undefined;
@@ -38,7 +38,6 @@ interface ProjectCard {
 /** Selected work: the open-source projects as a card grid. */
 @Component({
   selector: 'app-projects-section',
-  imports: [TranslocoPipe],
   templateUrl: './projects-section.html',
   styleUrl: './projects-section.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,6 +45,12 @@ interface ProjectCard {
 export class ProjectsSection {
   protected readonly store = inject(ProjectsStore);
   private readonly localeService = inject(LocaleService);
+  private readonly transloco = inject(TranslocoService);
+
+  protected readonly kicker = translateSignal('nav.work');
+  protected readonly title = translateSignal('work.title');
+  protected readonly subtitlePre = translateSignal('work.subtitlePre');
+  protected readonly subtitlePost = translateSignal('work.subtitlePost');
 
   protected readonly cards = computed<readonly ProjectCard[]>(
     () =>
@@ -58,7 +63,7 @@ export class ProjectsSection {
           description: this.pick(project.description),
           repository: project.repository,
           language: project.language.name,
-          kindKey: `work.kind.${project.kind}`,
+          kindText: this.transloco.translate(`work.kind.${project.kind}`),
           topics: project.topics.map((topic) => this.pick(topic.label)).join(' · '),
           icon: PROJECT_ICON[project.id] ?? FALLBACK_ICON,
           stars: showcased.snapshot?.stars,

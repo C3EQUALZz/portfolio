@@ -39,6 +39,8 @@ describe('ProjectsSection', () => {
     await fixture.whenStable();
 
     TestBed.inject(LocaleService).setLocale('ru');
+    // The locale signal flips after the translations have loaded.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;

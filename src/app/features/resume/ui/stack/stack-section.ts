@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translateSignal } from '@jsverse/transloco';
 
 import { ResumeStore } from '../../application/resume-store/resume-store';
 
@@ -23,7 +23,6 @@ interface StackGroupCard {
 /** Stack section: skill groups, lead picks visually accented. */
 @Component({
   selector: 'app-stack-section',
-  imports: [TranslocoPipe],
   templateUrl: './stack-section.html',
   styleUrl: './stack-section.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,6 +30,9 @@ interface StackGroupCard {
 export class StackSection {
   protected readonly store = inject(ResumeStore);
   private readonly localeService = inject(LocaleService);
+
+  protected readonly kicker = translateSignal('nav.stack');
+  protected readonly title = translateSignal('stack.title');
 
   protected readonly groups = computed<readonly StackGroupCard[]>(
     () =>

@@ -1,17 +1,14 @@
 <section id="experience" class="section">
-  <h6 class="kicker">{{ 'nav.experience' | transloco }}</h6>
-  <h2 class="title">{{ 'experience.title' | transloco: { years: years() } }}</h2>
-  <p class="subtitle">{{ 'experience.subtitle' | transloco }}</p>
+  <h6 class="kicker">{{ kicker() }}</h6>
+  <h2 class="title">{{ title() }}</h2>
+  <p class="subtitle">{{ subtitle() }}</p>
 
   <div class="timeline">
     @for (card of cards(); track card.experience.id) {
       <article class="role">
         <div class="role-side">
           <p class="role-period">{{ card.periodLabel }}</p>
-          <p class="role-meta">
-            {{ 'experience.duration' | transloco: card.duration }} ·
-            {{ card.engagementKey | transloco }}
-          </p>
+          <p class="role-meta">{{ card.durationText }} · {{ card.engagementText }}</p>
         </div>
         <div class="role-main">
           <h3 class="role-title">{{ card.title }}</h3>

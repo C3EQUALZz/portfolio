@@ -12,8 +12,8 @@
           </span>
         }
         {{ availabilityLine() }}
-        @if (relocatesTo(); as cities) {
-          <span class="relocates"> · {{ 'hero.openTo' | transloco: { cities } }}</span>
+        @if (relocatesTo() !== '') {
+          <span class="relocates"> · {{ openToText() }}</span>
         }
       </p>
 
@@ -26,15 +26,13 @@
 
       <div class="cta">
         <a class="cta-primary" href="#work">
-          {{ 'hero.ctaWork' | transloco }}<i class="ph ph-arrow-down-right" aria-hidden="true"></i>
+          {{ ctaWork() }}<i class="ph ph-arrow-down-right" aria-hidden="true"></i>
         </a>
-        <a class="cta-secondary" href="#contact">{{ 'hero.ctaContact' | transloco }}</a>
+        <a class="cta-secondary" href="#contact">{{ ctaContact() }}</a>
       </div>
 
-      @if (totalExperience(); as total) {
-        <p class="experience">
-          {{ 'hero.experience' | transloco: { years: total.years, months: total.months } }}
-        </p>
+      @if (hasExperience()) {
+        <p class="experience">{{ experienceText() }}</p>
       }
     </div>
 

@@ -1,15 +1,15 @@
 <section id="work" class="section">
-  <h6 class="kicker">{{ 'nav.work' | transloco }}</h6>
-  <h2 class="title">{{ 'work.title' | transloco }}</h2>
+  <h6 class="kicker">{{ kicker() }}</h6>
+  <h2 class="title">{{ title() }}</h2>
   <p class="subtitle">
-    {{ 'work.subtitlePre' | transloco
+    {{ subtitlePre()
     }}<a
       href="https://github.com/reagento/dishka"
       target="_blank"
       rel="noopener noreferrer"
       class="subtitle-link"
       >dishka</a
-    >{{ 'work.subtitlePost' | transloco }}
+    >{{ subtitlePost() }}
   </p>
 
   <div class="grid">
@@ -31,7 +31,7 @@
         <div class="card-meta">
           <span>{{ card.language }}</span>
           <span aria-hidden="true">·</span>
-          <span>{{ card.kindKey | transloco }}</span>
+          <span>{{ card.kindText }}</span>
           <span aria-hidden="true">·</span>
           <span>{{ card.topics }}</span>
           @if (card.stars !== undefined) {

@@ -1,0 +1,23 @@
+<section id="contact" class="section">
+  <div class="glow" aria-hidden="true"></div>
+
+  <div class="contact-inner">
+    <h6 class="kicker">{{ kicker() }}</h6>
+    <h2 class="title">{{ title() }}</h2>
+    <p class="subtitle">{{ subtitle() }}</p>
+
+    <div class="channels">
+      @for (card of cards(); track card.kind) {
+        <a
+          class="channel"
+          [class.channel-preferred]="card.preferred"
+          [href]="card.href"
+          [attr.target]="card.external ? '_blank' : null"
+          [attr.rel]="card.external ? 'noopener noreferrer' : null"
+        >
+          <i class="ph {{ card.icon }}" aria-hidden="true"></i>{{ card.label }}
+        </a>
+      }
+    </div>
+  </div>
+</section>

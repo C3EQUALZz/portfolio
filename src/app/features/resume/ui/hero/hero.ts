@@ -8,7 +8,7 @@ import {
   type Signal,
 } from '@angular/core';
 
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translateSignal } from '@jsverse/transloco';
 
 import { ResumeStore } from '../../application/resume-store/resume-store';
 
@@ -62,7 +62,6 @@ function buildRing(
  */
 @Component({
   selector: 'app-hero',
-  imports: [TranslocoPipe],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -106,6 +105,22 @@ export class Hero {
   protected readonly isOpen = computed(() => this.store.data()?.availability.status === 'open');
 
   protected readonly totalExperience = computed(() => this.store.totalExperience());
+
+  protected readonly hasExperience = computed(() => this.store.totalExperience() !== undefined);
+
+  protected readonly ctaWork = translateSignal('hero.ctaWork');
+  protected readonly ctaContact = translateSignal('hero.ctaContact');
+  protected readonly openToText = translateSignal(
+    'hero.openTo',
+    computed(() => ({ cities: this.relocatesTo() })),
+  );
+  protected readonly experienceText = translateSignal(
+    'hero.experience',
+    computed(() => {
+      const total = this.store.totalExperience();
+      return { years: total?.years ?? 0, months: total?.months ?? 0 };
+    }),
+  );
 
   /** The 18 lead technologies split over the three rings: 5 inner, 5 middle, the rest outer. */
   protected readonly rings: Signal<readonly Ring[]> = computed(() => {

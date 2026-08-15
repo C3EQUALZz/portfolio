@@ -49,6 +49,11 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
       tool: 'инструмент',
     },
   },
+  contact: {
+    title: 'Открыт к backend-ролям на Rust и Python',
+    subtitle:
+      'Полная занятость, офис в Ростове-на-Дону или после переезда в Москву или Санкт-Петербург. Быстрее всего написать в Telegram.',
+  },
   footer: {
     note: 'Данил Ковалёв · Backend-инженер · Ростов-на-Дону',
   },

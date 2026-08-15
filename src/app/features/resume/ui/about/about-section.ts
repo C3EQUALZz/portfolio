@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { TranslocoPipe } from '@jsverse/transloco';
+import { translateSignal } from '@jsverse/transloco';
 
 import type { HighlightTopic } from '../../domain/highlight/highlight';
 
@@ -28,7 +28,6 @@ interface HighlightItem {
 /** About section: the candidate's highlights with an icon per topic. */
 @Component({
   selector: 'app-about-section',
-  imports: [TranslocoPipe],
   templateUrl: './about-section.html',
   styleUrl: './about-section.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +35,8 @@ interface HighlightItem {
 export class AboutSection {
   protected readonly store = inject(ResumeStore);
   private readonly localeService = inject(LocaleService);
+
+  protected readonly kicker = translateSignal('nav.about');
 
   protected readonly highlights = computed<readonly HighlightItem[]>(
     () =>

@@ -50,6 +50,11 @@ export const EN_TRANSLATIONS = {
       tool: 'tool',
     },
   },
+  contact: {
+    title: 'Open to Rust and Python backend roles',
+    subtitle:
+      'Full-time, on-site, in Rostov-on-Don or after a move to Moscow or St. Petersburg. Telegram is the fastest way to reach me.',
+  },
   footer: {
     note: 'Danil Kovalev · Backend engineer · Rostov-on-Don',
   },

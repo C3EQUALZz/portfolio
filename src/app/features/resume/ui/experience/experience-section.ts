@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 
-import { TranslocoPipe, TranslocoService } from '@jsverse/transloco';
+import { translateSignal, TranslocoService } from '@jsverse/transloco';
 
 import type { Achievement } from '../../domain/achievement/achievement';
 import type { Experience } from '../../domain/experience/experience';
@@ -35,8 +35,8 @@ interface ClusterItem {
 interface RoleCard {
   readonly experience: Experience;
   readonly periodLabel: string;
-  readonly duration: { readonly years: number; readonly months: number };
-  readonly engagementKey: string;
+  readonly durationText: string;
+  readonly engagementText: string;
   readonly title: string;
   readonly product: string;
   readonly impacts: readonly ImpactItem[];
@@ -47,7 +47,7 @@ interface RoleCard {
 /** Experience timeline: every role with its metrics, achievements and stack. */
 @Component({
   selector: 'app-experience-section',
-  imports: [TranslocoPipe, ImpactValue],
+  imports: [ImpactValue],
   templateUrl: './experience-section.html',
   styleUrl: './experience-section.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,17 +59,25 @@ export class ExperienceSection {
 
   protected readonly years = computed(() => this.store.totalExperience()?.years ?? 0);
 
+  protected readonly kicker = translateSignal('nav.experience');
+  protected readonly title = translateSignal(
+    'experience.title',
+    computed(() => ({ years: this.years() })),
+  );
+  protected readonly subtitle = translateSignal('experience.subtitle');
+
   protected readonly cards = computed<readonly RoleCard[]>(() =>
     this.store.timeline().map((item) => this.toCard(item)),
   );
 
   private toCard(item: Experience): RoleCard {
     const months = period.durationInMonths(item.period, this.store.asOfDate);
+    const duration = { years: Math.floor(months / 12), months: months % 12 };
     return {
       experience: item,
       periodLabel: this.formatPeriod(item.period),
-      duration: { years: Math.floor(months / 12), months: months % 12 },
-      engagementKey: `experience.engagement.${item.engagement}`,
+      durationText: this.transloco.translate('experience.duration', duration),
+      engagementText: this.transloco.translate(`experience.engagement.${item.engagement}`),
       title: `${this.pick(item.position)} — ${item.company.name}`,
       product: this.pick(item.product),
       impacts: item.impacts.map((value) => ({ impact: value, label: this.pick(value.label) })),

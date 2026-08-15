@@ -1,12 +1,12 @@
 <header class="header">
   <nav class="header-nav" aria-label="Sections">
     <a class="brand" href="#top">
-      <span class="brand-dot" aria-hidden="true"></span>{{ 'header.brand' | transloco }}
+      <span class="brand-dot" aria-hidden="true"></span>{{ brand() }}
     </a>
     <span class="spacer"></span>
     <div class="links">
       @for (item of navItems; track item.href) {
-        <a [href]="item.href">{{ item.key | transloco }}</a>
+        <a [href]="item.href">{{ item.label() }}</a>
       }
     </div>
     <div class="locale-switch" role="group" aria-label="Language">

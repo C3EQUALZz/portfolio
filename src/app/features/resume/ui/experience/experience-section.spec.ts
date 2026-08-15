@@ -48,6 +48,8 @@ describe('ExperienceSection', () => {
     await fixture.whenStable();
 
     TestBed.inject(LocaleService).setLocale('ru');
+    // Translations load asynchronously; whenStable alone does not await them.
+    await new Promise((resolve) => setTimeout(resolve, 0));
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;
