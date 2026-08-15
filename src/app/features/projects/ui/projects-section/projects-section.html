@@ -1,0 +1,45 @@
+<section id="work" class="section">
+  <h6 class="kicker">{{ 'nav.work' | transloco }}</h6>
+  <h2 class="title">{{ 'work.title' | transloco }}</h2>
+  <p class="subtitle">
+    {{ 'work.subtitlePre' | transloco
+    }}<a
+      href="https://github.com/reagento/dishka"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="subtitle-link"
+      >dishka</a
+    >{{ 'work.subtitlePost' | transloco }}
+  </p>
+
+  <div class="grid">
+    @for (card of cards(); track card.id) {
+      <a
+        class="card"
+        [href]="card.repository"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="card.name"
+      >
+        <div class="card-top">
+          <i class="ph {{ card.icon }}" aria-hidden="true"></i>
+          <i class="ph ph-arrow-up-right card-link-icon" aria-hidden="true"></i>
+        </div>
+        <h4 class="card-name">{{ card.name }}</h4>
+        <p class="card-tagline">{{ card.tagline }}</p>
+        <p class="card-description">{{ card.description }}</p>
+        <div class="card-meta">
+          <span>{{ card.language }}</span>
+          <span aria-hidden="true">·</span>
+          <span>{{ card.kindKey | transloco }}</span>
+          <span aria-hidden="true">·</span>
+          <span>{{ card.topics }}</span>
+          @if (card.stars !== undefined) {
+            <span aria-hidden="true">·</span>
+            <span><i class="ph ph-star" aria-hidden="true"></i> {{ card.stars }}</span>
+          }
+        </div>
+      </a>
+    }
+  </div>
+</section>

@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideI18n } from './core/i18n/provide-i18n';
+import { provideProjectsFeature } from './features/projects';
 import { provideResumeFeature } from './features/resume';
 
 export const appConfig: ApplicationConfig = {
@@ -11,5 +12,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideI18n(),
     provideResumeFeature(),
+    provideProjectsFeature(),
   ],
 };

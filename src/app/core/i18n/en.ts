@@ -38,6 +38,18 @@ export const EN_TRANSLATIONS = {
   stack: {
     title: 'What I reach for',
   },
+  work: {
+    title: 'Open source: dishka integrations',
+    subtitlePre:
+      'Dependency injection is the part of a Python service that decides how testable the rest of it will be. I use ',
+    subtitlePost:
+      ' in production, and where a framework had no container integration I wrote and published one — each library carries the same scope model, its own tests and packaging.',
+    kind: {
+      library: 'library',
+      application: 'application',
+      tool: 'tool',
+    },
+  },
   footer: {
     note: 'Danil Kovalev · Backend engineer · Rostov-on-Don',
   },
