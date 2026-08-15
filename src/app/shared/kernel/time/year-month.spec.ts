@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { must } from '../../testing/must';
 import { yearMonth } from './year-month';
 
 describe('YearMonth', () => {
@@ -27,5 +28,14 @@ describe('YearMonth', () => {
     expect(yearMonth.compare(dec2024.value, jun2025.value)).toBe(-1);
     expect(yearMonth.compare(dec2025.value, jun2025.value)).toBe(1);
     expect(yearMonth.compare(jun2025.value, jun2025.value)).toBe(0);
+  });
+
+  it('diffInMonths returns the signed distance in months', () => {
+    const dec2024 = must(yearMonth.create(2024, 12));
+    const jun2025 = must(yearMonth.create(2025, 6));
+
+    expect(yearMonth.diffInMonths(jun2025, dec2024)).toBe(6);
+    expect(yearMonth.diffInMonths(dec2024, jun2025)).toBe(-6);
+    expect(yearMonth.diffInMonths(jun2025, jun2025)).toBe(0);
   });
 });

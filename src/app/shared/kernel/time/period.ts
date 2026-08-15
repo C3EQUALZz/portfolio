@@ -24,12 +24,7 @@ export const period = {
   /** Inclusive counting: both the start and end months are part of the duration. */
   durationInMonths(period: Period, asOf: YearMonth): number {
     const end = period.end === 'present' ? asOf : period.end;
-    const [endYear, endMonth] = [Number(end.slice(0, 4)), Number(end.slice(5, 7))];
-    const [startYear, startMonth] = [
-      Number(period.start.slice(0, 4)),
-      Number(period.start.slice(5, 7)),
-    ];
-    return (endYear - startYear) * 12 + (endMonth - startMonth) + 1;
+    return yearMonth.diffInMonths(end, period.start) + 1;
   },
 
   isOngoing(period: Period): boolean {

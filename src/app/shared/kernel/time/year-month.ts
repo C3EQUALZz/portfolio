@@ -26,4 +26,9 @@ export const yearMonth = {
     const diff = toIndex(a) - toIndex(b);
     return diff < 0 ? -1 : diff > 0 ? 1 : 0;
   },
+
+  /** Signed distance in months: positive when `later` is after `earlier`. */
+  diffInMonths(later: YearMonth, earlier: YearMonth): number {
+    return toIndex(later) - toIndex(earlier);
+  },
 };

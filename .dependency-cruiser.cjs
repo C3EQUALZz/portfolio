@@ -67,11 +67,21 @@ module.exports = {
     {
       name: 'domain-depends-on-nothing',
       severity: 'error',
-      comment: 'Domain may only depend on its own domain and shared/kernel.',
-      from: { path: `${FEATURE}/domain/` },
+      comment: 'Domain may only depend on its own domain and shared/kernel. Specs are exempt — see domain-specs-stay-close.',
+      from: { path: `${FEATURE}/domain/`, pathNot: String.raw`\.spec\.ts$` },
       to: {
         path: '^src/',
         pathNot: [`${FEATURE}/domain/`, '^src/app/shared/kernel/'],
+      },
+    },
+    {
+      name: 'domain-specs-stay-close',
+      severity: 'error',
+      comment: 'Domain specs may additionally reach shared/testing helpers.',
+      from: { path: `${FEATURE}/domain/.*\\.spec\\.ts$` },
+      to: {
+        path: '^src/',
+        pathNot: [`${FEATURE}/domain/`, '^src/app/shared/kernel/', '^src/app/shared/testing/'],
       },
     },
     {

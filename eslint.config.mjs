@@ -333,6 +333,8 @@ export default tseslint.config(
         // Feature root holds index.ts, the public API (see boundaries/files).
         { type: 'feature-root', pattern: 'src/app/features/*', capture: ['feature'] },
         { type: 'shared-kernel', pattern: 'src/app/shared/kernel' },
+        // Test helpers (Result unwrapping etc.) — dependency-free, importable from any spec.
+        { type: 'shared-testing', pattern: 'src/app/shared/testing' },
         { type: 'shared', pattern: 'src/app/shared' },
         { type: 'core', pattern: 'src/app/core' },
         { type: 'app-shell', pattern: 'src/app' },
@@ -378,6 +380,19 @@ export default tseslint.config(
             {
               from: { element: { type: 'feature-domain' } },
               allow: { to: { element: { type: 'shared-kernel' } } },
+            },
+            {
+              // Specs in domain may use test helpers; shared/testing has no logic of its own.
+              from: { element: { type: 'feature-domain' } },
+              allow: { to: { element: { type: 'shared-testing' } } },
+            },
+            {
+              from: { element: { type: 'shared-kernel' } },
+              allow: { to: { element: { type: 'shared-testing' } } },
+            },
+            {
+              from: { element: { type: 'feature-infrastructure' } },
+              allow: { to: { element: { type: 'shared-testing' } } },
             },
 
             // application -> own domain/application + shared.
@@ -486,6 +501,10 @@ export default tseslint.config(
             },
             {
               from: { element: { type: 'shared-kernel' } },
+              allow: { to: { element: { type: 'shared-kernel' } } },
+            },
+            {
+              from: { element: { type: 'shared-testing' } },
               allow: { to: { element: { type: 'shared-kernel' } } },
             },
 
@@ -641,6 +660,14 @@ export default tseslint.config(
       'sonarjs/cognitive-complexity': 'off',
       'no-restricted-globals': 'off',
       'boundaries/no-unknown-files': 'off',
+    },
+  },
+  {
+    // Typed content literals are data, not logic: they run long by nature.
+    name: 'project/content-literals',
+    files: ['src/app/features/*/infrastructure/content/*-content.ts'],
+    rules: {
+      'max-lines': 'off',
     },
   },
   {
