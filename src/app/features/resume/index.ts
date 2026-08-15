@@ -5,6 +5,7 @@ import { RESUME_REPOSITORY } from './application/resume-store/resume-store';
 import { staticResumeRepository } from './infrastructure/content/static-resume-repository';
 
 export { AboutSection } from './ui/about/about-section';
+export { EducationSection } from './ui/education/education-section';
 export { ExperienceSection } from './ui/experience/experience-section';
 export { Hero } from './ui/hero/hero';
 export { StackSection } from './ui/stack/stack-section';

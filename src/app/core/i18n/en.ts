@@ -38,6 +38,11 @@ export const EN_TRANSLATIONS = {
   stack: {
     title: 'What I reach for',
   },
+  education: {
+    title: 'Education',
+    languagesTitle: 'Languages',
+    native: 'Native',
+  },
   work: {
     title: 'Open source: dishka integrations',
     subtitlePre:

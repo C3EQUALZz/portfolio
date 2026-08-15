@@ -2,7 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ContactSection } from './features/contact';
 import { ProjectsSection } from './features/projects';
-import { AboutSection, ExperienceSection, Hero, StackSection } from './features/resume';
+import {
+  AboutSection,
+  EducationSection,
+  ExperienceSection,
+  Hero,
+  StackSection,
+} from './features/resume';
 import { Footer } from './shell/footer';
 import { Header } from './shell/header';
 
@@ -15,6 +21,7 @@ import { Header } from './shell/header';
     ExperienceSection,
     ProjectsSection,
     StackSection,
+    EducationSection,
     ContactSection,
     Footer,
   ],

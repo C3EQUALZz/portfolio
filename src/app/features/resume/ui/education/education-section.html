@@ -1,0 +1,27 @@
+<section id="education" class="section">
+  <h6 class="kicker">{{ kicker() }}</h6>
+
+  <div class="blocks">
+    <div class="block">
+      @for (item of education(); track item.institution) {
+        <div class="education-item">
+          <p class="education-institution">{{ item.institution }}</p>
+          <p class="education-program">{{ item.program }}</p>
+          <p class="education-meta">{{ item.city }} · {{ item.graduationYear }}</p>
+        </div>
+      }
+    </div>
+
+    <div class="block">
+      <p class="block-title">{{ languagesTitle() }}</p>
+      <ul class="languages">
+        @for (item of languages(); track item.name) {
+          <li>
+            <span>{{ item.name }}</span>
+            <span class="language-level">{{ item.levelText }}</span>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</section>

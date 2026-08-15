@@ -37,6 +37,11 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
   stack: {
     title: 'Чем я пользуюсь',
   },
+  education: {
+    title: 'Образование',
+    languagesTitle: 'Языки',
+    native: 'Родной',
+  },
   work: {
     title: 'Open source: интеграции dishka',
     subtitlePre:
