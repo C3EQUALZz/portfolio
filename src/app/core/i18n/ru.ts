@@ -19,6 +19,24 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
     experience:
       '{years, plural, =0 {} one {# год} few {# года} many {# лет} other {# года}} {months, plural, =0 {} one {# месяц} few {# месяца} many {# месяцев} other {# месяца}} производственного опыта',
   },
+  experience: {
+    title:
+      '{years, plural, one {# год} few {# года} many {# лет} other {# года}} пути «медленно, но надёжно»',
+    subtitle:
+      'Каждая роль — переписывание того, что перестало масштабироваться: монолита, самописного WebSocket-сервера, счёта за SaaS-мониторинг.',
+    present: 'сейчас',
+    duration:
+      '{years, plural, =0 {} one {# год} few {# года} many {# лет} other {# года}} {months, plural, =0 {} one {# месяц} few {# месяца} many {# месяцев} other {# месяца}}',
+    engagement: {
+      'on-site': 'офис',
+      remote: 'удалённо',
+      hybrid: 'гибрид',
+      outstaff: 'аутстафф',
+    },
+  },
+  stack: {
+    title: 'Чем я пользуюсь',
+  },
   footer: {
     note: 'Данил Ковалёв · Backend-инженер · Ростов-на-Дону',
   },

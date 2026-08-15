@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { Hero } from './features/resume';
+import { AboutSection, ExperienceSection, Hero, StackSection } from './features/resume';
 import { Footer } from './shell/footer';
 import { Header } from './shell/header';
 
 @Component({
   selector: 'app-root',
-  imports: [Header, Hero, Footer],
+  imports: [Header, Hero, AboutSection, ExperienceSection, StackSection, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

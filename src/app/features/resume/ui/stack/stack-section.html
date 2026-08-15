@@ -1,0 +1,17 @@
+<section id="stack" class="section">
+  <h6 class="kicker">{{ 'nav.stack' | transloco }}</h6>
+  <h2 class="title">{{ 'stack.title' | transloco }}</h2>
+
+  <div class="groups">
+    @for (group of groups(); track group.title) {
+      <div class="group">
+        <p class="group-title">{{ group.title }}</p>
+        <div class="chips">
+          @for (entry of group.entries; track entry.name) {
+            <span class="chip" [class.chip-lead]="entry.lead">{{ entry.name }}</span>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</section>

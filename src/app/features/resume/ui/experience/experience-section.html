@@ -1,0 +1,49 @@
+<section id="experience" class="section">
+  <h6 class="kicker">{{ 'nav.experience' | transloco }}</h6>
+  <h2 class="title">{{ 'experience.title' | transloco: { years: years() } }}</h2>
+  <p class="subtitle">{{ 'experience.subtitle' | transloco }}</p>
+
+  <div class="timeline">
+    @for (card of cards(); track card.experience.id) {
+      <article class="role">
+        <div class="role-side">
+          <p class="role-period">{{ card.periodLabel }}</p>
+          <p class="role-meta">
+            {{ 'experience.duration' | transloco: card.duration }} ·
+            {{ card.engagementKey | transloco }}
+          </p>
+        </div>
+        <div class="role-main">
+          <h3 class="role-title">{{ card.title }}</h3>
+          <p class="role-product">{{ card.product }}</p>
+
+          <div class="impacts">
+            @for (item of card.impacts; track item.label) {
+              <div class="impact">
+                <app-impact-value [item]="item.impact" />
+                <p class="impact-label">{{ item.label }}</p>
+              </div>
+            }
+          </div>
+
+          <ul class="achievements">
+            @for (achievement of card.achievements; track achievement.lead) {
+              <li>
+                <span class="bullet" aria-hidden="true">◆</span>
+                <span
+                  ><strong>{{ achievement.lead }}</strong> {{ achievement.detail }}</span
+                >
+              </li>
+            }
+          </ul>
+
+          <div class="clusters">
+            @for (cluster of card.clusters; track cluster.names) {
+              <span class="cluster" [class.cluster-lead]="cluster.lead">{{ cluster.names }}</span>
+            }
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</section>

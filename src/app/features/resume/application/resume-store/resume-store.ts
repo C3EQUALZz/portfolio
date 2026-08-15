@@ -42,6 +42,17 @@ export class ResumeStore {
     return value === undefined ? undefined : resume.currentRole(value);
   });
 
+  /** Roles newest first, for the experience timeline. */
+  readonly timeline = computed(() => {
+    const value = this.data();
+    return value === undefined ? [] : resume.experiencesByRecency(value);
+  });
+
+  /** The asOf the derivations were made with — fixed at page load. */
+  get asOfDate(): YearMonth {
+    return this.asOf;
+  }
+
   readonly totalExperience = computed(() => {
     const value = this.data();
     return value === undefined ? undefined : resume.totalExperience(value, this.asOf);

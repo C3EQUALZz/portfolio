@@ -1,0 +1,12 @@
+<section id="about" class="section">
+  <h6 class="kicker">{{ 'nav.about' | transloco }}</h6>
+
+  <div class="highlights">
+    @for (highlight of highlights(); track highlight.topic) {
+      <div class="highlight">
+        <i class="ph {{ highlight.icon }}" aria-hidden="true"></i>
+        <p class="highlight-text">{{ highlight.text }}</p>
+      </div>
+    }
+  </div>
+</section>
