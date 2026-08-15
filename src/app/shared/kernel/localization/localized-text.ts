@@ -11,6 +11,11 @@ export interface LocalizedText {
   readonly ru: NonEmptyString;
 }
 
+/** The locales the content ships in — exactly the keys of LocalizedText. */
+export type Locale = keyof LocalizedText;
+
+export const LOCALES: readonly Locale[] = ['en', 'ru'];
+
 export interface InvalidLocalizedText {
   readonly kind: 'InvalidLocalizedText';
 }
@@ -25,5 +30,10 @@ export const localizedText = {
     const en = nonEmptyString.create(input.en);
     const ru = nonEmptyString.create(input.ru);
     return en.ok && ru.ok ? ok({ en: en.value, ru: ru.value }) : err(INVALID);
+  },
+
+  /** Picks one locale's text. Choosing the current locale is the UI's job. */
+  pick(text: LocalizedText, locale: Locale): NonEmptyString {
+    return text[locale];
   },
 };

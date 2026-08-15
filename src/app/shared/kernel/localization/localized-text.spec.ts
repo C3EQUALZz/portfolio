@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
+import { must } from '../../testing/must';
 import { localizedText } from './localized-text';
 
 describe('LocalizedText', () => {
@@ -18,5 +19,14 @@ describe('LocalizedText', () => {
       ok: false,
       error: { kind: 'InvalidLocalizedText' },
     });
+  });
+
+  it.each([
+    ['en' as const, 'Nine months'],
+    ['ru' as const, 'Девять месяцев'],
+  ])('pick выбирает локаль %s', (locale, expected) => {
+    const text = must(localizedText.create({ en: 'Nine months', ru: 'Девять месяцев' }));
+
+    expect(localizedText.pick(text, locale)).toBe(expected);
   });
 });

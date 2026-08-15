@@ -1,0 +1,26 @@
+<header class="header">
+  <nav class="header-nav" aria-label="Sections">
+    <a class="brand" href="#top">
+      <span class="brand-dot" aria-hidden="true"></span>{{ 'header.brand' | transloco }}
+    </a>
+    <span class="spacer"></span>
+    <div class="links">
+      @for (item of navItems; track item.href) {
+        <a [href]="item.href">{{ item.key | transloco }}</a>
+      }
+    </div>
+    <div class="locale-switch" role="group" aria-label="Language">
+      @for (lang of locales; track lang) {
+        <button
+          type="button"
+          class="locale-button"
+          [class.locale-active]="locale.locale() === lang"
+          [attr.aria-pressed]="locale.locale() === lang"
+          (click)="locale.setLocale(lang)"
+        >
+          {{ lang }}
+        </button>
+      }
+    </div>
+  </nav>
+</header>

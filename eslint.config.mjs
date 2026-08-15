@@ -240,6 +240,9 @@ export default tseslint.config(
       '@angular-eslint/component-class-suffix': 'off',
       '@angular-eslint/directive-class-suffix': 'off',
 
+      // Presentational components are legitimately empty classes with a decorator.
+      '@typescript-eslint/no-extraneous-class': ['error', { allowWithDecorator: true }],
+
       '@angular-eslint/prefer-standalone': 'error',
       '@angular-eslint/prefer-signals': 'error',
       '@angular-eslint/prefer-output-emitter-ref': 'error',
