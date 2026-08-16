@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { provideI18n } from '../core/i18n/provide-i18n';
 import { Header } from './header';
@@ -7,7 +8,7 @@ describe('Header', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Header],
-      providers: [provideI18n()],
+      providers: [provideRouter([]), provideI18n()],
     }).compileComponents();
   });
 

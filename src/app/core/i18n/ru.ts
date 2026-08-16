@@ -8,6 +8,7 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
     work: 'Проекты',
     stack: 'Стек',
     contact: 'Контакты',
+    certificates: 'Сертификаты',
   },
   header: {
     brand: 'Портфолио',
@@ -61,5 +62,19 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
   },
   footer: {
     note: 'Данил Ковалёв · Backend-инженер · Ростов-на-Дону',
+  },
+  certificates: {
+    title: 'Сертификаты',
+    subtitle:
+      'Профессиональные сертификаты, пройденные курсы и хакатоны — каждая запись открывает оригинал документа или страницу проверки на сайте издателя.',
+    categories: {
+      professional: 'Профессиональные сертификаты',
+      course: 'Курсы',
+      hackathon: 'Хакатоны',
+    },
+    viewPdf: 'Смотреть сертификат',
+    verify: 'Проверить на сайте издателя',
+    closeViewer: 'Закрыть просмотр',
+    openExternal: 'Открыть в новой вкладке',
   },
 };

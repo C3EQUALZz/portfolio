@@ -57,7 +57,8 @@
   transition: color 0.25s;
 }
 
-.links a:hover {
+.links a:hover,
+.links a.link-active {
   color: var(--color-accent-300);
 }
 

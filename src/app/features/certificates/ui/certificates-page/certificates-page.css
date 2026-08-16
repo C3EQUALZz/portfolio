@@ -1,0 +1,129 @@
+.certificates-page {
+  max-width: 1120px;
+  padding: 110px 32px 80px;
+  margin: 0 auto;
+}
+
+.page-head {
+  margin-bottom: 48px;
+}
+
+.page-title {
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.02em;
+}
+
+.page-subtitle {
+  max-width: 640px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+}
+
+.block {
+  margin-bottom: 44px;
+}
+
+.block-title {
+  padding-bottom: 10px;
+  margin: 0 0 20px;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: var(--font-heading-weight);
+  color: var(--color-accent-300);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  width: 100%;
+  height: 100%;
+  padding: 18px;
+  font: inherit;
+  color: var(--color-text);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  transition:
+    border-color 0.25s,
+    transform 0.25s;
+}
+
+.card:hover {
+  border-color: var(--color-accent-700);
+  transform: translateY(-2px);
+}
+
+.card-badge {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--color-accent-300);
+  letter-spacing: 0.04em;
+  background: var(--color-accent-900);
+  border: 1px solid var(--color-accent-800);
+  border-radius: var(--radius-md);
+}
+
+.card-badge-link {
+  font-size: 18px;
+}
+
+.card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.card-title {
+  font-family: var(--font-heading);
+  font-size: 14.5px;
+  font-weight: var(--font-heading-weight);
+  line-height: 1.4;
+}
+
+.card-meta {
+  font-size: 12.5px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+}
+
+.card-action {
+  flex: none;
+  align-self: flex-end;
+  font-size: 12px;
+  color: var(--color-accent-300);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.card:hover .card-action,
+.card:focus-visible .card-action {
+  opacity: 1;
+}

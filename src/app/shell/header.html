@@ -1,13 +1,14 @@
 <header class="header">
   <nav class="header-nav" aria-label="Sections">
-    <a class="brand" href="#top">
+    <a class="brand" routerLink="/">
       <span class="brand-dot" aria-hidden="true"></span>{{ brand() }}
     </a>
     <span class="spacer"></span>
     <div class="links">
-      @for (item of navItems; track item.href) {
-        <a [href]="item.href">{{ item.label() }}</a>
+      @for (item of navItems; track item.fragment) {
+        <a routerLink="/" [fragment]="item.fragment">{{ item.label() }}</a>
       }
+      <a routerLink="/certificates" routerLinkActive="link-active">{{ certificatesLabel() }}</a>
     </div>
     <div class="locale-switch" role="group" aria-label="Language">
       @for (lang of locales; track lang) {

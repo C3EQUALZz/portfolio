@@ -1,32 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
-import { ContactSection } from './features/contact';
-import { ProjectsSection } from './features/projects';
-import {
-  AboutSection,
-  EducationSection,
-  ExperienceSection,
-  Hero,
-  StackSection,
-} from './features/resume';
 import { Footer } from './shell/footer';
 import { Header } from './shell/header';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    Header,
-    Hero,
-    AboutSection,
-    ExperienceSection,
-    ProjectsSection,
-    StackSection,
-    EducationSection,
-    ContactSection,
-    Footer,
-  ],
+  imports: [Header, RouterOutlet, Footer],
   templateUrl: './app.html',
-  styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App {}

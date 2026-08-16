@@ -10,6 +10,7 @@ export const EN_TRANSLATIONS = {
     work: 'Work',
     stack: 'Stack',
     contact: 'Contact',
+    certificates: 'Certificates',
   },
   header: {
     brand: 'Portfolio',
@@ -62,5 +63,19 @@ export const EN_TRANSLATIONS = {
   },
   footer: {
     note: 'Danil Kovalev · Backend engineer · Rostov-on-Don',
+  },
+  certificates: {
+    title: 'Certificates',
+    subtitle:
+      'Professional certifications, completed courses and hackathons — each entry opens the original document or the issuer verification page.',
+    categories: {
+      professional: 'Professional certifications',
+      course: 'Courses',
+      hackathon: 'Hackathons',
+    },
+    viewPdf: 'View certificate',
+    verify: 'Verify on the issuer site',
+    closeViewer: 'Close viewer',
+    openExternal: 'Open in a new tab',
   },
 };

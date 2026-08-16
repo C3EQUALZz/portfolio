@@ -1,0 +1,22 @@
+<div class="overlay" role="presentation">
+  <button
+    type="button"
+    class="backdrop"
+    [attr.aria-label]="closeLabel()"
+    (click)="close()"
+  ></button>
+  <div class="dialog" role="dialog" aria-modal="true" [attr.aria-label]="title()">
+    <header class="dialog-head">
+      <p class="dialog-title">{{ title() }}</p>
+      <div class="dialog-actions">
+        <a class="dialog-link" [href]="path()" target="_blank" rel="noopener noreferrer">
+          {{ openExternalLabel() }}
+        </a>
+        <button type="button" class="dialog-close" (click)="close()">
+          {{ closeLabel() }}
+        </button>
+      </div>
+    </header>
+    <iframe class="dialog-frame" [src]="viewerUrl()" [title]="title()"></iframe>
+  </div>
+</div>

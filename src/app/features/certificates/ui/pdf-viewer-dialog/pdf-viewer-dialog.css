@@ -1,0 +1,87 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+}
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  cursor: pointer;
+  background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+  border: 0;
+  backdrop-filter: blur(10px);
+}
+
+.dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(920px, 100%);
+  height: min(86vh, 100%);
+  overflow: hidden;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+}
+
+.dialog-head {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.dialog-title {
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: var(--font-heading-weight);
+  white-space: nowrap;
+}
+
+.dialog-actions {
+  display: flex;
+  flex: none;
+  gap: 14px;
+  align-items: center;
+  font-size: 13px;
+}
+
+.dialog-link {
+  color: var(--color-accent-300);
+  text-decoration: none;
+}
+
+.dialog-link:hover {
+  text-decoration: underline;
+}
+
+.dialog-close {
+  padding: 0;
+  font: inherit;
+  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+}
+
+.dialog-close:hover {
+  color: var(--color-text);
+}
+
+.dialog-frame {
+  flex: 1;
+  width: 100%;
+  background: var(--color-bg);
+  border: 0;
+}

@@ -1,0 +1,45 @@
+<main class="page certificates-page">
+  <header class="page-head">
+    <h1 class="page-title">{{ title() }}</h1>
+    <p class="page-subtitle">{{ subtitle() }}</p>
+  </header>
+
+  @for (group of groups(); track group.category) {
+    <section class="block">
+      <h2 class="block-title">{{ group.label }}</h2>
+      <ul class="cards">
+        @for (item of group.items; track item.title) {
+          <li>
+            @if (item.artifact.kind === 'pdf') {
+              <button type="button" class="card" (click)="open(item)">
+                <span class="card-badge" aria-hidden="true">PDF</span>
+                <span class="card-body">
+                  <span class="card-title">{{ item.title }}</span>
+                  <span class="card-meta">{{ item.issuer }} · {{ item.issuedText }}</span>
+                </span>
+                <span class="card-action">{{ viewPdfLabel() }}</span>
+              </button>
+            } @else {
+              <a class="card" [href]="item.artifact.url" target="_blank" rel="noopener noreferrer">
+                <span class="card-badge card-badge-link" aria-hidden="true">↗</span>
+                <span class="card-body">
+                  <span class="card-title">{{ item.title }}</span>
+                  <span class="card-meta">{{ item.issuer }} · {{ item.issuedText }}</span>
+                </span>
+                <span class="card-action">{{ verifyLabel() }}</span>
+              </a>
+            }
+          </li>
+        }
+      </ul>
+    </section>
+  }
+
+  @if (viewer(); as document) {
+    <app-pdf-viewer-dialog
+      [title]="document.title"
+      [path]="document.path"
+      (closed)="closeViewer()"
+    />
+  }
+</main>
