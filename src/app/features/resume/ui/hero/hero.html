@@ -20,7 +20,14 @@
       <h1 class="name">{{ person()?.name }}</h1>
       <p class="headline">
         {{ headline() }}<br />
-        <span class="role">{{ roleHeadline() }}</span>
+        <span class="role">
+          <span class="role-track" data-marquee>
+            @for (item of marqueeItems(); track $index) {
+              <span class="role-item" [attr.aria-hidden]="item.copy || null">{{ item.text }}</span>
+              <span class="role-sep" aria-hidden="true">•</span>
+            }
+          </span>
+        </span>
       </p>
       <p class="summary">{{ summary() }}</p>
 

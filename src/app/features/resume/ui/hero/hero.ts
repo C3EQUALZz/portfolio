@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  DestroyRef,
-  inject,
-  signal,
-  type Signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, type Signal } from '@angular/core';
 
 import { translateSignal } from '@jsverse/transloco';
 
@@ -39,8 +31,6 @@ const RING_LAYOUT = [
   { durationSeconds: 60, reverse: false, chipSize: 54, radiusPct: 45 },
 ] as const;
 
-const ROLE_ROTATION_MS = 3000;
-
 function buildRing(
   technologies: readonly Technology[],
   layout: (typeof RING_LAYOUT)[number],
@@ -57,8 +47,8 @@ function buildRing(
 }
 
 /**
- * Hero section: name, rotating role headline, derived total experience and
- * the technology ring — everything read from the Resume through the store.
+ * Hero section: name, marquee of role headlines, derived total experience
+ * and the technology ring — everything read from the Resume through the store.
  */
 @Component({
   selector: 'app-hero',
@@ -70,19 +60,23 @@ export class Hero {
   protected readonly store = inject(ResumeStore);
   private readonly localeService = inject(LocaleService);
 
-  private readonly roleIndex = signal(0);
-
   protected readonly person = computed(() => this.store.data()?.person);
 
   protected readonly headline = computed(() => this.pick(this.person()?.headline));
 
-  protected readonly roleHeadline = computed(() => {
-    const roles = this.person()?.roleHeadlines;
-    if (roles === undefined || roles.length === 0) {
-      return '';
-    }
-    return this.pick(roles[this.roleIndex() % roles.length]);
-  });
+  /** All role headlines in the current locale — the marquee scrolls them. */
+  protected readonly roles = computed(
+    () => this.person()?.roleHeadlines.map((role) => this.pick(role)) ?? [],
+  );
+
+  /**
+   * The roles twice: the marquee track translates -50%, so the duplicate
+   * half makes the loop seamless. aria-hidden marks the repeated items.
+   */
+  protected readonly marqueeItems = computed<readonly { text: string; copy: boolean }[]>(() => [
+    ...this.roles().map((text) => ({ text, copy: false })),
+    ...this.roles().map((text) => ({ text, copy: true })),
+  ]);
 
   protected readonly summary = computed(() => this.pick(this.person()?.summary));
 
@@ -134,15 +128,6 @@ export class Hero {
       buildRing(outer, RING_LAYOUT[2]),
     ].filter((ring) => ring.chips.length > 0);
   });
-
-  constructor() {
-    const timer = setInterval(() => {
-      this.roleIndex.update((index) => index + 1);
-    }, ROLE_ROTATION_MS);
-    inject(DestroyRef).onDestroy(() => {
-      clearInterval(timer);
-    });
-  }
 
   private pick(text: LocalizedText | undefined): string {
     return text === undefined ? '' : localizedText.pick(text, this.localeService.locale());

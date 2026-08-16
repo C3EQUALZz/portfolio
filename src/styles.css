@@ -131,6 +131,12 @@
   }
 }
 
+@keyframes nc-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -205,7 +211,8 @@ a:hover {
 
 @media (prefers-reduced-motion: reduce) {
   [data-ring],
-  [data-ring] * {
+  [data-ring] *,
+  [data-marquee] {
     animation: none;
   }
 }

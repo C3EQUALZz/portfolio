@@ -29,6 +29,22 @@ describe('Hero', () => {
     expect(element.querySelector('.summary')?.textContent).toContain('security tooling');
   });
 
+  it('scrolls every role headline in the marquee, duplicated for a seamless loop', async () => {
+    const fixture = TestBed.createComponent(Hero);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+
+    const roles = must(toResume(resumeContent)).person.roleHeadlines.map((role) => role.en);
+    const items = [...element.querySelectorAll('.role-item')].map((item) =>
+      item.textContent.trim(),
+    );
+
+    expect(items).toHaveLength(roles.length * 2);
+    for (const role of roles) {
+      expect(items).toContain(role);
+    }
+  });
+
   it('shows the experience derived from the content dates, not a written number', async () => {
     const fixture = TestBed.createComponent(Hero);
     await fixture.whenStable();
