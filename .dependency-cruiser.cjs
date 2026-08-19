@@ -195,7 +195,7 @@ module.exports = {
     },
     // Keep node_modules in the graph: without those nodes the banned-package
     // rules silently pass. doNotFollow above prevents descending into packages.
-    exclude: { path: '^(dist|coverage|\\.angular|Nocturne)/' },
+    exclude: { path: '^(dist|coverage|\\.angular)/' },
     reporterOptions: {
       dot: {
         collapsePattern: 'node_modules/(?:@[^/]+/[^/]+|[^/]+)',

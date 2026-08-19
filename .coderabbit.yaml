@@ -22,7 +22,6 @@ reviews:
     - '!coverage/**'
     - '!reports/**'
     - '!public/icons/**'
-    - '!Nocturne/**'
 
   path_instructions:
     - path: 'src/app/features/*/domain/**'

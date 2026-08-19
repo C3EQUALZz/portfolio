@@ -7,12 +7,5 @@
   "gitignore": true,
   "absolute": false,
   "format": ["typescript", "html", "css"],
-  "ignore": [
-    "**/node_modules/**",
-    "**/dist/**",
-    "**/coverage/**",
-    "**/.angular/**",
-    "Nocturne/**",
-    "**/*.spec.ts"
-  ]
+  "ignore": ["**/node_modules/**", "**/dist/**", "**/coverage/**", "**/.angular/**", "**/*.spec.ts"]
 }

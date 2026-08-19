@@ -50,8 +50,6 @@ export default tseslint.config(
       '.stryker-tmp/**',
       'node_modules/**',
       'public/**',
-      // Vendored design system, not our code.
-      'Nocturne/**',
     ],
   },
 
