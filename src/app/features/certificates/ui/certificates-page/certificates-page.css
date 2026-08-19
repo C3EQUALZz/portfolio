@@ -50,12 +50,13 @@
 }
 
 .card {
+  position: relative;
   display: flex;
   gap: 14px;
   align-items: flex-start;
   width: 100%;
   height: 100%;
-  padding: 18px;
+  padding: 18px 18px 32px;
   font: inherit;
   color: var(--color-text);
   text-align: left;
@@ -115,8 +116,9 @@
 }
 
 .card-action {
-  flex: none;
-  align-self: flex-end;
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
   font-size: 12px;
   color: var(--color-accent-300);
   opacity: 0;
