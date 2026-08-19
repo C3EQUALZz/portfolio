@@ -5,7 +5,7 @@
  * the chip falls back to the name text.
  */
 export type TechIcon =
-  | { readonly kind: 'asset'; readonly path: string }
+  | { readonly kind: 'asset'; readonly path: string; readonly invert?: boolean }
   | { readonly kind: 'ph'; readonly icon: string };
 
 const TECH_ICONS: Readonly<Record<string, TechIcon>> = {
@@ -25,7 +25,7 @@ const TECH_ICONS: Readonly<Record<string, TechIcon>> = {
   kubernetes: { kind: 'asset', path: 'icons/tech/kubernetes.svg' },
   docker: { kind: 'asset', path: 'icons/tech/docker.svg' },
   dishka: { kind: 'asset', path: 'icons/tech/dishka.png' },
-  serde: { kind: 'ph', icon: 'ph-arrows-left-right' },
+  serde: { kind: 'asset', path: 'icons/tech/serde.png', invert: true },
   ag2: { kind: 'asset', path: 'icons/tech/ag2.png' },
 };
 

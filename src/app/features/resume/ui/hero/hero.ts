@@ -18,6 +18,7 @@ interface RingChip {
   readonly left: number;
   readonly top: number;
   readonly assetPath?: string;
+  readonly invertIcon?: boolean;
   readonly phIcon?: string;
 }
 
@@ -46,7 +47,7 @@ function buildRing(
       name: technology.name,
       left: 50 + layout.radiusPct * Math.cos(angle),
       top: 50 + layout.radiusPct * Math.sin(angle),
-      ...(icon?.kind === 'asset' ? { assetPath: icon.path } : {}),
+      ...(icon?.kind === 'asset' ? { assetPath: icon.path, invertIcon: icon.invert ?? false } : {}),
       ...(icon?.kind === 'ph' ? { phIcon: icon.icon } : {}),
     };
   });

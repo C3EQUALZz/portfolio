@@ -16,5 +16,7 @@ export class TechChip {
   readonly name = input.required<string>();
   readonly size = input.required<number>();
   readonly assetPath = input<string>();
+  /** Marks dark-on-transparent logos that must be inverted for the dark theme. */
+  readonly invertIcon = input(false);
   readonly phIcon = input<string>();
 }

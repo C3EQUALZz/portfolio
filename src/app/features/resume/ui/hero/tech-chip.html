@@ -1,6 +1,13 @@
 <div class="ring-chip" [style.width.px]="size()" [style.height.px]="size()" [title]="name()">
   @if (assetPath(); as asset) {
-    <img class="ring-chip-icon" [ngSrc]="asset" width="40" height="40" [alt]="name()" />
+    <img
+      class="ring-chip-icon"
+      [class.ring-chip-icon-invert]="invertIcon()"
+      [ngSrc]="asset"
+      width="40"
+      height="40"
+      [alt]="name()"
+    />
   } @else if (phIcon(); as ph) {
     <i [class]="'ph ring-chip-ph ' + ph" aria-hidden="true"></i>
   } @else {

@@ -27,6 +27,10 @@
   border-radius: 6px;
 }
 
+.ring-chip-icon-invert {
+  filter: invert(1);
+}
+
 .ring-chip-ph {
   font-size: 22px;
 }
