@@ -50,10 +50,19 @@ function isCategory(raw: string): raw is CertificateCategory {
 type ArtifactInput =
   { readonly kind: 'pdf'; readonly path: string } | { readonly kind: 'link'; readonly url: string };
 
+/**
+ * PDF artifacts are local assets only: a fixed public/certificates directory
+ * and a plain kebab-case filename. This is what lets the UI trust the path in
+ * an iframe without opening a redirect / traversal hole (Sonar S6268).
+ */
+const PDF_PATH_PATTERN = /^certificates\/[a-z0-9-]+\.pdf$/;
+
 function parseArtifact(input: ArtifactInput): Result<CertificateArtifact, InvalidCertificate> {
   if (input.kind === 'pdf') {
     const path = nonEmptyString.create(input.path);
-    return path.ok ? ok({ kind: 'pdf', path: path.value }) : err(INVALID);
+    return path.ok && PDF_PATH_PATTERN.test(path.value)
+      ? ok({ kind: 'pdf', path: path.value })
+      : err(INVALID);
   }
   const url = httpsUrl.create(input.url);
   return url.ok ? ok({ kind: 'link', url: url.value }) : err(INVALID);

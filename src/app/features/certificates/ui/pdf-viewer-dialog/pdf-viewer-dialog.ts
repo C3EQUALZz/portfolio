@@ -21,7 +21,11 @@ export class PdfViewerDialog {
 
   private readonly sanitizer = inject(DomSanitizer);
 
-  /** The path comes from validated static content, safe to trust here. */
+  /**
+   * The path is a local PDF asset: the domain accepts only
+   * `certificates/<slug>.pdf` (see certificate.ts), so trusting the
+   * resource URL here cannot be turned into a redirect or traversal.
+   */
   protected readonly viewerUrl = computed(() =>
     this.sanitizer.bypassSecurityTrustResourceUrl(this.path()),
   );

@@ -14,7 +14,7 @@ export interface InvalidTelegramHandle {
 
 const INVALID: InvalidTelegramHandle = { kind: 'InvalidTelegramHandle' };
 
-const HANDLE_PATTERN = /^[a-zA-Z][a-zA-Z0-9_]{4,31}$/;
+const HANDLE_PATTERN = /^[a-zA-Z]\w{4,31}$/;
 
 export const telegramHandle = {
   create(raw: string): Result<TelegramHandle, InvalidTelegramHandle> {

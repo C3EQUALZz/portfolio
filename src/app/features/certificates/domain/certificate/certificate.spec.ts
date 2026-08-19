@@ -67,6 +67,20 @@ describe('certificate', () => {
     });
   });
 
+  it('rejects a pdf path outside the local certificates directory', () => {
+    const traversal = certificate.create({
+      ...validInput,
+      artifact: { kind: 'pdf', path: '../secret.pdf' },
+    });
+    const external = certificate.create({
+      ...validInput,
+      artifact: { kind: 'pdf', path: 'https://evil.example/x.pdf' },
+    });
+
+    expect(traversal).toEqual({ ok: false, error: { kind: 'InvalidCertificate' } });
+    expect(external).toEqual({ ok: false, error: { kind: 'InvalidCertificate' } });
+  });
+
   it('rejects an impossible issue date', () => {
     expect(certificate.create({ ...validInput, issued: { year: 2025, month: 13 } })).toEqual({
       ok: false,
