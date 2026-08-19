@@ -32,7 +32,7 @@ interface Ring {
 
 /** Inner → outer, mirroring the template's three counter-rotating rings. */
 const RING_LAYOUT = [
-  { durationSeconds: 32, reverse: false, chipSize: 44, radiusPct: 17 },
+  { durationSeconds: 32, reverse: false, chipSize: 44, radiusPct: 13 },
   { durationSeconds: 44, reverse: true, chipSize: 48, radiusPct: 28 },
   { durationSeconds: 60, reverse: false, chipSize: 54, radiusPct: 45 },
 ] as const;
