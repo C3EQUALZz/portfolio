@@ -240,6 +240,9 @@
 .ring-layer {
   position: absolute;
   inset: 0;
+  /* The layer covers the whole ring; only chips receive pointer events,
+     otherwise the outer layers block hovering the inner ones. */
+  pointer-events: none;
   animation: nc-spin linear infinite;
 }
 
