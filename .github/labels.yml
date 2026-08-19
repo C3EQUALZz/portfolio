@@ -1,0 +1,62 @@
+# Declarative label set, synced by .github/workflows/labels.yml.
+- name: bug
+  color: d73a4a
+  description: Something isn't working
+- name: enhancement
+  color: a2eeef
+  description: New feature or request
+- name: documentation
+  color: 0075ca
+  description: Documentation changes
+- name: dependencies
+  color: 0366d6
+  description: Dependency updates
+- name: security
+  color: b60205
+  description: Security-relevant change or report
+
+# Triage states (see docs/agents/triage-labels.md)
+- name: needs-triage
+  color: fbca04
+  description: Maintainer needs to evaluate
+- name: needs-info
+  color: fbca04
+  description: Waiting on the reporter
+- name: ready-for-agent
+  color: 0e8a16
+  description: Fully specified, an AFK agent can pick it up
+- name: ready-for-human
+  color: 0e8a16
+  description: Needs human implementation
+- name: wontfix
+  color: 5319e7
+  description: Will not be actioned
+
+- name: 'layer: domain'
+  color: 1d76db
+  description: Entities, value objects, invariants
+- name: 'layer: application'
+  color: 1d76db
+  description: Stores, use cases, ports
+- name: 'layer: infrastructure'
+  color: 1d76db
+  description: Adapters, static content
+- name: 'layer: ui'
+  color: 1d76db
+  description: Components, templates, styles
+
+- name: 'area: tests'
+  color: 0e8a16
+  description: Specs and test tooling
+- name: 'area: ci'
+  color: 0e8a16
+  description: CI / workflows
+- name: 'area: tooling'
+  color: 0e8a16
+  description: npm / linters / configs / hooks
+- name: 'area: agents'
+  color: fbca04
+  description: AGENTS.md, skills, agent configuration
+- name: 'area: docs'
+  color: 0075ca
+  description: Documentation

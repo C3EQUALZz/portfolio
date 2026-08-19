@@ -8,11 +8,11 @@
 
 ## Checklist
 
-- [ ] `npm run verify` зелёный (prettier, eslint, stylelint, typecheck, depcruise, knip, test:ci) — укажи, сколько тестов прогналось
-- [ ] Новое поведение покрыто тестами: домен — чистые спеки (`test:domain`), UI/application — TestBed (`ng test`)
-- [ ] Слойные границы соблюдены: `ui → application → domain`, инфраструктура связывается через порты и `provide<Feature>Feature()`
-- [ ] i18n: ключи добавлены и в `en.ts`, и в `ru.ts` (parity проверяется типом); UI использует `translateSignal`, не pipe
-- [ ] Контент меняется только через `infrastructure/content`, доменные инварианты не ослаблены ради данных
-- [ ] Заголовок PR следует Conventional Commits
+- [ ] `npm run verify` is green (prettier, eslint, stylelint, typecheck, depcruise, knip, test:ci) — state how many tests ran
+- [ ] New behaviour is tested: pure domain specs (`test:domain`) for domain, TestBed specs (`ng test`) for application / ui
+- [ ] Layer rule preserved: `ui → application → domain`; adapters are wired via ports and `provide<Feature>Feature()`
+- [ ] i18n: keys added to both `en.ts` and `ru.ts` (parity is type-checked); UI uses `translateSignal`, not the Transloco pipe
+- [ ] Content changes go through `infrastructure/content` only; domain invariants are not weakened to fit the data
+- [ ] PR title follows Conventional Commits
 
 ## What I did not verify

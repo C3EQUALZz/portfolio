@@ -1,0 +1,62 @@
+# Auto-label PRs by changed paths (actions/labeler v6).
+
+'layer: domain':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/app/features/*/domain/**'
+          - 'src/app/shared/kernel/**'
+
+'layer: application':
+  - changed-files:
+      - any-glob-to-any-file: 'src/app/features/*/application/**'
+
+'layer: infrastructure':
+  - changed-files:
+      - any-glob-to-any-file: 'src/app/features/*/infrastructure/**'
+
+'layer: ui':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/app/features/*/ui/**'
+          - 'src/app/shell/**'
+          - 'src/app/landing/**'
+          - 'src/styles.css'
+
+'area: tests':
+  - changed-files:
+      - any-glob-to-any-file: '**/*.spec.ts'
+
+'area: ci':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - '.coderabbit.yaml'
+
+'area: tooling':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'package.json'
+          - 'package-lock.json'
+          - 'angular.json'
+          - 'tsconfig*.json'
+          - 'eslint.config.*'
+          - '.prettierrc'
+          - '.stylelintrc.json'
+          - '.dependency-cruiser.cjs'
+          - 'knip.json'
+          - 'commitlint.config.mjs'
+          - 'vitest*.config.*'
+          - '.husky/**'
+
+'area: agents':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'AGENTS.md'
+          - 'docs/agents/**'
+          - '.claude/**'
+
+'area: docs':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'docs/**'
+          - '**/*.md'
