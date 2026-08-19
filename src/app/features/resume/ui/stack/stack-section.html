@@ -5,7 +5,7 @@
   <div class="groups">
     @for (group of groups(); track group.title) {
       <div class="group">
-        <p class="group-title">{{ group.title }}</p>
+        <p class="block-title">{{ group.title }}</p>
         <div class="chips">
           @for (entry of group.entries; track entry.name) {
             <span class="chip" [class.chip-lead]="entry.lead">{{ entry.name }}</span>

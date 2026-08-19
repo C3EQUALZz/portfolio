@@ -24,7 +24,7 @@ describe('StackSection', () => {
 
     const expected = must(toResume(resumeContent)).skillGroups;
     expect(element.querySelectorAll('.group')).toHaveLength(expected.length);
-    expect(element.querySelector('.group-title')?.textContent).toContain('Languages & runtime');
+    expect(element.querySelector('.block-title')?.textContent).toContain('Languages & runtime');
   });
 
   it('accents lead entries and keeps supporting ones neutral', async () => {
@@ -49,6 +49,6 @@ describe('StackSection', () => {
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.group-title')?.textContent).toContain('Языки и рантайм');
+    expect(element.querySelector('.block-title')?.textContent).toContain('Языки и рантайм');
   });
 });

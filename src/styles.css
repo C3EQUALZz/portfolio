@@ -203,6 +203,35 @@ a:hover {
   background: color-mix(in srgb, var(--color-accent) 35%, transparent);
 }
 
+/* Shared section chrome: landing sections and the certificates page use the
+   same container, kicker, block title and lead-tag accent. */
+.section {
+  max-width: 1120px;
+  padding: 110px 32px 30px;
+  margin: 0 auto;
+}
+
+.kicker {
+  margin: 0 0 14px;
+  color: var(--color-accent-300);
+}
+
+.block-title {
+  padding-bottom: 10px;
+  margin: 0 0 16px;
+  font-size: 12px;
+  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--color-divider);
+}
+
+.chip-lead {
+  color: var(--color-accent-300);
+  background: var(--color-accent-900);
+  border-color: color-mix(in srgb, var(--color-accent) 26%, transparent);
+}
+
 [data-reveal] {
   transition:
     opacity 0.7s ease,
