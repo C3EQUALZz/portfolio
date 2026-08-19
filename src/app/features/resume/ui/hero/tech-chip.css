@@ -24,6 +24,7 @@
   width: 58%;
   height: 58%;
   object-fit: contain;
+  border-radius: 6px;
 }
 
 .ring-chip-ph {

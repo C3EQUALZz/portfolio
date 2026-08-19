@@ -24,7 +24,7 @@ const TECH_ICONS: Readonly<Record<string, TechIcon>> = {
   mongodb: { kind: 'asset', path: 'icons/tech/mongodb.svg' },
   kubernetes: { kind: 'asset', path: 'icons/tech/kubernetes.svg' },
   docker: { kind: 'asset', path: 'icons/tech/docker.svg' },
-  dishka: { kind: 'ph', icon: 'ph-plugs-connected' },
+  dishka: { kind: 'asset', path: 'icons/tech/dishka.png' },
   serde: { kind: 'ph', icon: 'ph-arrows-left-right' },
   ag2: { kind: 'ph', icon: 'ph-robot' },
 };
