@@ -19,4 +19,6 @@ export class TechChip {
   /** Marks dark-on-transparent logos that must be inverted for the dark theme. */
   readonly invertIcon = input(false);
   readonly phIcon = input<string>();
+  /** Source repository of the technology; the chip links there. */
+  readonly url = input<string>();
 }

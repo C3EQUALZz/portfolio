@@ -260,6 +260,12 @@
   animation-name: nc-spin;
 }
 
+/* Pause the rotation while hovering so a chip can be clicked. */
+.ring:hover .ring-layer,
+.ring:hover .ring-chip-spin {
+  animation-play-state: paused;
+}
+
 .scroll-down {
   position: absolute;
   bottom: 30px;

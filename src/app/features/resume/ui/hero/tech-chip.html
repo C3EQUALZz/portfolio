@@ -1,4 +1,13 @@
-<div class="ring-chip" [style.width.px]="size()" [style.height.px]="size()" [title]="name()">
+<a
+  class="ring-chip"
+  [style.width.px]="size()"
+  [style.height.px]="size()"
+  [title]="name()"
+  [attr.href]="url() ?? null"
+  [attr.target]="url() ? '_blank' : null"
+  [attr.aria-label]="name()"
+  rel="noopener noreferrer"
+>
   @if (assetPath(); as asset) {
     <img
       class="ring-chip-icon"
@@ -13,4 +22,4 @@
   } @else {
     <span class="ring-chip-text">{{ name() }}</span>
   }
-</div>
+</a>

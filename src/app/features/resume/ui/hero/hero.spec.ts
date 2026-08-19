@@ -78,6 +78,20 @@ describe('Hero', () => {
     }
   });
 
+  it('links every ring chip to the technology source repository', async () => {
+    const fixture = TestBed.createComponent(Hero);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+
+    const links = [...element.querySelectorAll<HTMLAnchorElement>('app-tech-chip a.ring-chip')];
+
+    expect(links).toHaveLength(18);
+    for (const link of links) {
+      expect(link.href).toContain('https://github.com/');
+      expect(link.target).toBe('_blank');
+    }
+  });
+
   it('switches the content texts to Russian', async () => {
     const fixture = TestBed.createComponent(Hero);
     await fixture.whenStable();
