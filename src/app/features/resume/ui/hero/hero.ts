@@ -10,11 +10,15 @@ import {
   type LocalizedText,
 } from '../../../../shared/kernel/localization/localized-text';
 import type { Technology } from '../../../../shared/kernel/technology/technology';
+import { TechChip } from './tech-chip';
+import { techIcon } from './tech-icons';
 
 interface RingChip {
   readonly name: string;
   readonly left: number;
   readonly top: number;
+  readonly assetPath?: string;
+  readonly phIcon?: string;
 }
 
 interface Ring {
@@ -37,10 +41,13 @@ function buildRing(
 ): Ring {
   const chips = technologies.map((technology, index) => {
     const angle = (index / technologies.length) * 2 * Math.PI;
+    const icon = techIcon(technology.slug);
     return {
       name: technology.name,
       left: 50 + layout.radiusPct * Math.cos(angle),
       top: 50 + layout.radiusPct * Math.sin(angle),
+      ...(icon?.kind === 'asset' ? { assetPath: icon.path } : {}),
+      ...(icon?.kind === 'ph' ? { phIcon: icon.icon } : {}),
     };
   });
   return { chips, ...layout };
@@ -52,6 +59,7 @@ function buildRing(
  */
 @Component({
   selector: 'app-hero',
+  imports: [TechChip],
   templateUrl: './hero.html',
   styleUrl: './hero.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

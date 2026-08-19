@@ -68,13 +68,13 @@ describe('Hero', () => {
       .skillGroups.flatMap((group) => group.entries)
       .filter((entry) => entry.emphasis === 'lead')
       .map((entry) => entry.technology.name);
-    const chips = [...element.querySelectorAll('.ring-chip')].map((chip) =>
-      chip.textContent.trim(),
-    );
+    const chips = [...element.querySelectorAll('app-tech-chip')];
 
     expect(chips).toHaveLength(leadNames.length);
     for (const chip of chips) {
-      expect(leadNames).toContain(chip);
+      const rendered = chip.querySelector('.ring-chip');
+      expect(leadNames).toContain(rendered?.getAttribute('title'));
+      expect(chip.querySelector('img.ring-chip-icon, i.ph')).toBeTruthy();
     }
   });
 

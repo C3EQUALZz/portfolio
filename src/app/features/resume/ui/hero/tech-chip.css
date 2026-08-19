@@ -1,0 +1,38 @@
+.ring-chip {
+  display: grid;
+  place-items: center;
+  font-family: ui-monospace, monospace;
+  font-size: 10px;
+  color: color-mix(in srgb, var(--color-text) 80%, transparent);
+  background: color-mix(in srgb, #fff 6%, transparent);
+  border: 1px solid var(--color-neutral-800);
+  border-radius: 13px;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.ring-chip:hover {
+  z-index: 2;
+  background: color-mix(in srgb, #fff 10%, transparent);
+  border-color: var(--color-accent-700);
+  transform: scale(1.18);
+}
+
+.ring-chip-icon {
+  width: 58%;
+  height: 58%;
+  object-fit: contain;
+}
+
+.ring-chip-ph {
+  font-size: 22px;
+}
+
+.ring-chip-text {
+  padding: 0 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

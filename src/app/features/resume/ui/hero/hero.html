@@ -62,13 +62,12 @@
                 [class.ring-chip-spin-normal]="ring.reverse"
                 [style.animation-duration]="ring.durationSeconds + 's'"
               >
-                <div
-                  class="ring-chip"
-                  [style.width.px]="ring.chipSize"
-                  [style.height.px]="ring.chipSize"
-                >
-                  {{ chip.name }}
-                </div>
+                <app-tech-chip
+                  [name]="chip.name"
+                  [size]="ring.chipSize"
+                  [assetPath]="chip.assetPath"
+                  [phIcon]="chip.phIcon"
+                />
               </div>
             </div>
           }
