@@ -1,0 +1,95 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+language: ru-RU
+early_access: false
+
+reviews:
+  profile: assertive
+  request_changes_workflow: false
+  high_level_summary: true
+  review_status: true
+  poem: false
+  collapse_walkthrough: true
+
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - master
+
+  path_filters:
+    - '!package-lock.json'
+    - '!dist/**'
+    - '!coverage/**'
+    - '!reports/**'
+    - '!public/icons/**'
+    - '!Nocturne/**'
+
+  path_instructions:
+    - path: 'src/app/features/*/domain/**'
+      instructions: >-
+        Доменный слой фичи. Чистый TypeScript: никаких импортов из Angular,
+        application, infrastructure или ui, никакого IO и new Date().
+        Фабрики возвращают Result и проверяют инварианты; примитивы
+        (YearMonth, LocalizedText, HttpsUrl) приходят из shared/kernel.
+        Комментарии и сообщения ошибок — на английском.
+
+    - path: 'src/app/shared/kernel/**'
+      instructions: >-
+        Общие value objects. Полностью чистые функции, brand-типы, Result
+        на ошибках. Помечай любой импорт из @angular или из features — kernel
+        ни от чего не зависит.
+
+    - path: 'src/app/features/*/application/**'
+      instructions: >-
+        Слой приложения: store/use cases на сигналах Angular. Зависимости
+        только через InjectionToken-порты, связывание — в
+        provide<Feature>Feature(). new Date() допустим только здесь.
+        Помечай прямые обращения к DOM, fetch или localStorage.
+
+    - path: 'src/app/features/*/infrastructure/**'
+      instructions: >-
+        Инфраструктура: статический контент и его разбор в доменные
+        сущности. Контент валидируется на границе (to<Aggregate>), ошибка
+        должна указывать путь вроде "certificates[2]". Помечай, если
+        разбор контента проглатывает ошибку вместо err().
+
+    - path: 'src/app/features/*/ui/**'
+      instructions: >-
+        UI-слой: standalone-компоненты, OnPush, сигналы. Переводы только
+        через translateSignal — Transloco pipe под zoneless не
+        перерисовывает. Динамические ключи внутри computed —
+        transloco.translate. Помечай логику в шаблонах (лимит цикломатической
+        сложности — 6) и подписки без destroy.
+
+    - path: 'src/app/**/*.spec.ts'
+      instructions: >-
+        Тесты описывают поведение через публичный интерфейс, не детали
+        реализации: рефакторинг внутренностей не должен ронять спек.
+        UI-тесты — TestBed на реальном контенте (provide<Feature>Feature).
+        После setLocale нужен await макротаска перед whenStable. Помечай
+        тесты, которые проверяют поведение библиотеки, а не наши решения.
+
+    - path: '.github/workflows/**'
+      instructions: >-
+        Third-party actions пинуются к полному commit SHA с версией в
+        комментарии. Permissions — least-privilege и по джобам. Помечай
+        workflow, которые чекаутят PR-код под pull_request_target.
+
+  tools:
+    # eslint/stylelint/prettier уже гоняются в CI с --max-warnings=0;
+    # второй линтер дал бы только дублирующиеся комментарии.
+    eslint:
+      enabled: false
+    gitleaks:
+      enabled: true
+    actionlint:
+      enabled: true
+    yamllint:
+      enabled: true
+    markdownlint:
+      enabled: true
+    semgrep:
+      enabled: true
+
+chat:
+  auto_reply: true

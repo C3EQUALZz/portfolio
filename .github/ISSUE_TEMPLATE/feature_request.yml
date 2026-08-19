@@ -1,0 +1,41 @@
+name: Feature request
+description: Предложить новую возможность или изменение поведения
+labels: ['enhancement']
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Проблема
+      description: Чего сейчас нельзя сделать, и чем это мешает?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Предложение
+      description: Что должно происходить вместо этого?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: feature
+    attributes:
+      label: К какой фиче это относится?
+      description: См. src/app/features. Выбери «Не уверен», если непонятно.
+      options:
+        - resume (лендинг — hero, опыт, стек, образование)
+        - projects
+        - contact
+        - certificates
+        - shell (шапка, подвал, роутинг)
+        - core (i18n, локали)
+        - tooling (линтеры, тесты, CI)
+        - Не уверен
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Рассмотренные альтернативы

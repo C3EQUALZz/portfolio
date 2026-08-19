@@ -1,0 +1,47 @@
+name: Bug report
+description: Что-то работает не так, как должно
+labels: ['bug']
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: Что произошло
+      description: Что ты наблюдаешь, и что ожидалось вместо этого?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Область
+      options:
+        - Лендинг — hero (кольцо технологий, бегущая строка)
+        - Лендинг — опыт / проекты / стек / образование / контакты
+        - Страница сертификатов (/certificates)
+        - Переключение языка (en/ru)
+        - Навигация и роутинг
+        - Сборка и CI
+        - Не уверен
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Как воспроизвести
+      description: Шаги, страница, локаль. Если падает проверка — команда и её вывод.
+      render: shell
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Окружение
+      description: Браузер и ОС (или версия Node, если речь о сборке).
+
+  - type: input
+    id: version
+    attributes:
+      label: Версия
+      description: Commit SHA или «последний master».
