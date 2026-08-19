@@ -26,7 +26,7 @@ const TECH_ICONS: Readonly<Record<string, TechIcon>> = {
   docker: { kind: 'asset', path: 'icons/tech/docker.svg' },
   dishka: { kind: 'asset', path: 'icons/tech/dishka.png' },
   serde: { kind: 'ph', icon: 'ph-arrows-left-right' },
-  ag2: { kind: 'ph', icon: 'ph-robot' },
+  ag2: { kind: 'asset', path: 'icons/tech/ag2.png' },
 };
 
 export function techIcon(slug: string): TechIcon | undefined {
