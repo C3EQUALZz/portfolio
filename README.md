@@ -1,59 +1,161 @@
 # Portfolio
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.3.
+_A personal landing-resume — a single-page site with my experience, stack, projects and ways to reach me, plus a separate certificates page. Bilingual (en/ru), statically deployed to GitHub Pages._
 
-## Development server
+Built with feature-first Clean Architecture on Angular: the domain layer is framework-agnostic, every feature is a black box behind its `index.ts`.
 
-To start a local development server, run:
+[![CI](https://github.com/C3EQUALZz/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/C3EQUALZz/portfolio/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/C3EQUALZz/portfolio/actions/workflows/codeql.yml/badge.svg)](https://github.com/C3EQUALZz/portfolio/actions/workflows/codeql.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=C3EQUALZz_portfolio&metric=alert_status)](https://sonarcloud.io/dashboard?id=C3EQUALZz_portfolio)
 
-```bash
-ng serve
+**Live:** https://c3equalzz.github.io/portfolio/
+
+---
+
+## Overview
+
+The site is a resume rendered as a landing page: hero with a technology ring, experience timeline, stack, projects, contact channels, and a `/certificates`
+page. All content is localized in English and Russian.
+
+The content is the domain. The resume is modelled as an aggregate with real invariants — roles may share a boundary month but never overlap deeper, exactly one role may be current, and the total experience shown in the hero is _derived_
+from the role periods (union of intervals, gaps excluded), so the number cannot drift away from the dates. Content lives in a typed TypeScript module behind a repository port: moving it to JSON over HTTP or the GitHub API is a one-adapter change, and "the content parses" is an ordinary unit test.
+
+---
+
+## Tech Stack
+
+### Core Technologies
+
+| Tool               | Role                                                           |
+| ------------------ | -------------------------------------------------------------- |
+| **Angular 22**     | Signal-first, zoneless, `OnPush`, control flow `@if`/`@for`    |
+| **TypeScript 6**   | Strict mode, `strictTemplates`, extended diagnostics as errors |
+| **RxJS**           | Streams at the edges; the domain knows nothing about it        |
+| **Transloco**      | Runtime i18n (en/ru), signals + messageformat plurals          |
+| **Phosphor Icons** | Icon set                                                       |
+| **Vitest**         | Unit tests; the domain suite runs in node in milliseconds      |
+| **Playwright**     | E2E across chromium/firefox/webkit, gating deploy              |
+
+### Code Quality
+
+| Tool                                 | Role                                                                              |
+| ------------------------------------ | --------------------------------------------------------------------------------- |
+| **ESLint**                           | `strictTypeChecked`, sonarjs, unicorn, rxjs-x, no-secrets — zero warnings allowed |
+| **angular-eslint**                   | Templates, accessibility, signal conventions                                      |
+| **eslint-plugin-boundaries**         | Layer boundaries in the IDE                                                       |
+| **dependency-cruiser**               | The same boundaries on the graph: cycles, orphans, deep imports                   |
+| **Prettier + EditorConfig**          | Deterministic formatting                                                          |
+| **Stylelint**                        | CSS, `recess-order` property ordering                                             |
+| **knip**                             | Dead files, exports and dependencies                                              |
+| **jscpd**                            | Copy-paste detection over a 1% threshold                                          |
+| **Stryker**                          | Mutation testing of `domain`/`application` (manual)                               |
+| **size-limit**                       | Bundle size budget                                                                |
+| **commitlint + husky + lint-staged** | Conventional Commits and staged-file gates                                        |
+
+---
+
+## Architecture
+
+Feature-first: the unit of organization is a feature (bounded context), and the Clean Architecture layers live **inside** it.
+
+```
+presentation / infrastructure → application → domain
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The direction is enforced by `eslint-plugin-boundaries` and
+`dependency-cruiser`, not by convention — a deep import or a domain file importing `@angular/*` fails the build.
 
-## Code scaffolding
+| Layer            | May import                                        | Never                                          |
+| ---------------- | ------------------------------------------------- | ---------------------------------------------- |
+| `domain`         | own `domain`, `shared/kernel`                     | `@angular/*`, rxjs, browser APIs, other layers |
+| `application`    | own `domain`/`application`, `shared*`             | HTTP, router, DOM, `infrastructure`            |
+| `infrastructure` | own `domain`/`application`, `shared*`             | `presentation`                                 |
+| `presentation`   | own layers, `shared*`, other features' `index.ts` | `infrastructure`                               |
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Two key ideas:
 
-```bash
-ng generate component component-name
+1. **The domain is framework-agnostic.** It declares ports (`ResumeRepository`)
+   as interfaces; Angular adapters live in `infrastructure`. Observable consequence: `npm run test:domain` runs the whole domain suite in node.
+2. **A feature is a black box.** From the outside only `features/<feature>/index.ts`
+   is visible; the feature exports its own providers (`provideProjectsFeature()`), so the composition root wires it without knowing about its infrastructure.
+
+The full rulebook — including the decisions that were verified by deliberately breaking them — lives in [docs/architecture.md](docs/architecture.md); the domain model rationale is in [docs/domain-plan.md](docs/domain-plan.md).
+
+---
+
+## Project Structure
+
+```
+src/
+  main.ts                          # bootstrap
+  app/
+    app.ts | app.config.ts | app.routes.ts   # entry point and composition root
+    layout/                        # app shell: header, footer
+    pages/                         # pages composing several features (landing)
+    shared/
+      kernel/                      # pure core: Result, branded types, base VOs
+      i18n/                        # Transloco: provideI18n(), LocaleService, en/ru
+      testing/                     # test helpers (must/mustFail)
+    features/
+      resume/                      # the resume document: aggregate, invariants
+      projects/                    # project showcase
+      contact/                     # contact channels
+      certificates/                # certificates page
+        domain/                    # entities, value objects, ports — 0 framework imports
+        application/               # use-cases, feature state
+        infrastructure/            # port adapters, content mappers
+        presentation/              # components and pages
+        index.ts                   # the feature's public API — the only door in
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+## Development
+
+### Prerequisites
+
+- Node.js with npm 11 (see `packageManager` in `package.json`)
+
+### Setup
+
+```sh
+git clone https://github.com/C3EQUALZz/portfolio
+cd portfolio
+npm ci        # also installs git hooks via husky
+npm start     # dev server on http://localhost:4200
 ```
 
-## Building
+### Everyday commands
 
-To build the project run:
-
-```bash
-ng build
+```sh
+npm run test:ci        # unit tests + coverage thresholds (80%)
+npm run test:domain    # pure-layer tests in node (95% thresholds)
+npm run e2e            # Playwright, boots the dev server itself
+npm run build          # production build into dist/
+npm run verify:quick   # types + architecture + dead code (the pre-commit gate)
+npm run verify         # everything — the same as pre-push and CI
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+The split is deliberate: pre-commit stays fast enough that nobody reaches for
+`--no-verify`, while pre-push runs the full battery.
 
-## Running unit tests
+---
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Continuous Integration
 
-```bash
-ng test
-```
+| Workflow                     | What it guards                                                                                                                                                                                |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ci.yml`                     | Format, ESLint (SARIF upload), types & templates, architecture graph, dead code & duplication, tests with coverage, build & size budget, Playwright E2E — and deploy to GitHub Pages on green |
+| `codeql.yml`                 | CodeQL analysis for JavaScript/TypeScript                                                                                                                                                     |
+| `dependency-review.yml`      | Blocks PRs introducing known-vulnerable dependencies                                                                                                                                          |
+| `pr-title.yml`               | Conventional Commits on the PR title, which becomes the squash commit                                                                                                                         |
+| `labeler.yml` / `labels.yml` | Path-based PR labels                                                                                                                                                                          |
+| `zizmor.yml`                 | Static security analysis of the workflows themselves                                                                                                                                          |
 
-## Running end-to-end tests
+Third-party actions are pinned to a full commit SHA. SonarCloud analyzes every PR. Dependencies are kept current by Dependabot, in grouped PRs.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## Contributing
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Project rules for humans and agents alike live in **[AGENTS.md](AGENTS.md)** — layer boundaries, naming, testing rules, and where the domain docs are.
