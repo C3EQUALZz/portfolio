@@ -38,6 +38,7 @@
     }
   },
   "files": [],
+  "include": ["e2e/**/*.ts", "playwright.config.ts"],
   "references": [
     {
       "path": "./tsconfig.app.json"

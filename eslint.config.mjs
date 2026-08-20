@@ -637,7 +637,7 @@ export default tseslint.config(
 
   {
     name: 'project/tests',
-    files: ['**/*.spec.ts', '**/*.test.ts'],
+    files: ['src/**/*.spec.ts', 'src/**/*.test.ts'],
     plugins: { vitest },
     languageOptions: {
       globals: vitest.environments.env.globals,
@@ -666,6 +666,16 @@ export default tseslint.config(
       'sonarjs/cognitive-complexity': 'off',
       'no-restricted-globals': 'off',
       'boundaries/no-unknown-files': 'off',
+    },
+  },
+  {
+    // Playwright e2e specs: long describes and nested callbacks are idiomatic there.
+    name: 'project/e2e',
+    files: ['e2e/**/*.ts'],
+    rules: {
+      'max-lines': 'off',
+      'max-lines-per-function': 'off',
+      'max-nested-callbacks': 'off',
     },
   },
   {

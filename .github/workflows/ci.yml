@@ -153,6 +153,31 @@ jobs:
       - run: npm run build
       - run: npm run size
 
+  # Browser tests against `ng serve`; Playwright's webServer starts it.
+  e2e:
+    name: E2E (Playwright)
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci --ignore-scripts
+      # Explicit install: --ignore-scripts skips any postinstall browser download.
+      - run: npx playwright install --with-deps
+      - run: npm run e2e
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: playwright-report
+          path: playwright-report/
+          if-no-files-found: ignore
+
   commits:
     name: Commit messages
     if: github.event_name == 'pull_request'
@@ -179,7 +204,7 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-    needs: [format, lint, typecheck, architecture, quality, test, build]
+    needs: [format, lint, typecheck, architecture, quality, test, build, e2e]
     runs-on: ubuntu-latest
     permissions:
       pages: write

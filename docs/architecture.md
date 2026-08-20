@@ -65,6 +65,8 @@ npm run deadcode        # knip: неиспользуемые файлы/эксп
 npm run dupes           # jscpd: копипаста
 npm run test:ci         # тесты + пороги покрытия (80%)
 npm run test:domain     # быстрые тесты чистых слоёв (пороги 95%)
+npm run e2e             # Playwright (chromium/firefox/webkit), сам поднимает ng serve
+npm run e2e:ui          # Playwright UI mode; npm run e2e:report — HTML-отчёт последнего прогона
 npm run mutation        # Stryker по domain/application (медленно, вручную)
 npm run size            # бюджет бандла
 npm run verify:quick    # типы + архитектура + мёртвый код (то, что гоняет pre-commit)
