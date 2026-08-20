@@ -1,0 +1,15 @@
+# Normalize all text files to LF in the repository and on checkout.
+# Prettier (endOfLine: "lf") and the pre-push gate assume LF; without this,
+# core.autocrlf=true on Windows produces CRLF working copies that fail format checks.
+* text=auto eol=lf
+
+# Windows-only scripts stay CRLF if any appear
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary assets
+*.png binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
