@@ -21,7 +21,7 @@ import tseslint from 'typescript-eslint';
 const DOMAIN = 'src/app/features/*/domain/**/*.ts';
 const APPLICATION = 'src/app/features/*/application/**/*.ts';
 const INFRASTRUCTURE = 'src/app/features/*/infrastructure/**/*.ts';
-const UI = 'src/app/features/*/ui/**/*.ts';
+const PRESENTATION = 'src/app/features/*/presentation/**/*.ts';
 
 /** Browser APIs that must not leak outside the infrastructure layer. */
 const BROWSER_GLOBALS = [
@@ -179,7 +179,7 @@ export default tseslint.config(
             'domain',
             'application',
             'infrastructure',
-            'ui',
+            'presentation',
             ['parent', 'sibling', 'index'],
             'style',
             'unknown',
@@ -190,7 +190,7 @@ export default tseslint.config(
             { groupName: 'domain', elementNamePattern: '.*/domain/.*' },
             { groupName: 'application', elementNamePattern: '.*/application/.*' },
             { groupName: 'infrastructure', elementNamePattern: '.*/infrastructure/.*' },
-            { groupName: 'ui', elementNamePattern: '.*/ui/.*' },
+            { groupName: 'presentation', elementNamePattern: '.*/presentation/.*' },
           ],
         },
       ],
@@ -330,14 +330,17 @@ export default tseslint.config(
           pattern: 'src/app/features/*/infrastructure',
           capture: ['feature'],
         },
-        { type: 'feature-ui', pattern: 'src/app/features/*/ui', capture: ['feature'] },
+        {
+          type: 'feature-presentation',
+          pattern: 'src/app/features/*/presentation',
+          capture: ['feature'],
+        },
         // Feature root holds index.ts, the public API (see boundaries/files).
         { type: 'feature-root', pattern: 'src/app/features/*', capture: ['feature'] },
         { type: 'shared-kernel', pattern: 'src/app/shared/kernel' },
         // Test helpers (Result unwrapping etc.) — dependency-free, importable from any spec.
         { type: 'shared-testing', pattern: 'src/app/shared/testing' },
         { type: 'shared', pattern: 'src/app/shared' },
-        { type: 'core', pattern: 'src/app/core' },
         { type: 'app-shell', pattern: 'src/app' },
         { type: 'bootstrap', pattern: 'src' },
       ],
@@ -413,7 +416,7 @@ export default tseslint.config(
               allow: { to: { element: { types: { anyOf: ['shared-kernel', 'shared'] } } } },
             },
 
-            // infrastructure -> own inner layers + shared/core.
+            // infrastructure -> own inner layers + shared.
             {
               from: { element: { type: 'feature-infrastructure' } },
               allow: {
@@ -430,38 +433,40 @@ export default tseslint.config(
             {
               from: { element: { type: 'feature-infrastructure' } },
               allow: {
-                to: { element: { types: { anyOf: ['shared-kernel', 'shared', 'core'] } } },
+                to: { element: { types: { anyOf: ['shared-kernel', 'shared'] } } },
               },
             },
 
-            // ui -> own domain/application/ui + shared/core.
+            // presentation -> own domain/application/presentation + shared.
             {
-              from: { element: { type: 'feature-ui' } },
+              from: { element: { type: 'feature-presentation' } },
               allow: {
                 to: {
                   element: {
-                    types: { anyOf: ['feature-domain', 'feature-application', 'feature-ui'] },
+                    types: {
+                      anyOf: ['feature-domain', 'feature-application', 'feature-presentation'],
+                    },
                     captured: { feature: '{{ from.captured.feature }}' },
                   },
                 },
               },
             },
             {
-              from: { element: { type: 'feature-ui' } },
+              from: { element: { type: 'feature-presentation' } },
               allow: {
-                to: { element: { types: { anyOf: ['shared-kernel', 'shared', 'core'] } } },
+                to: { element: { types: { anyOf: ['shared-kernel', 'shared'] } } },
               },
             },
             {
-              from: { element: { type: 'feature-ui' } },
+              from: { element: { type: 'feature-presentation' } },
               disallow: { to: { element: { type: 'feature-infrastructure' } } },
               message:
-                'UI must not see infrastructure. Depend on an application port and wire the adapter through the feature provider.',
+                'Presentation must not see infrastructure. Depend on an application port and wire the adapter through the feature provider.',
             },
 
             // Other features are reachable only through their index.ts.
             {
-              from: { element: { type: 'feature-ui' } },
+              from: { element: { type: 'feature-presentation' } },
               allow: {
                 to: { element: { type: 'feature-root' }, file: { categories: 'feature-entry' } },
               },
@@ -478,7 +483,7 @@ export default tseslint.config(
                         'feature-domain',
                         'feature-application',
                         'feature-infrastructure',
-                        'feature-ui',
+                        'feature-presentation',
                       ],
                     },
                     captured: { feature: '{{ from.captured.feature }}' },
@@ -514,27 +519,19 @@ export default tseslint.config(
               allow: { to: { element: { type: 'shared-kernel' } } },
             },
 
-            // core is the composition root.
-            {
-              from: { element: { type: 'core' } },
-              allow: {
-                to: { element: { types: { anyOf: ['core', 'shared', 'shared-kernel'] } } },
-              },
-            },
-
             {
               from: { element: { types: { anyOf: ['app-shell', 'bootstrap'] } } },
               allow: {
                 to: {
                   element: {
-                    types: { anyOf: ['app-shell', 'core', 'shared', 'shared-kernel'] },
+                    types: { anyOf: ['app-shell', 'shared', 'shared-kernel'] },
                   },
                 },
               },
             },
-            // core, app-shell and bootstrap wire features via their public API.
+            // app-shell and bootstrap wire features via their public API.
             {
-              from: { element: { types: { anyOf: ['core', 'app-shell', 'bootstrap'] } } },
+              from: { element: { types: { anyOf: ['app-shell', 'bootstrap'] } } },
               allow: {
                 to: { element: { type: 'feature-root' }, file: { categories: 'feature-entry' } },
               },
@@ -602,7 +599,7 @@ export default tseslint.config(
                 '@angular/platform-browser/*',
               ],
               message:
-                'Application holds use-cases. HTTP, router and DOM belong to infrastructure/ui; depend on a port here.',
+                'Application holds use-cases. HTTP, router and DOM belong to infrastructure/presentation; depend on a port here.',
             },
           ],
         },
@@ -611,8 +608,8 @@ export default tseslint.config(
   },
   {
     // Components run longer than use-cases, but logic still belongs to application.
-    name: 'project/layer-ui',
-    files: [UI],
+    name: 'project/layer-presentation',
+    files: [PRESENTATION],
     rules: {
       'max-lines': ['error', { max: 250, skipBlankLines: true, skipComments: true }],
       'no-restricted-globals': [

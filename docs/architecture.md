@@ -2,43 +2,55 @@
 
 ## Структура
 
-Feature-first: единицей организации является фича, слои живут **внутри** неё.
+Feature-first: единицей организации является фича (bounded context), слои Clean
+Architecture живут **внутри** неё. Слой называется `presentation`, а не `ui` — тот же
+словарь, что в Clean Architecture на backend (`ui` слишком легко читается как
+«папка с кнопочками», а не как слой).
 
 ```
 src/
   main.ts                        # bootstrap
   app/
-    app.ts | app.config.ts | app.routes.ts   # app-shell
-    core/                        # composition root: DI-провайдеры, interceptors, guards
+    app.ts | app.config.ts | app.routes.ts   # точка входа и composition root
+    layout/                      # каркас приложения (app-shell): header, footer
+    pages/                       # страницы-композиции над несколькими фичами (landing)
     shared/
       kernel/                    # чистое ядро: Result, Brand-типы, базовые VO (без фреймворка)
-      ...                        # ui-kit и утилиты без бизнес-логики
+      i18n/                      # Transloco: provideI18n(), LocaleService, словари en/ru
+      testing/                   # тест-хелперы (must/mustFail)
     features/
       <feature>/
         domain/                  # сущности, value objects, порты (interface). 0 импортов фреймворка
         application/             # use-cases, состояние фичи. Работает только через порты
         infrastructure/          # адаптеры портов: HTTP, storage, мапперы
-        ui/                      # компоненты и страницы
+        presentation/            # компоненты и страницы
         index.ts                 # публичный API фичи — единственная дверь снаружу
 ```
 
+Имена топ-левела выбраны явно: `core` и `shell` не используются. `core` был
+слишком широким («всё app-wide»), а его единственное содержимое — i18n — по
+природе разделяемая инфраструктура, поэтому оно живёт в `shared/i18n`. `shell`
+путается с консольным shell; каркас страницы называется `layout`. Страница,
+принадлежащая одной фиче (например, `/certificates`), живёт в `presentation`
+своей фичи; в `pages/` попадают только композиции над несколькими фичами.
+
 ## Правила зависимостей
 
-Направление — только внутрь: `ui / infrastructure → application → domain`.
+Направление — только внутрь: `presentation / infrastructure → application → domain`.
 
-| Слой             | Может импортировать                                                        | Никогда                                                                |
-| ---------------- | -------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `domain`         | свой `domain`, `shared/kernel`                                             | `@angular/*`, `rxjs`, браузерные API, любые другие слои                |
-| `application`    | свой `domain`/`application`, `shared*`                                     | `@angular/common/http`, `@angular/router`, DOM, `infrastructure`, `ui` |
-| `infrastructure` | свой `domain`/`application`, `shared*`, `core`                             | `ui`                                                                   |
-| `ui`             | свой `domain`/`application`/`ui`, `shared*`, `core`, `index.ts` других фич | `infrastructure`                                                       |
-| `shared`         | `shared`, `shared/kernel`                                                  | что-либо из `features/`                                                |
-| `core`           | `core`, `shared*`, публичные API фич                                       | внутренности фич                                                       |
+| Слой             | Может импортировать                                                          | Никогда                                                                          |
+| ---------------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| `domain`         | свой `domain`, `shared/kernel`                                               | `@angular/*`, `rxjs`, браузерные API, любые другие слои                          |
+| `application`    | свой `domain`/`application`, `shared*`                                       | `@angular/common/http`, `@angular/router`, DOM, `infrastructure`, `presentation` |
+| `infrastructure` | свой `domain`/`application`, `shared*`                                       | `presentation`                                                                   |
+| `presentation`   | свой `domain`/`application`/`presentation`, `shared*`, `index.ts` других фич | `infrastructure`                                                                 |
+| `shared`         | `shared`, `shared/kernel`                                                    | что-либо из `features/`                                                          |
+| `layout`/`pages` | `shared*`, публичные API фич (`index.ts`)                                    | внутренности фич                                                                 |
 
 Две ключевые идеи:
 
 1. **Домен framework-agnostic.** Ему нужен `UserRepository` — он объявляет `interface`, а Angular-реализация живёт в `infrastructure`. Проверяемое следствие: тесты домена запускаются в node-окружении за миллисекунды (`npm run test:domain`).
-2. **Фича — чёрный ящик.** Снаружи доступен только `features/<feature>/index.ts`; deep-import во внутренности другой фичи запрещён. Провайдеры фича экспортирует сама (`provideProjectsFeature()`), поэтому `core` подключает её, не зная про `infrastructure`.
+2. **Фича — чёрный ящик.** Снаружи доступен только `features/<feature>/index.ts`; deep-import во внутренности другой фичи запрещён. Провайдеры фича экспортирует сама (`provideProjectsFeature()`), поэтому composition root (`app.config.ts`) подключает её, не зная про `infrastructure`.
 
 ## Как это проверяется
 
@@ -90,11 +102,11 @@ npm run verify          # всё вместе — то же, что делает
 - **Без TS path aliases.** `boundaries` резолвит только реальные пути, поэтому импорты относительные — заодно `../../features/other` выглядит подозрительно, а `@features/other` маскировался бы. Единственный барrel — `features/<feature>/index.ts` (правило `check-file/no-index` запрещает остальные).
 - **Без `enum`** (`erasableSyntaxOnly`): union-типы или `as const`.
 - **Warning'ов не существует**: всё `error`, `--max-warnings=0`. Не готов чинить — выключай явно, с описанием причины (`require-description`).
-- **Строгость по слоям**: `domain` — сложность ≤ 6, покрытие 95%; `ui` — мягче; тесты — без type-aware строгости.
+- **Строгость по слоям**: `domain` — сложность ≤ 6, покрытие 95%; `presentation` — мягче; тесты — без type-aware строгости.
 
 ## Решения, которые стоит помнить
 
-Всё ниже проверено на пробных нарушениях (домен с `@angular/core`, UI → infrastructure,
+Всё ниже проверено на пробных нарушениях (домен с `@angular/core`, presentation → infrastructure,
 deep-import в чужую фичу, `localStorage` в use-case) — каждое ловится минимум одним инструментом.
 
 - **Запрет пакетов ≠ boundaries.** В `eslint-plugin-boundaries@7` разрешающая политика
@@ -119,7 +131,7 @@ deep-import в чужую фичу, `localStorage` в use-case) — каждое
 - **Правило `shared-kernel-is-pure` в dependency-cruiser исключает `*.spec.ts`.** Иначе
   оно запрещает спекам импортировать vitest. Та же оговорка нужна любому правилу
   «слой ни от чего не зависит» при появлении спек в этом слое. Спеки освобождены и от
-  слоевых запретов (`ui → infrastructure` и т.п.): они проверяют связывание на реальном
+  слоевых запретов (`presentation → infrastructure` и т.п.): они проверяют связывание на реальном
   контенте, а не на тест-дублях.
 - **Keyframes живут глобально в `styles.css`, поэтому `no-unknown-animations` выключено.**
   Правило stylelint проверяет анимации по одному файлу и не видит глобальные

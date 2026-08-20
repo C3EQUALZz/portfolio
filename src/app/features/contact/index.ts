@@ -5,7 +5,7 @@ import { CONTACT_BOOK } from './application/contact-book-store/contact-book-stor
 import { contactContent } from './infrastructure/content/contact-content';
 import { toContactBook } from './infrastructure/content/to-contact-book';
 
-export { ContactSection } from './ui/contact-section/contact-section';
+export { ContactSection } from './presentation/contact-section/contact-section';
 
 /**
  * Provides the validated ContactBook. The content is static and covered by

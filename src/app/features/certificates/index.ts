@@ -5,7 +5,7 @@ import { CERTIFICATES } from './application/certificates-store/certificates-stor
 import { certificatesContent } from './infrastructure/content/certificates-content';
 import { toCertificates } from './infrastructure/content/to-certificates';
 
-export { CertificatesPage } from './ui/certificates-page/certificates-page';
+export { CertificatesPage } from './presentation/certificates-page/certificates-page';
 
 /**
  * Provides the validated certificates. The content is static and covered by

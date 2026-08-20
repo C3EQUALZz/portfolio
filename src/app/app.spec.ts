@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { App } from './app';
-import { provideI18n } from './core/i18n/provide-i18n';
 import { provideCertificatesFeature } from './features/certificates';
 import { provideContactFeature } from './features/contact';
 import { provideProjectsFeature } from './features/projects';
 import { provideResumeFeature } from './features/resume';
+import { provideI18n } from './shared/i18n/provide-i18n';
 
 describe('App', () => {
   beforeEach(async () => {

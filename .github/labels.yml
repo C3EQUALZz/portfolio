@@ -41,7 +41,7 @@
 - name: 'layer: infrastructure'
   color: 1d76db
   description: Adapters, static content
-- name: 'layer: ui'
+- name: 'layer: presentation'
   color: 1d76db
   description: Components, templates, styles
 

@@ -28,8 +28,9 @@ body:
         - projects
         - contact
         - certificates
-        - shell (шапка, подвал, роутинг)
-        - core (i18n, локали)
+        - layout (шапка, подвал)
+        - pages (лендинг, роутинг)
+        - shared (kernel, i18n, локали)
         - tooling (линтеры, тесты, CI)
         - Не уверен
     validations:

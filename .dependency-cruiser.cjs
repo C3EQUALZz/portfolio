@@ -99,24 +99,24 @@ module.exports = {
       name: 'application-does-not-depend-on-outer-layers',
       severity: 'error',
       comment:
-        'Dependencies point inwards: application cannot see infrastructure or ui. Specs are exempt: they verify the wiring against the real content.',
+        'Dependencies point inwards: application cannot see infrastructure or presentation. Specs are exempt: they verify the wiring against the real content.',
       from: { path: `${FEATURE}/application/`, pathNot: String.raw`\.spec\.ts$` },
-      to: { path: `${FEATURE}/(infrastructure|ui)/` },
+      to: { path: `${FEATURE}/(infrastructure|presentation)/` },
     },
     {
-      name: 'ui-does-not-touch-infrastructure',
+      name: 'presentation-does-not-touch-infrastructure',
       severity: 'error',
       comment:
-        'UI depends on an application port; the adapter is wired by the feature DI provider. Specs are exempt: they verify the wiring against the real content.',
-      from: { path: `${FEATURE}/ui/`, pathNot: String.raw`\.spec\.ts$` },
+        'Presentation depends on an application port; the adapter is wired by the feature DI provider. Specs are exempt: they verify the wiring against the real content.',
+      from: { path: `${FEATURE}/presentation/`, pathNot: String.raw`\.spec\.ts$` },
       to: { path: `${FEATURE}/infrastructure/` },
     },
     {
-      name: 'infrastructure-does-not-depend-on-ui',
+      name: 'infrastructure-does-not-depend-on-presentation',
       severity: 'error',
       comment: 'An adapter does not know who renders it.',
       from: { path: `${FEATURE}/infrastructure/` },
-      to: { path: `${FEATURE}/ui/` },
+      to: { path: `${FEATURE}/presentation/` },
     },
     {
       name: 'no-deep-import-across-features',
@@ -125,7 +125,7 @@ module.exports = {
         'Another feature is a black box. Import only its public API: features/<feature>/index.ts.',
       from: { path: `${FEATURE}/` },
       to: {
-        path: String.raw`^src/app/features/[^/]+/(domain|application|infrastructure|ui)/`,
+        path: String.raw`^src/app/features/[^/]+/(domain|application|infrastructure|presentation)/`,
         pathNot: String.raw`^src/app/features/$1/`,
       },
     },
@@ -147,8 +147,8 @@ module.exports = {
     {
       name: 'http-only-in-infrastructure',
       severity: 'error',
-      comment: 'HttpClient belongs to infrastructure and core (interceptors, providers) only.',
-      from: { path: '^src/app/', pathNot: [`${FEATURE}/infrastructure/`, '^src/app/core/'] },
+      comment: 'HttpClient belongs to feature infrastructure only.',
+      from: { path: '^src/app/', pathNot: [`${FEATURE}/infrastructure/`] },
       to: { dependencyTypes: ['npm'], path: '^node_modules/@angular/common/http' },
     },
 
@@ -205,15 +205,18 @@ module.exports = {
             { criteria: { source: '/domain/' }, attributes: { fillcolor: '#c8e6c9' } },
             { criteria: { source: '/application/' }, attributes: { fillcolor: '#bbdefb' } },
             { criteria: { source: '/infrastructure/' }, attributes: { fillcolor: '#ffe0b2' } },
-            { criteria: { source: '/ui/' }, attributes: { fillcolor: '#f8bbd0' } },
+            { criteria: { source: '/presentation/' }, attributes: { fillcolor: '#f8bbd0' } },
             { criteria: { source: '^src/app/shared/' }, attributes: { fillcolor: '#e1bee7' } },
-            { criteria: { source: '^src/app/core/' }, attributes: { fillcolor: '#cfd8dc' } },
+            {
+              criteria: { source: '^src/app/(layout|pages)/' },
+              attributes: { fillcolor: '#cfd8dc' },
+            },
           ],
         },
       },
       archi: {
         collapsePattern:
-          '^src/app/(features/[^/]+/(domain|application|infrastructure|ui)|core|shared(/kernel)?)',
+          '^src/app/(features/[^/]+/(domain|application|infrastructure|presentation)|layout|pages|shared(/kernel|/i18n)?)',
       },
     },
   },

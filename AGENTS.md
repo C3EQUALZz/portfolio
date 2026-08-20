@@ -1,7 +1,7 @@
 # Portfolio
 
 Персональный лендинг-резюме. Angular 22, feature-first структура со слоями
-`domain / application / infrastructure / ui` внутри каждой фичи. См. `docs/architecture.md`
+`domain / application / infrastructure / presentation` внутри каждой фичи. См. `docs/architecture.md`
 (правила зависимостей, команды проверки) и `docs/domain-plan.md` (доменная модель).
 
 Языки: код и комментарии в коде (включая сообщения ошибок) — на английском;

@@ -27,7 +27,7 @@ reviews:
     - path: 'src/app/features/*/domain/**'
       instructions: >-
         Доменный слой фичи. Чистый TypeScript: никаких импортов из Angular,
-        application, infrastructure или ui, никакого IO и new Date().
+        application, infrastructure или presentation, никакого IO и new Date().
         Фабрики возвращают Result и проверяют инварианты; примитивы
         (YearMonth, LocalizedText, HttpsUrl) приходят из shared/kernel.
         Комментарии и сообщения ошибок — на английском.
@@ -52,9 +52,9 @@ reviews:
         должна указывать путь вроде "certificates[2]". Помечай, если
         разбор контента проглатывает ошибку вместо err().
 
-    - path: 'src/app/features/*/ui/**'
+    - path: 'src/app/features/*/presentation/**'
       instructions: >-
-        UI-слой: standalone-компоненты, OnPush, сигналы. Переводы только
+        Слой представления: standalone-компоненты, OnPush, сигналы. Переводы только
         через translateSignal — Transloco pipe под zoneless не
         перерисовывает. Динамические ключи внутри computed —
         transloco.translate. Помечай логику в шаблонах (лимит цикломатической

@@ -14,12 +14,12 @@
   - changed-files:
       - any-glob-to-any-file: 'src/app/features/*/infrastructure/**'
 
-'layer: ui':
+'layer: presentation':
   - changed-files:
       - any-glob-to-any-file:
-          - 'src/app/features/*/ui/**'
-          - 'src/app/shell/**'
-          - 'src/app/landing/**'
+          - 'src/app/features/*/presentation/**'
+          - 'src/app/layout/**'
+          - 'src/app/pages/**'
           - 'src/styles.css'
 
 'area: tests':

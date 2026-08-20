@@ -4,11 +4,11 @@ import { RESUME_REPOSITORY } from './application/resume-store/resume-store';
 
 import { staticResumeRepository } from './infrastructure/content/static-resume-repository';
 
-export { AboutSection } from './ui/about/about-section';
-export { EducationSection } from './ui/education/education-section';
-export { ExperienceSection } from './ui/experience/experience-section';
-export { Hero } from './ui/hero/hero';
-export { StackSection } from './ui/stack/stack-section';
+export { AboutSection } from './presentation/about/about-section';
+export { EducationSection } from './presentation/education/education-section';
+export { ExperienceSection } from './presentation/experience/experience-section';
+export { Hero } from './presentation/hero/hero';
+export { StackSection } from './presentation/stack/stack-section';
 
 /**
  * Wires the domain port to the current adapter. Swapping the content source
