@@ -56,9 +56,9 @@ test.describe('certificates page', () => {
     await page.locator('button.card', { hasText: 'AL-1703' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
 
-    // The backdrop covers the viewport behind the dialog; click its corner,
-    // away from the dialog and its iframe.
-    await page.locator('.backdrop').click({ position: { x: 8, y: 8 } });
+    // The ::backdrop covers the viewport behind the dialog; the browser
+    // retargets clicks on it to the <dialog> element itself.
+    await page.mouse.click(8, 8);
     await expect(page.getByRole('dialog')).toHaveCount(0);
   });
 });

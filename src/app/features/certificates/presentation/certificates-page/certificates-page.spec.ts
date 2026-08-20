@@ -24,7 +24,7 @@ describe('CertificatesPage', () => {
       node.textContent.trim(),
     );
     expect(blocks).toEqual(['Professional certifications', 'Courses', 'Hackathons']);
-    expect(element.querySelectorAll('.card').length).toBe(10);
+    expect(element.querySelectorAll('.card')).toHaveLength(10);
   });
 
   it('opens the PDF viewer when a pdf card is clicked', async () => {

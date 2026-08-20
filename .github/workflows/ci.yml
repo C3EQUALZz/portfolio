@@ -168,7 +168,8 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       # Explicit install: --ignore-scripts skips any postinstall browser download.
-      - run: npx playwright install --with-deps
+      # Local binary installed by npm ci: the version is locked by package-lock.json.
+      - run: ./node_modules/.bin/playwright install --with-deps
       - run: npm run e2e
       - name: Upload Playwright report
         if: failure()
