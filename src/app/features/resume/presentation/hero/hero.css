@@ -55,7 +55,7 @@
   align-items: center;
   margin: 0 0 28px;
   font-size: 12px;
-  color: color-mix(in srgb, var(--color-text) 60%, transparent);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.09em;
 }
@@ -68,19 +68,20 @@
   height: 7px;
 }
 
-.pulse-wave {
+.pulse-wave,
+.pulse-core {
   position: absolute;
   inset: 0;
-  background: var(--color-accent-400);
   border-radius: 50%;
+}
+
+.pulse-wave {
+  background: var(--color-accent-400);
   animation: nc-pulse 2.6s ease-out infinite;
 }
 
 .pulse-core {
-  position: absolute;
-  inset: 0;
   background: var(--color-accent);
-  border-radius: 50%;
 }
 
 .relocates {
@@ -106,7 +107,7 @@
 .role {
   display: block;
   overflow: hidden;
-  color: var(--color-accent-300);
+  color: var(--color-accent-text);
   white-space: nowrap;
 }
 
@@ -133,7 +134,7 @@
   margin: 0 0 40px;
   font-size: 16px;
   line-height: 1.65;
-  color: color-mix(in srgb, var(--color-text) 66%, transparent);
+  color: var(--color-text-secondary);
   text-wrap: pretty;
 }
 
@@ -160,7 +161,7 @@
 }
 
 .cta-primary {
-  color: var(--color-accent-200);
+  color: var(--color-accent-text-strong);
   border: 1px solid var(--color-accent);
 }
 
@@ -171,7 +172,7 @@
 
 .cta-secondary {
   color: color-mix(in srgb, var(--color-text) 82%, transparent);
-  border: 1px solid var(--color-neutral-800);
+  border: 1px solid var(--color-border-strong);
 }
 
 .cta-secondary:hover {
@@ -182,7 +183,7 @@
 .experience {
   margin: 28px 0 0;
   font-size: 13px;
-  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+  color: var(--color-text-muted);
 }
 
 /* — technology ring — */

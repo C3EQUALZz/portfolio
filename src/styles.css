@@ -3,12 +3,32 @@
    never raw hex. */
 
 :root {
+  color-scheme: dark;
+
   --color-bg: #161826;
   --color-surface: #232532;
   --color-text: #e9e9ed;
   --color-accent: #9184d9;
   --color-accent-2: #a7a1db;
   --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+
+  /* Role tokens — the only ramp-dependent colors components may reference.
+     Each theme assigns its own values; components stay theme-blind. */
+  --color-accent-text: var(--color-accent-300);
+  --color-accent-text-strong: var(--color-accent-200);
+  --color-accent-surface: var(--color-accent-900);
+  --color-accent-border: var(--color-accent-800);
+  --color-chip-text: var(--color-neutral-300);
+  --color-chip-surface: var(--color-neutral-900);
+  --color-border-strong: var(--color-neutral-800);
+
+  /* Muted text tiers. Floors are WCAG AA-driven: 56% passes on the dark
+     surface, 68% on white. */
+  --color-text-secondary: color-mix(in srgb, var(--color-text) 64%, transparent);
+  --color-text-muted: color-mix(in srgb, var(--color-text) 56%, transparent);
+
+  /* Dark-on-transparent logos are inverted on the dark theme only. */
+  --icon-invert: 1;
 
   /* Tonal ramps — one shared lightness scale, so the same step of any role
      matches the others in visual value. */
@@ -50,6 +70,38 @@
   --shadow-sm: 0 0 0 1px #3f424d;
   --shadow-md: 0 0 0 1px #595d6c, 0 6px 18px rgb(0 0 0 / 55%);
   --shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgb(0 0 0 / 65%);
+}
+
+/* Light theme: same cold violet-tinted system, day variant. The ramps stay
+   fixed ("900 = dark" everywhere); only the semantic and role tokens flip.
+   Set by the bootstrap script in index.html, switched by ThemeService. */
+:root[data-theme='light'] {
+  color-scheme: light;
+
+  --color-bg: #f3f5fe;
+  --color-surface: #fff;
+  --color-text: #292b31;
+  --color-accent: #6a58b5;
+  --color-accent-2: #968ae0;
+  --color-divider: color-mix(in srgb, #292b31 14%, transparent);
+
+  --color-accent-text: var(--color-accent);
+  --color-accent-text-strong: var(--color-accent-700);
+  --color-accent-surface: var(--color-accent-200);
+  --color-accent-border: var(--color-accent-300);
+  --color-chip-text: var(--color-neutral-700);
+  --color-chip-surface: var(--color-neutral-200);
+  --color-border-strong: var(--color-neutral-300);
+
+  --color-text-secondary: color-mix(in srgb, var(--color-text) 70%, transparent);
+  --color-text-muted: color-mix(in srgb, var(--color-text) 68%, transparent);
+
+  --icon-invert: 0;
+
+  /* Soft drop shadows with a faint accent tint instead of dark-theme rings. */
+  --shadow-sm: 0 0 0 1px rgb(41 43 49 / 8%);
+  --shadow-md: 0 0 0 1px rgb(41 43 49 / 6%), 0 6px 18px rgb(43 39 65 / 10%);
+  --shadow-lg: 0 0 0 1px rgb(41 43 49 / 8%), 0 16px 40px rgb(43 39 65 / 14%);
 }
 
 /* Template motion signatures (Portfolio.dc.html). */
@@ -156,6 +208,9 @@ body {
   line-height: 1.55;
   color: var(--color-text);
   background: var(--color-bg);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 h1,
@@ -187,7 +242,7 @@ a {
 }
 
 a:hover {
-  color: var(--color-accent-300);
+  color: var(--color-accent-text);
 }
 
 :focus {
@@ -213,22 +268,22 @@ a:hover {
 
 .kicker {
   margin: 0 0 14px;
-  color: var(--color-accent-300);
+  color: var(--color-accent-text);
 }
 
 .block-title {
   padding-bottom: 10px;
   margin: 0 0 16px;
   font-size: 12px;
-  color: color-mix(in srgb, var(--color-text) 50%, transparent);
+  color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   border-bottom: 1px solid var(--color-divider);
 }
 
 .chip-lead {
-  color: var(--color-accent-300);
-  background: var(--color-accent-900);
+  color: var(--color-accent-text);
+  background: var(--color-accent-surface);
   border-color: color-mix(in srgb, var(--color-accent) 26%, transparent);
 }
 

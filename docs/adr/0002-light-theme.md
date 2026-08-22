@@ -31,13 +31,24 @@ of a design interview; this ADR is the contract for the implementation.
   on white) and "accent tint surface" (`accent-900`/`accent-800` as badge/chip
   background and border — dark blobs on light). New tokens, defined in both theme
   blocks:
-  - `--color-accent-text` — dark: `accent-300` → light: `accent-600/700`
-  - `--color-accent-surface` — dark: `accent-900` → light: `accent-100/200`
+  - `--color-accent-text` — dark: `accent-300` → light: the darkened accent
+  - `--color-accent-text-strong` — dark: `accent-200` → light: `accent-700`
+  - `--color-accent-surface` — dark: `accent-900` → light: `accent-200`
   - `--color-accent-border` — dark: `accent-800` → light: `accent-300`
-  - `--color-chip-bg`, `--color-chip-border` — for the hero tech-ring chips
-    (fixes the raw `#fff` alpha overlay in `tech-chip.css`)
+  - `--color-chip-text` / `--color-chip-surface` — the filled neutral chip
+    (stack chips, experience clusters): dark `neutral-300` on `neutral-900` →
+    light `neutral-700` on `neutral-200`
+  - `--color-border-strong` — every `neutral-800` border → light `neutral-300`
+  - `--color-text-secondary` / `--color-text-muted` — muted text tiers with
+    WCAG-AA-driven floors (dark 64%/56%, light 70%/68%); the axe-core contrast
+    check caught that the old 40–62% alpha blends fail AA, worst on white
   - `--icon-invert` — `1` dark / `0` light, drives `filter: invert()` for the
     serde icon instead of a hardcoded `invert(1)`
+
+  The hero ring chips need no tokens at all: their translucent overlay switched
+  from raw `#fff` alpha to `color-mix(in srgb, var(--color-text) 6%, transparent)`,
+  which adapts to both themes by itself.
+
 - **Full component migration (~12 CSS files).** Every direct reference to
   `accent-300/800/900` in component styles moves to the new tokens. The dark-theme
   values equal the current ones, so the migration is a zero-regression mechanical

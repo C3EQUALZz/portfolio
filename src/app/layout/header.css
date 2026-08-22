@@ -7,6 +7,9 @@
   background: color-mix(in srgb, var(--color-bg) 82%, transparent);
   border-bottom: 1px solid var(--color-divider);
   backdrop-filter: blur(14px);
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .header-nav {
@@ -52,14 +55,14 @@
 }
 
 .links a {
-  color: color-mix(in srgb, var(--color-text) 62%, transparent);
+  color: var(--color-text-secondary);
   text-decoration: none;
   transition: color 0.25s;
 }
 
 .links a:hover,
 .links a.link-active {
-  color: var(--color-accent-300);
+  color: var(--color-accent-text);
 }
 
 .locale-switch {
@@ -72,7 +75,7 @@
   padding: 4px 8px;
   font: inherit;
   font-size: 12px;
-  color: color-mix(in srgb, var(--color-text) 55%, transparent);
+  color: var(--color-text-muted);
   text-transform: uppercase;
   cursor: pointer;
   background: transparent;
@@ -86,6 +89,27 @@
 }
 
 .locale-active {
-  color: var(--color-accent-300);
-  border-color: var(--color-accent-800);
+  color: var(--color-accent-text);
+  border-color: var(--color-accent-border);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  font-size: 15px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: color 0.25s;
+}
+
+.theme-toggle:hover {
+  color: var(--color-text);
 }

@@ -14,6 +14,8 @@ export const EN_TRANSLATIONS = {
   },
   header: {
     brand: 'Portfolio',
+    themeToLight: 'Switch to light theme',
+    themeToDark: 'Switch to dark theme',
   },
   hero: {
     ctaWork: 'Selected work',

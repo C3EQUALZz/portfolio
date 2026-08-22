@@ -33,7 +33,7 @@
 
 .kicker {
   margin: 0 0 14px;
-  color: var(--color-accent-300);
+  color: var(--color-accent-text);
 }
 
 .title {
@@ -47,7 +47,7 @@
   max-width: 52ch;
   margin: 0 0 40px;
   font-size: 16px;
-  color: color-mix(in srgb, var(--color-text) 64%, transparent);
+  color: var(--color-text-secondary);
 }
 
 .channels {
@@ -64,7 +64,7 @@
   font-size: 14.5px;
   color: color-mix(in srgb, var(--color-text) 82%, transparent);
   text-decoration: none;
-  border: 1px solid var(--color-neutral-800);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-md);
   transition:
     background 0.25s,
@@ -83,12 +83,12 @@
 }
 
 .channel-preferred {
-  color: var(--color-accent-200);
+  color: var(--color-accent-text-strong);
   border-color: var(--color-accent);
 }
 
 .channel-preferred:hover {
-  color: var(--color-accent-200);
+  color: var(--color-accent-text-strong);
   background: color-mix(in srgb, var(--color-accent) 16%, transparent);
   transform: translateY(-2px);
 }

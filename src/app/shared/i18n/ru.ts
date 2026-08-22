@@ -12,6 +12,8 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
   },
   header: {
     brand: 'Портфолио',
+    themeToLight: 'Переключиться на светлую тему',
+    themeToDark: 'Переключиться на тёмную тему',
   },
   hero: {
     ctaWork: 'Выбранные проекты',

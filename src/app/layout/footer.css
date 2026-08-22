@@ -8,5 +8,5 @@
 .footer-note {
   margin: 0;
   font-size: 12px;
-  color: color-mix(in srgb, var(--color-text) 42%, transparent);
+  color: var(--color-text-muted);
 }

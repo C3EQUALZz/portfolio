@@ -5,6 +5,23 @@
     <title>Danil Kovalev — Backend Engineer</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#161826" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f3f5fe" />
+    <script>
+      // Resolves the theme before first paint: the stored explicit choice wins,
+      // otherwise the OS preference. Keeps ThemeService's initial signal in sync.
+      try {
+        const stored = localStorage.getItem('theme');
+        document.documentElement.dataset.theme =
+          stored === 'light' || stored === 'dark'
+            ? stored
+            : matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+      } catch {
+        document.documentElement.dataset.theme = 'dark';
+      }
+    </script>
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
