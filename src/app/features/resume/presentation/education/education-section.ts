@@ -2,13 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { translateSignal, TranslocoService } from '@jsverse/transloco';
 
-import { ResumeStore } from '../../application/resume-store/resume-store';
+import { GetEducationHandler } from '../../application/queries/get-education/get-education';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 
 interface EducationItem {
   readonly institution: string;
@@ -30,35 +26,33 @@ interface LanguageItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EducationSection {
-  protected readonly store = inject(ResumeStore);
+  private readonly getEducation = inject(GetEducationHandler);
   private readonly localeService = inject(LocaleService);
   private readonly transloco = inject(TranslocoService);
 
   protected readonly kicker = translateSignal('education.title');
   protected readonly languagesTitle = translateSignal('education.languagesTitle');
 
+  private readonly overview = this.getEducation.handle({ kind: 'getEducation' });
+
   protected readonly education = computed<readonly EducationItem[]>(
     () =>
-      this.store.data()?.education.map((item) => ({
-        institution: this.pick(item.institution),
-        program: this.pick(item.program),
-        city: this.pick(item.city),
+      this.overview()?.education.map((item) => ({
+        institution: this.localeService.pick(item.institution),
+        program: this.localeService.pick(item.program),
+        city: this.localeService.pick(item.city),
         graduationYear: item.graduationYear,
       })) ?? [],
   );
 
   protected readonly languages = computed<readonly LanguageItem[]>(
     () =>
-      this.store.data()?.languages.map((item) => ({
-        name: this.pick(item.language),
+      this.overview()?.languages.map((item) => ({
+        name: this.localeService.pick(item.language),
         levelText:
           item.level === 'native'
             ? this.transloco.translate('education.native')
             : item.level.toUpperCase(),
       })) ?? [],
   );
-
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
-  }
 }

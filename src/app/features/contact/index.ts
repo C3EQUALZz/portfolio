@@ -1,6 +1,6 @@
 import type { EnvironmentProviders, Provider } from '@angular/core';
 
-import { CONTACT_BOOK } from './application/contact-book-store/contact-book-store';
+import { CONTACT_BOOK } from './application/queries/get-contact-channels/get-contact-channels';
 
 import { contactContent } from './infrastructure/content/contact-content';
 import { toContactBook } from './infrastructure/content/to-contact-book';

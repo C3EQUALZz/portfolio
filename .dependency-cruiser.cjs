@@ -216,7 +216,7 @@ module.exports = {
       },
       archi: {
         collapsePattern:
-          '^src/app/(features/[^/]+/(domain|application|infrastructure|presentation)|layout|pages|shared(/kernel|/i18n)?)',
+          '^src/app/(features/[^/]+/(domain|application|infrastructure|presentation)|layout|pages|shared(/kernel|/i18n|/cqs)?)',
       },
     },
   },

@@ -2,15 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { translateSignal, TranslocoService } from '@jsverse/transloco';
 
-import { showcasedProject } from '../../domain/showcased-project/showcased-project';
-
-import { ProjectsStore } from '../../application/projects-store/projects-store';
+import { ListProjectsHandler } from '../../application/queries/list-projects/list-projects';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 
 /** The Phosphor icon per project — presentational, keyed by slug. */
 const PROJECT_ICON: Record<string, string> = {
@@ -43,7 +37,7 @@ interface ProjectCard {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsSection {
-  protected readonly store = inject(ProjectsStore);
+  private readonly listProjects = inject(ListProjectsHandler);
   private readonly localeService = inject(LocaleService);
   private readonly transloco = inject(TranslocoService);
 
@@ -52,26 +46,23 @@ export class ProjectsSection {
   protected readonly subtitlePre = translateSignal('work.subtitlePre');
   protected readonly subtitlePost = translateSignal('work.subtitlePost');
 
+  private readonly items = this.listProjects.handle({ kind: 'listProjects' });
+
   protected readonly cards = computed<readonly ProjectCard[]>(
     () =>
-      this.store.data()?.map((project) => {
-        const showcased = showcasedProject.of(project);
+      this.items()?.map(({ project, snapshot }) => {
         return {
           id: project.id,
           name: project.name,
-          tagline: this.pick(project.tagline),
-          description: this.pick(project.description),
+          tagline: this.localeService.pick(project.tagline),
+          description: this.localeService.pick(project.description),
           repository: project.repository,
           language: project.language.name,
           kindText: this.transloco.translate(`work.kind.${project.kind}`),
-          topics: project.topics.map((topic) => this.pick(topic.label)).join(' · '),
+          topics: project.topics.map((topic) => this.localeService.pick(topic.label)).join(' · '),
           icon: PROJECT_ICON[project.id] ?? FALLBACK_ICON,
-          stars: showcased.snapshot?.stars,
+          stars: snapshot?.stars,
         };
       }) ?? [],
   );
-
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
-  }
 }

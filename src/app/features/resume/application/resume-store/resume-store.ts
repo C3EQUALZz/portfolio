@@ -1,21 +1,18 @@
-import { computed, inject, Injectable, InjectionToken, resource, type Signal } from '@angular/core';
+import { inject, Injectable, InjectionToken, resource, type Signal } from '@angular/core';
 
-import { resume, type Resume } from '../../domain/resume/resume';
+import type { Resume } from '../../domain/resume/resume';
 import type { ResumeRepository } from '../../domain/resume/resume-repository';
 
-import { type Technology } from '../../../../shared/kernel/technology/technology';
 import { yearMonth, type YearMonth } from '../../../../shared/kernel/time/year-month';
 
 /** DI token for the domain port; the adapter is wired by provideResumeFeature. */
 export const RESUME_REPOSITORY = new InjectionToken<ResumeRepository>('RESUME_REPOSITORY');
 
-/** Technologies the hero ring shows: the lead pick from the skill groups. */
-const HERO_RING_LIMIT = 18;
-
 /**
- * Feature state: the Resume loaded through the port, plus derived signals.
- * Works only through the port — the adapter choice (static content, JSON,
- * CMS) is invisible here.
+ * Feature state: the Resume loaded through the port. Pure state — data,
+ * loading flags and the fixed asOf — that the query handlers derive from;
+ * no derived signals live here. Works only through the port — the adapter
+ * choice (static content, JSON, CMS) is invisible here.
  */
 @Injectable({ providedIn: 'root' })
 export class ResumeStore {
@@ -37,36 +34,8 @@ export class ResumeStore {
   readonly isLoading = this.resumeResource.isLoading;
   readonly failed = this.resumeResource.error;
 
-  readonly currentRole = computed(() => {
-    const value = this.data();
-    return value === undefined ? undefined : resume.currentRole(value);
-  });
-
-  /** Roles newest first, for the experience timeline. */
-  readonly timeline = computed(() => {
-    const value = this.data();
-    return value === undefined ? [] : resume.experiencesByRecency(value);
-  });
-
-  /** The asOf the derivations were made with — fixed at page load. */
+  /** The asOf the query derivations are made with — fixed at page load. */
   get asOfDate(): YearMonth {
     return this.asOf;
   }
-
-  readonly totalExperience = computed(() => {
-    const value = this.data();
-    return value === undefined ? undefined : resume.totalExperience(value, this.asOf);
-  });
-
-  readonly leadTechnologies: Signal<readonly Technology[]> = computed(() => {
-    const value = this.data();
-    if (value === undefined) {
-      return [];
-    }
-    return value.skillGroups
-      .flatMap((group) => group.entries)
-      .filter((entry) => entry.emphasis === 'lead')
-      .map((entry) => entry.technology)
-      .slice(0, HERO_RING_LIMIT);
-  });
 }

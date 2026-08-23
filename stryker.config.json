@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
-  "_comment": "Mutation testing for the pure layers only: checks that domain tests actually assert behaviour instead of just executing it. Run manually or on a schedule, not in pre-push.",
+  "_comment": "Mutation testing for the pure layers only: checks that domain tests actually assert behaviour instead of just executing it. Application handlers are Angular-coupled (inject/computed) and covered by TestBed specs under `ng test` — the domain vitest config does not see them, so mutating them would produce no-coverage noise. Run manually or on a schedule, not in pre-push.",
   "packageManager": "npm",
   "testRunner": "vitest",
   "vitest": {
@@ -9,7 +9,6 @@
   "coverageAnalysis": "perTest",
   "mutate": [
     "src/app/features/*/domain/**/*.ts",
-    "src/app/features/*/application/**/*.ts",
     "src/app/shared/kernel/**/*.ts",
     "!**/*.spec.ts",
     "!**/index.ts"

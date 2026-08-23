@@ -48,7 +48,7 @@ from the role periods (union of intervals, gaps excluded), so the number cannot 
 | **Stylelint**                        | CSS, `recess-order` property ordering                                             |
 | **knip**                             | Dead files, exports and dependencies                                              |
 | **jscpd**                            | Copy-paste detection over a 1% threshold                                          |
-| **Stryker**                          | Mutation testing of `domain`/`application` (manual)                               |
+| **Stryker**                          | Mutation testing of `domain`/`shared/kernel` (manual)                             |
 | **size-limit**                       | Bundle size budget                                                                |
 | **commitlint + husky + lint-staged** | Conventional Commits and staged-file gates                                        |
 
@@ -95,6 +95,7 @@ src/
     shared/
       kernel/                      # pure core: Result, branded types, base VOs
       i18n/                        # Transloco: provideI18n(), LocaleService, en/ru
+      cqs/                         # Query/QueryHandler contracts; Command lands with the first command
       testing/                     # test helpers (must/mustFail)
     features/
       resume/                      # the resume document: aggregate, invariants
@@ -102,7 +103,7 @@ src/
       contact/                     # contact channels
       certificates/                # certificates page
         domain/                    # entities, value objects, ports — 0 framework imports
-        application/               # use-cases, feature state
+        application/               # interactors (queries/, commands/) + thin feature state
         infrastructure/            # port adapters, content mappers
         presentation/              # components and pages
         index.ts                   # the feature's public API — the only door in

@@ -612,6 +612,18 @@ export default tseslint.config(
     files: [PRESENTATION],
     rules: {
       'max-lines': ['error', { max: 250, skipBlankLines: true, skipComments: true }],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/application/*-store/**'],
+              message:
+                'Presentation talks to interactors, not to feature state. Inject a handler from application/queries and pass it a Query.',
+            },
+          ],
+        },
+      ],
       'no-restricted-globals': [
         'error',
         ...BROWSER_GLOBALS.filter((name) => name !== 'window' && name !== 'document').map(

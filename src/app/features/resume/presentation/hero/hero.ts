@@ -2,16 +2,17 @@ import { ChangeDetectionStrategy, Component, computed, inject, type Signal } fro
 
 import { translateSignal } from '@jsverse/transloco';
 
-import { ResumeStore } from '../../application/resume-store/resume-store';
+import { GetLeadTechnologiesHandler } from '../../application/queries/get-lead-technologies/get-lead-technologies';
+import { GetResumeProfileHandler } from '../../application/queries/get-resume-profile/get-resume-profile';
+import { GetTotalExperienceHandler } from '../../application/queries/get-total-experience/get-total-experience';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 import type { Technology } from '../../../../shared/kernel/technology/technology';
 import { TechChip } from './tech-chip';
 import { techIcon } from './tech-icons';
+
+/** How many lead technologies the three rings can hold — a presentational capacity. */
+const HERO_RING_LIMIT = 18;
 
 interface RingChip {
   readonly name: string;
@@ -58,7 +59,7 @@ function buildRing(
 
 /**
  * Hero section: name, marquee of role headlines, derived total experience
- * and the technology ring — everything read from the Resume through the store.
+ * and the technology ring — everything read from the Resume through queries.
  */
 @Component({
   selector: 'app-hero',
@@ -68,16 +69,24 @@ function buildRing(
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Hero {
-  protected readonly store = inject(ResumeStore);
+  private readonly getResumeProfile = inject(GetResumeProfileHandler);
+  private readonly getTotalExperience = inject(GetTotalExperienceHandler);
+  private readonly getLeadTechnologies = inject(GetLeadTechnologiesHandler);
   private readonly localeService = inject(LocaleService);
 
-  protected readonly person = computed(() => this.store.data()?.person);
+  private readonly profile = this.getResumeProfile.handle({ kind: 'getResumeProfile' });
+  private readonly leadTechnologies = this.getLeadTechnologies.handle({
+    kind: 'getLeadTechnologies',
+    limit: HERO_RING_LIMIT,
+  });
 
-  protected readonly headline = computed(() => this.pick(this.person()?.headline));
+  protected readonly person = computed(() => this.profile()?.person);
+
+  protected readonly headline = computed(() => this.localeService.pick(this.person()?.headline));
 
   /** All role headlines in the current locale — the marquee scrolls them. */
   protected readonly roles = computed(
-    () => this.person()?.roleHeadlines.map((role) => this.pick(role)) ?? [],
+    () => this.person()?.roleHeadlines.map((role) => this.localeService.pick(role)) ?? [],
   );
 
   /**
@@ -89,29 +98,29 @@ export class Hero {
     ...this.roles().map((text) => ({ text, copy: true })),
   ]);
 
-  protected readonly summary = computed(() => this.pick(this.person()?.summary));
+  protected readonly summary = computed(() => this.localeService.pick(this.person()?.summary));
 
-  protected readonly availabilityLine = computed(() => {
-    const availability = this.store.data()?.availability;
-    if (availability === undefined) {
-      return '';
-    }
-    return this.pick(availability.base);
-  });
+  private readonly availability = computed(() => this.profile()?.availability);
+
+  protected readonly availabilityLine = computed(() =>
+    this.localeService.pick(this.availability()?.base),
+  );
 
   protected readonly relocatesTo = computed(() => {
-    const availability = this.store.data()?.availability;
+    const availability = this.availability();
     if (availability === undefined || availability.relocatesTo.length === 0) {
       return '';
     }
-    return availability.relocatesTo.map((city) => this.pick(city)).join(' / ');
+    return availability.relocatesTo.map((city) => this.localeService.pick(city)).join(' / ');
   });
 
-  protected readonly isOpen = computed(() => this.store.data()?.availability.status === 'open');
+  protected readonly isOpen = computed(() => this.availability()?.status === 'open');
 
-  protected readonly totalExperience = computed(() => this.store.totalExperience());
+  protected readonly totalExperience = this.getTotalExperience.handle({
+    kind: 'getTotalExperience',
+  });
 
-  protected readonly hasExperience = computed(() => this.store.totalExperience() !== undefined);
+  protected readonly hasExperience = computed(() => this.totalExperience() !== undefined);
 
   protected readonly ctaWork = translateSignal('hero.ctaWork');
   protected readonly ctaContact = translateSignal('hero.ctaContact');
@@ -122,14 +131,14 @@ export class Hero {
   protected readonly experienceText = translateSignal(
     'hero.experience',
     computed(() => {
-      const total = this.store.totalExperience();
+      const total = this.totalExperience();
       return { years: total?.years ?? 0, months: total?.months ?? 0 };
     }),
   );
 
   /** The 18 lead technologies split over the three rings: 5 inner, 5 middle, the rest outer. */
   protected readonly rings: Signal<readonly Ring[]> = computed(() => {
-    const technologies = this.store.leadTechnologies();
+    const technologies = this.leadTechnologies();
     const inner = technologies.slice(0, 5);
     const middle = technologies.slice(5, 10);
     const outer = technologies.slice(10);
@@ -139,8 +148,4 @@ export class Hero {
       buildRing(outer, RING_LAYOUT[2]),
     ].filter((ring) => ring.chips.length > 0);
   });
-
-  private pick(text: LocalizedText | undefined): string {
-    return text === undefined ? '' : localizedText.pick(text, this.localeService.locale());
-  }
 }

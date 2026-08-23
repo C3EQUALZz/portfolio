@@ -7,13 +7,9 @@ import type {
   CertificateCategory,
 } from '../../domain/certificate/certificate';
 
-import { CertificatesStore } from '../../application/certificates-store/certificates-store';
+import { GetCertificateGroupsHandler } from '../../application/queries/get-certificate-groups/get-certificate-groups';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 import { PdfViewerDialog } from '../pdf-viewer-dialog/pdf-viewer-dialog';
 
 interface CertificateCard {
@@ -44,7 +40,7 @@ interface ViewerDocument {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CertificatesPage {
-  private readonly store = inject(CertificatesStore);
+  private readonly getCertificateGroups = inject(GetCertificateGroupsHandler);
   private readonly localeService = inject(LocaleService);
   private readonly transloco = inject(TranslocoService);
 
@@ -55,13 +51,17 @@ export class CertificatesPage {
 
   protected readonly viewer = signal<ViewerDocument | undefined>(undefined);
 
+  private readonly certificateGroups = this.getCertificateGroups.handle({
+    kind: 'getCertificateGroups',
+  });
+
   protected readonly groups = computed<readonly CertificateGroupView[]>(() =>
-    this.store.groups().map((group) => ({
+    this.certificateGroups().map((group) => ({
       category: group.category,
       label: this.transloco.translate(`certificates.categories.${group.category}`),
       items: group.certificates.map((item) => ({
-        title: this.pick(item.title),
-        issuer: this.pick(item.issuer),
+        title: this.localeService.pick(item.title),
+        issuer: this.localeService.pick(item.issuer),
         issuedText: this.formatIssued(item.issued),
         artifact: item.artifact,
       })),
@@ -76,10 +76,6 @@ export class CertificatesPage {
 
   protected closeViewer(): void {
     this.viewer.set(undefined);
-  }
-
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
   }
 
   private formatIssued(issued: string): string {

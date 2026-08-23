@@ -1,6 +1,6 @@
 import type { EnvironmentProviders, Provider } from '@angular/core';
 
-import { CERTIFICATES } from './application/certificates-store/certificates-store';
+import { CERTIFICATES } from './application/queries/get-certificate-groups/get-certificate-groups';
 
 import { certificatesContent } from './infrastructure/content/certificates-content';
 import { toCertificates } from './infrastructure/content/to-certificates';

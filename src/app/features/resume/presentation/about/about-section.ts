@@ -4,13 +4,9 @@ import { translateSignal } from '@jsverse/transloco';
 
 import type { HighlightTopic } from '../../domain/highlight/highlight';
 
-import { ResumeStore } from '../../application/resume-store/resume-store';
+import { GetHighlightsHandler } from '../../application/queries/get-highlights/get-highlights';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 
 /** The Phosphor icon per highlight topic — the domain says what, UI picks how it looks. */
 const TOPIC_ICON: Record<HighlightTopic, string> = {
@@ -33,21 +29,18 @@ interface HighlightItem {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutSection {
-  protected readonly store = inject(ResumeStore);
+  private readonly getHighlights = inject(GetHighlightsHandler);
   private readonly localeService = inject(LocaleService);
 
   protected readonly kicker = translateSignal('nav.about');
 
-  protected readonly highlights = computed<readonly HighlightItem[]>(
-    () =>
-      this.store.data()?.highlights.map((highlight) => ({
-        topic: highlight.topic,
-        icon: TOPIC_ICON[highlight.topic],
-        text: this.pick(highlight.text),
-      })) ?? [],
-  );
+  private readonly highlightList = this.getHighlights.handle({ kind: 'getHighlights' });
 
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
-  }
+  protected readonly highlights = computed<readonly HighlightItem[]>(() =>
+    this.highlightList().map((highlight) => ({
+      topic: highlight.topic,
+      icon: TOPIC_ICON[highlight.topic],
+      text: this.localeService.pick(highlight.text),
+    })),
+  );
 }

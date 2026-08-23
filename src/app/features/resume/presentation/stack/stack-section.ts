@@ -2,13 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { translateSignal } from '@jsverse/transloco';
 
-import { ResumeStore } from '../../application/resume-store/resume-store';
+import { GetSkillGroupsHandler } from '../../application/queries/get-skill-groups/get-skill-groups';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
 
 interface StackEntry {
   readonly name: string;
@@ -28,24 +24,21 @@ interface StackGroupCard {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StackSection {
-  protected readonly store = inject(ResumeStore);
+  private readonly getSkillGroups = inject(GetSkillGroupsHandler);
   private readonly localeService = inject(LocaleService);
 
   protected readonly kicker = translateSignal('nav.stack');
   protected readonly title = translateSignal('stack.title');
 
-  protected readonly groups = computed<readonly StackGroupCard[]>(
-    () =>
-      this.store.data()?.skillGroups.map((group) => ({
-        title: this.pick(group.title),
-        entries: group.entries.map((entry) => ({
-          name: entry.technology.name,
-          lead: entry.emphasis === 'lead',
-        })),
-      })) ?? [],
-  );
+  private readonly skillGroups = this.getSkillGroups.handle({ kind: 'getSkillGroups' });
 
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
-  }
+  protected readonly groups = computed<readonly StackGroupCard[]>(() =>
+    this.skillGroups().map((group) => ({
+      title: this.localeService.pick(group.title),
+      entries: group.entries.map((entry) => ({
+        name: entry.technology.name,
+        lead: entry.lead,
+      })),
+    })),
+  );
 }

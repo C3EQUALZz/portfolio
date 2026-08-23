@@ -17,11 +17,12 @@ src/
     shared/
       kernel/                    # чистое ядро: Result, Brand-типы, базовые VO (без фреймворка)
       i18n/                      # Transloco: provideI18n(), LocaleService, словари en/ru
+      cqs/                       # контракты Query/QueryHandler; Command придёт с первой командой
       testing/                   # тест-хелперы (must/mustFail)
     features/
       <feature>/
         domain/                  # сущности, value objects, порты (interface). 0 импортов фреймворка
-        application/             # use-cases, состояние фичи. Работает только через порты
+        application/             # интеракторы (queries/, commands/) + тонкое состояние фичи. Только порты
         infrastructure/          # адаптеры портов: HTTP, storage, мапперы
         presentation/            # компоненты и страницы
         index.ts                 # публичный API фичи — единственная дверь снаружу
@@ -52,6 +53,30 @@ src/
 1. **Домен framework-agnostic.** Ему нужен `UserRepository` — он объявляет `interface`, а Angular-реализация живёт в `infrastructure`. Проверяемое следствие: тесты домена запускаются в node-окружении за миллисекунды (`npm run test:domain`).
 2. **Фича — чёрный ящик.** Снаружи доступен только `features/<feature>/index.ts`; deep-import во внутренности другой фичи запрещён. Провайдеры фича экспортирует сама (`provideProjectsFeature()`), поэтому composition root (`app.config.ts`) подключает её, не зная про `infrastructure`.
 
+## Application: интеракторы (CQS)
+
+Application-слой — это **интеракторы над тонким состоянием фичи**. Query handler
+(`application/queries/<query>/<query>.ts`) — `@Injectable`, реализующий
+`QueryHandler<Q, D>` из `shared/cqs`: на вход — дискриминированный Query-объект
+(`{ kind: '...', ...параметры }`), на выход — `Signal<DTO>`. DTO несёт доменную
+семантику (`LocalizedText`, `YearMonth`, числа) и никогда — отформатированные
+строки: выбор локали и форматирование (`Intl`, Transloco) — работа presentation.
+Вся derivation-логика (выборки, сортировки, вычисления, вызовы доменных query вроде
+`showcasedProject.of`) живёт в handlers и тестируется TestBed-спеками на реальном
+контенте — без рендера компонентов.
+
+Command handler (`CommandHandler<C, T, E>`) — разовая запись:
+`handle(command): Promise<Result<T, E>>`. Команд в фичах пока нет, поэтому и
+контракт появится в `shared/cqs` вместе с первой — формой обратной связи
+(см. `docs/domain-plan.md`); knip не даёт держать спекулятивный код.
+
+Feature store (`application/<feature>-store/`) — внутреннее состояние для handlers
+(`data`/`isLoading`/`failed` поверх `resource()`, зафиксированный `asOf`), а не
+публичная точка входа: presentation импортирует только handlers, прямой импорт
+store запрещён `no-restricted-imports` в слоевом блоке ESLint. Фичи без порта-
+репозитория (contact, certificates) обходятся без store — handler работает
+напрямую над токеном валидированных данных.
+
 ## Как это проверяется
 
 | Уровень        | Инструмент                                                     | Что ловит                                                                                  |
@@ -79,7 +104,7 @@ npm run test:ci         # тесты + пороги покрытия (80%)
 npm run test:domain     # быстрые тесты чистых слоёв (пороги 95%)
 npm run e2e             # Playwright (chromium/firefox/webkit), сам поднимает ng serve
 npm run e2e:ui          # Playwright UI mode; npm run e2e:report — HTML-отчёт последнего прогона
-npm run mutation        # Stryker по domain/application (медленно, вручную)
+npm run mutation        # Stryker по domain + shared/kernel (медленно, вручную)
 npm run size            # бюджет бандла
 npm run verify:quick    # типы + архитектура + мёртвый код (то, что гоняет pre-commit)
 npm run verify          # всё вместе — то же, что делает pre-push

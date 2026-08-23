@@ -4,12 +4,16 @@ import { take } from 'rxjs';
 
 import { TranslocoService } from '@jsverse/transloco';
 
-import type { Locale } from '../../shared/kernel/localization/localized-text';
+import {
+  type Locale,
+  localizedText,
+  type LocalizedText,
+} from '../../shared/kernel/localization/localized-text';
 
 /**
  * The current UI locale as a signal, over Transloco. The single place that
- * knows how the locale is stored; the rest of the app reads `locale()` and
- * picks LocalizedText values with `localizedText.pick`.
+ * knows how the locale is stored; the rest of the app reads `locale()` or
+ * picks LocalizedText values with `pick()`.
  *
  * The signal flips only after the locale's translations have loaded, so a
  * computed reading `locale()` never translates against a not-yet-loaded
@@ -21,6 +25,14 @@ export class LocaleService {
   private readonly current = signal<Locale>(this.transloco.getActiveLang() as Locale);
 
   readonly locale: Signal<Locale> = this.current.asReadonly();
+
+  /**
+   * Picks the current locale's text. Reads the signal, so a computed calling
+   * `pick` recomputes on locale change; an undefined text maps to ''.
+   */
+  pick(text: LocalizedText | undefined): string {
+    return text === undefined ? '' : localizedText.pick(text, this.current());
+  }
 
   setLocale(locale: Locale): void {
     const subscription = this.transloco

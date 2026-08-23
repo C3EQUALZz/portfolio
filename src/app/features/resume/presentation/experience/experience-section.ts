@@ -6,14 +6,14 @@ import type { Achievement } from '../../domain/achievement/achievement';
 import type { Experience } from '../../domain/experience/experience';
 import type { Impact } from '../../domain/impact/impact';
 
-import { ResumeStore } from '../../application/resume-store/resume-store';
+import {
+  type ExperienceTimelineItem,
+  GetExperienceTimelineHandler,
+} from '../../application/queries/get-experience-timeline/get-experience-timeline';
+import { GetTotalExperienceHandler } from '../../application/queries/get-total-experience/get-total-experience';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
-import {
-  localizedText,
-  type LocalizedText,
-} from '../../../../shared/kernel/localization/localized-text';
-import { period, type Period } from '../../../../shared/kernel/time/period';
+import type { Period } from '../../../../shared/kernel/time/period';
 import type { YearMonth } from '../../../../shared/kernel/time/year-month';
 import { ImpactValue } from './impact-value';
 
@@ -53,11 +53,19 @@ interface RoleCard {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExperienceSection {
-  protected readonly store = inject(ResumeStore);
+  private readonly getExperienceTimeline = inject(GetExperienceTimelineHandler);
+  private readonly getTotalExperience = inject(GetTotalExperienceHandler);
   private readonly localeService = inject(LocaleService);
   private readonly transloco = inject(TranslocoService);
 
-  protected readonly years = computed(() => this.store.totalExperience()?.years ?? 0);
+  private readonly timeline = this.getExperienceTimeline.handle({
+    kind: 'getExperienceTimeline',
+  });
+  private readonly totalExperience = this.getTotalExperience.handle({
+    kind: 'getTotalExperience',
+  });
+
+  protected readonly years = computed(() => this.totalExperience()?.years ?? 0);
 
   protected readonly kicker = translateSignal('nav.experience');
   protected readonly title = translateSignal(
@@ -67,22 +75,31 @@ export class ExperienceSection {
   protected readonly subtitle = translateSignal('experience.subtitle');
 
   protected readonly cards = computed<readonly RoleCard[]>(() =>
-    this.store.timeline().map((item) => this.toCard(item)),
+    this.timeline().map((item) => this.toCard(item)),
   );
 
-  private toCard(item: Experience): RoleCard {
-    const months = period.durationInMonths(item.period, this.store.asOfDate);
-    const duration = { years: Math.floor(months / 12), months: months % 12 };
+  private toCard(item: ExperienceTimelineItem): RoleCard {
+    const experience = item.experience;
+    // The domain returns bare months; the { years, months } split is a locale concern.
+    const duration = {
+      years: Math.floor(item.durationInMonths / 12),
+      months: item.durationInMonths % 12,
+    };
     return {
-      experience: item,
-      periodLabel: this.formatPeriod(item.period),
+      experience,
+      periodLabel: this.formatPeriod(experience.period),
       durationText: this.transloco.translate('experience.duration', duration),
-      engagementText: this.transloco.translate(`experience.engagement.${item.engagement}`),
-      title: `${this.pick(item.position)} — ${item.company.name}`,
-      product: this.pick(item.product),
-      impacts: item.impacts.map((value) => ({ impact: value, label: this.pick(value.label) })),
-      achievements: item.achievements.map((achievement) => this.toAchievementItem(achievement)),
-      clusters: item.technologies.map((cluster) => ({
+      engagementText: this.transloco.translate(`experience.engagement.${experience.engagement}`),
+      title: `${this.localeService.pick(experience.position)} — ${experience.company.name}`,
+      product: this.localeService.pick(experience.product),
+      impacts: experience.impacts.map((value) => ({
+        impact: value,
+        label: this.localeService.pick(value.label),
+      })),
+      achievements: experience.achievements.map((achievement) =>
+        this.toAchievementItem(achievement),
+      ),
+      clusters: experience.technologies.map((cluster) => ({
         names: cluster.technologies.map((technology) => technology.name).join(' · '),
         lead: cluster.emphasis === 'lead',
       })),
@@ -90,7 +107,10 @@ export class ExperienceSection {
   }
 
   private toAchievementItem(achievement: Achievement): AchievementItem {
-    return { lead: this.pick(achievement.lead), detail: this.pick(achievement.detail) };
+    return {
+      lead: this.localeService.pick(achievement.lead),
+      detail: this.localeService.pick(achievement.detail),
+    };
   }
 
   private formatPeriod(value: Period): string {
@@ -105,9 +125,5 @@ export class ExperienceSection {
   private formatMonth(value: YearMonth, locale: string): string {
     const date = new Date(Number(value.slice(0, 4)), Number(value.slice(5, 7)) - 1);
     return new Intl.DateTimeFormat(locale, { month: 'short', year: 'numeric' }).format(date);
-  }
-
-  private pick(text: LocalizedText): string {
-    return localizedText.pick(text, this.localeService.locale());
   }
 }

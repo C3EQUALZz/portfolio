@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 
 import { translateSignal } from '@jsverse/transloco';
 
-import { contactChannel, type ContactChannel } from '../../domain/contact-channel/contact-channel';
+import type { ContactChannel } from '../../domain/contact-channel/contact-channel';
 
-import { ContactBookStore } from '../../application/contact-book-store/contact-book-store';
+import { GetContactChannelsHandler } from '../../application/queries/get-contact-channels/get-contact-channels';
 
 /** The Phosphor icon per channel kind — presentational. */
 const CHANNEL_ICON: Record<ContactChannel['kind'], string> = {
@@ -42,7 +42,7 @@ interface ChannelCard {
   readonly preferred: boolean;
 }
 
-/** Contact section: every channel as a button, hrefs derived by the domain. */
+/** Contact section: every channel as a button, items from the query handler. */
 @Component({
   selector: 'app-contact-section',
   templateUrl: './contact-section.html',
@@ -50,20 +50,22 @@ interface ChannelCard {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContactSection {
-  protected readonly store = inject(ContactBookStore);
+  private readonly channels = inject(GetContactChannelsHandler).handle({
+    kind: 'getContactChannels',
+  });
 
   protected readonly kicker = translateSignal('nav.contact');
   protected readonly title = translateSignal('contact.title');
   protected readonly subtitle = translateSignal('contact.subtitle');
 
   protected readonly cards = computed<readonly ChannelCard[]>(() =>
-    this.store.channels().map((entry) => ({
-      kind: entry.channel.kind,
-      href: contactChannel.toHref(entry.channel),
-      icon: CHANNEL_ICON[entry.channel.kind],
-      label: channelLabel(entry.channel),
-      external: entry.channel.kind === 'telegram' || entry.channel.kind === 'github',
-      preferred: entry.preferred,
+    this.channels().map((item) => ({
+      kind: item.channel.kind,
+      href: item.href,
+      icon: CHANNEL_ICON[item.channel.kind],
+      label: channelLabel(item.channel),
+      external: item.channel.kind === 'telegram' || item.channel.kind === 'github',
+      preferred: item.preferred,
     })),
   );
 }

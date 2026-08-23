@@ -28,11 +28,12 @@ src/
     shared/
       kernel/                      # pure core: Result, branded types, base VOs (no framework)
       i18n/                        # Transloco: provideI18n(), LocaleService, en/ru dictionaries
+      cqs/                         # Query/QueryHandler contracts; Command lands with the first command
       testing/                     # test helpers (must/mustFail)
     features/
       <feature>/
         domain/                    # entities, value objects, ports (interface). 0 framework imports
-        application/               # feature store: state and derived signals. Ports only
+        application/               # interactors (queries/, commands/) + thin feature state. Ports only
         infrastructure/            # port adapters, typed content, mappers
         presentation/              # components and pages
         index.ts                   # the feature's public API — the only door from outside
@@ -144,18 +145,38 @@ mutation testing.
 
 ## Application Layer
 
-The pattern is a **feature store** (`application/<feature>-store/`):
+The pattern is **interactors (CQS) over a thin feature state**:
 
-- An `@Injectable` class receives the port through an `InjectionToken`
-  (`export const RESUME_REPOSITORY = new InjectionToken<ResumeRepository>(...)`);
-  the adapter is bound by `provide<Feature>Feature()` in the feature's
-  `index.ts`.
+- A **query handler** (`application/queries/<query>/<query>.ts`) is an
+  `@Injectable({ providedIn: 'root' })` class implementing
+  `QueryHandler<Q, D>` from `shared/cqs`: `handle(query)` takes a
+  discriminated Query object (`{ kind: '...', ...params }`) and returns a
+  `Signal<DTO>`. The DTO carries domain semantics (`LocalizedText`,
+  `YearMonth`, numbers, entities) — never formatted strings: picking the
+  locale and `Intl`/`Transloco` formatting are presentation's job.
+- A **command handler** will implement `CommandHandler<C, T, E>`:
+  `handle(command): Promise<Result<T, E>>` — a one-shot write, errors as
+  values. No commands exist yet, so the contract lands in `shared/cqs`
+  together with the first one (the contact form); knip keeps us honest about
+  speculative code. `ThemeService.toggle()` stays in `layout` — it is
+  app-shell chrome, not a feature.
+- Everything derived lives in handlers: selections, ordering, computations
+  and domain-query calls (`showcasedProject.of`, `contactChannel.toHref`)
+  do not belong in components.
+- The **feature store** (`application/<feature>-store/`) is internal state
+  for handlers only: `data`/`isLoading`/`failed` over `resource()`, plus the
+  fixed `asOf`. Presentation never imports it — enforced by a
+  `no-restricted-imports` pattern in the presentation ESLint block.
+- Features without a repository port (contact, certificates) have no store
+  at all: the handler works directly over the validated-data
+  `InjectionToken` wired by `provide<Feature>Feature()`.
 - Loading goes through `resource()`; the store turns a port error
-  (`Result.err`) into a `throw` so `resource` can see it.
-- Everything derived is a `computed` signal over `resource.value()`; the store
-  does not know where the data comes from (static, JSON, CMS) — only the port.
-- `asOf` for experience calculations is fixed at page load: the resume does not
-  age while you read it.
+  (`Result.err`) into a `throw` so `resource` can see it. The store does not
+  know where the data comes from (static, JSON, CMS) — only the port.
+- `asOf` for experience calculations is fixed at page load: the resume does
+  not age while you read it.
+- `handle()` returns a fresh `computed` per call — call it once, in a field
+  initializer, never in a template.
 
 ## Infrastructure Layer
 
@@ -172,6 +193,12 @@ errors" is an ordinary spec (`<feature>-content.spec.ts`) that runs in
 ## Presentation Layer
 
 - Standalone components, signals, `OnPush`, `@if`/`@for` control flow.
+- **Components are thin.** They inject query/command handlers via DI, call
+  `handle(query)` once in a field initializer and bind the returned signal.
+  What stays in a component: i18n rendering (`translateSignal`,
+  `transloco.translate`, `Intl` formatting), `LocaleService.pick`,
+  icon/accent tables and local UI state (dialogs, viewer). No domain
+  derivation, no store imports.
 - **Transloco in templates only via `translateSignal`, never the pipe.** In
   zoneless, `markForCheck` from a pipe does not schedule a re-render; signals
   do. Dynamic keys inside a `computed` go through `transloco.translate(...)`.
@@ -187,7 +214,7 @@ errors" is an ordinary spec (`<feature>-content.spec.ts`) that runs in
 | Domain + content   | `npm run test:domain` | `features/*/domain`, `shared/kernel`, content mappers | 95/90/95/95 |
 | The rest (TestBed) | `npm run test:ci`     | application (resource/DI/signals), presentation       | 80%         |
 | E2E                | `npm run e2e`         | Chromium + Firefox + WebKit, boots `ng serve` itself  | —           |
-| Mutation           | `npm run mutation`    | domain/application via Stryker (slow, manual)         | —           |
+| Mutation           | `npm run mutation`    | domain + `shared/kernel` via Stryker (slow, manual)   | —           |
 
 Rules:
 
@@ -265,6 +292,12 @@ PR. Dependencies are kept current by Dependabot, in grouped PRs.
 
 Read the relevant entry before touching that area.
 
+- **Stryker mutates only the pure layers.** Application interactors are
+  Angular-coupled (`inject`/`computed`/`resource`), and the mutation runner
+  uses the node domain config, which does not include application specs —
+  application mutants survived as no-coverage noise. `mutate` in
+  `stryker.config.json` is therefore `domain` + `shared/kernel` only;
+  application coverage is asserted by TestBed specs under `ng test`.
 - **Banning packages ≠ boundaries.** In `eslint-plugin-boundaries@7` an allow
   policy overrides a deny policy, so "the domain has no Angular" is expressed
   two ways: no allow-policy for external packages on `feature-domain`, plus a
