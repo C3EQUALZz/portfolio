@@ -189,6 +189,30 @@
   }
 }
 
+/* Route transitions (View Transitions API, wired in app.config.ts). The old
+   page fades out while the new one rises in — the same motion signature as
+   [data-reveal]. */
+@keyframes nc-page-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes nc-page-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+::view-transition-old(root) {
+  animation: nc-page-out 0.2s ease both;
+}
+
+::view-transition-new(root) {
+  animation: nc-page-in 0.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
 *,
 *::before,
 *::after {
@@ -297,6 +321,11 @@ a:hover {
   [data-ring],
   [data-ring] *,
   [data-marquee] {
+    animation: none;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
     animation: none;
   }
 }
