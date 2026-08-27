@@ -9,6 +9,7 @@
         <a routerLink="/" [fragment]="item.fragment">{{ item.label() }}</a>
       }
       <a routerLink="/certificates" routerLinkActive="link-active">{{ certificatesLabel() }}</a>
+      <a routerLink="/stats" routerLinkActive="link-active">{{ statsLabel() }}</a>
     </div>
     <div class="locale-switch" role="group" aria-label="Language">
       @for (lang of locales; track lang) {

@@ -1,0 +1,158 @@
+/* Difficulty colors are platform semantics (green/yellow/red), scoped to the
+   card — the shared token ramp has no "difficulty" role. */
+:host {
+  --color-easy: #4caf7d;
+  --color-medium: #d9a441;
+  --color-hard: #d95f5f;
+}
+
+.lc-summary {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.donut {
+  flex: none;
+  width: 108px;
+  height: 108px;
+}
+
+.donut-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--color-text) 9%, transparent);
+  stroke-width: 9;
+}
+
+.donut-seg {
+  fill: none;
+  stroke-width: 9;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+}
+
+.seg-easy {
+  stroke: var(--color-easy);
+}
+
+.seg-medium {
+  stroke: var(--color-medium);
+}
+
+.seg-hard {
+  stroke: var(--color-hard);
+}
+
+.donut-total {
+  font-family: var(--font-heading);
+  font-size: 22px;
+  fill: var(--color-text);
+}
+
+.donut-caption {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  fill: var(--color-text-muted);
+}
+
+.bars {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.bar-head {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12.5px;
+}
+
+.bar-label {
+  color: var(--color-text-secondary);
+}
+
+.bar-value {
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-muted);
+}
+
+.bar-track {
+  display: block;
+  height: 5px;
+  margin-top: 4px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-text) 9%, transparent);
+  border-radius: 3px;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  border-radius: 3px;
+}
+
+.bar-easy {
+  background: var(--color-easy);
+}
+
+.bar-medium {
+  background: var(--color-medium);
+}
+
+.bar-hard {
+  background: var(--color-hard);
+}
+
+.lc-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+
+.fact-label {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fact-value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.lc-sub {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lc-languages {
+  max-width: 340px;
+}
+
+.bar-language {
+  background: var(--color-accent);
+}
+
+.lc-recent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0;
+  margin: 0;
+  font-size: 13px;
+  list-style: none;
+}

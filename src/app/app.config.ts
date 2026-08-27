@@ -3,6 +3,7 @@ import { provideRouter, withInMemoryScrolling } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideCertificatesFeature } from './features/certificates';
+import { provideCodingStatsFeature } from './features/coding-stats';
 import { provideContactFeature } from './features/contact';
 import { provideProjectsFeature } from './features/projects';
 import { provideResumeFeature } from './features/resume';
@@ -21,5 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideProjectsFeature(),
     provideContactFeature(),
     provideCertificatesFeature(),
+    provideCodingStatsFeature(),
   ],
 };

@@ -27,6 +27,7 @@ export class Header {
 
   protected readonly brand = translateSignal('header.brand');
   protected readonly certificatesLabel = translateSignal('nav.certificates');
+  protected readonly statsLabel = translateSignal('nav.stats');
 
   private readonly themeToLight = translateSignal('header.themeToLight');
   private readonly themeToDark = translateSignal('header.themeToDark');

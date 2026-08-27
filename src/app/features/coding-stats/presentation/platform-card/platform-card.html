@@ -1,0 +1,46 @@
+<article class="stat-card">
+  <header class="stat-card-head">
+    <span class="stat-platform">{{ label() }}</span>
+    <a
+      class="stat-handle"
+      [href]="view().target.profileUrl"
+      target="_blank"
+      rel="noopener noreferrer"
+      [attr.aria-label]="viewProfileLabel()"
+      >{{ view().target.handle }}</a
+    >
+  </header>
+
+  @switch (view().state.status) {
+    @case ('loading') {
+      <div class="stat-state">
+        <span class="stat-spinner" aria-hidden="true"></span>
+        <p class="stat-note">{{ loadingText() }}</p>
+      </div>
+    }
+    @case ('unavailable') {
+      <div class="stat-state">
+        <p class="stat-state-title">{{ unavailableTitle() }}</p>
+        <p class="stat-note">{{ unavailableNote() }}</p>
+        <button type="button" class="stat-button" (click)="retry()">{{ retryLabel() }}</button>
+      </div>
+    }
+    @case ('ready') {
+      <ng-content />
+
+      @if (footer(); as foot) {
+        <footer class="stat-foot">
+          <span class="stat-updated">
+            {{ foot.updated }}
+            @if (foot.stale) {
+              · <span class="stat-stale">{{ cachedLabel() }}</span>
+            }
+          </span>
+          <button type="button" class="stat-button" [disabled]="foot.refreshing" (click)="retry()">
+            {{ foot.refreshing ? refreshingLabel() : refreshLabel() }}
+          </button>
+        </footer>
+      }
+    }
+  }
+</article>

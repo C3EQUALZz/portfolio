@@ -1,0 +1,43 @@
+:host([hidden]) {
+  display: none;
+}
+
+.heatmap {
+  display: flex;
+  gap: 3px;
+  padding-bottom: 4px;
+  overflow-x: auto;
+}
+
+.heatmap-week {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.heatmap-cell {
+  width: 10px;
+  height: 10px;
+  background: color-mix(in srgb, var(--color-text) 9%, transparent);
+  border-radius: 2px;
+}
+
+.heatmap-cell[data-level='1'] {
+  background: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.heatmap-cell[data-level='2'] {
+  background: color-mix(in srgb, var(--color-accent) 50%, transparent);
+}
+
+.heatmap-cell[data-level='3'] {
+  background: color-mix(in srgb, var(--color-accent) 72%, transparent);
+}
+
+.heatmap-cell[data-level='4'] {
+  background: var(--color-accent);
+}
+
+.heatmap-future {
+  visibility: hidden;
+}

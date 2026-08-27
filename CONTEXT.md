@@ -1,9 +1,10 @@
 # Portfolio
 
-Персональное резюме и портфолио одного человека как веб-приложение. Три контекста:
+Персональное резюме и портфолио одного человека как веб-приложение. Контексты:
 `resume` — сам документ, `projects` — опубликованный открытый код, `contact` — связь с
-кандидатом. Пока термины лежат в одном файле; при появлении кода фич разъедутся в
-`CONTEXT-MAP.md` и по-контекстные файлы.
+кандидатом, `certificates` — сертификаты и их просмотр, `coding-stats` — статистика
+с алгоритмических платформ (страница `/stats`). Пока термины лежат в одном файле;
+при появлении кода фич разъедутся в `CONTEXT-MAP.md` и по-контекстные файлы.
 
 ## Resume
 
@@ -79,3 +80,34 @@ _Avoid_: ProjectCard, ProjectView
 **ContactChannel**:
 Один типизированный способ связаться с кандидатом: почта, Telegram, телефон, GitHub.
 _Avoid_: Link, Social, контакт
+
+## Coding Stats
+
+**CodingPlatform**:
+Алгоритмическая платформа, на которой у кандидата есть аккаунт: LeetCode, Codeforces,
+Codewars. Закрытый union — новая платформа это новый член union'а и новый адаптер.
+_Avoid_: Site, Service, источник
+
+**CodingProfile**:
+Снимок профиля кандидата на одной платформе, полученный из внешнего API в рантайме.
+Валидируется целиком при разборе; недоступность профиля — нормальное состояние, а не
+ошибка. Инвариант LeetCode: totalSolved равен сумме easy+medium+hard.
+_Avoid_: Account, User, карточка
+
+**PlatformFacts**:
+Платформенная специфика профиля как дискриминированный union (по образцу ContactChannel):
+рейтинги платформ несовместимы (Эло Codeforces, kyu Codewars, contest rating LeetCode),
+поэтому общего поля «рейтинг» нет.
+_Avoid_: Rating, Score, Stats
+
+**CodingStatsSource**:
+Порт загрузки одного профиля из внешнего API. Адаптеры — цепочка публичных прокси
+для LeetCode (failover), официальные API для Codeforces и Codewars. Полный провал
+цепочки — `AllSourcesUnavailable` с перечнем попыток.
+_Avoid_: ApiClient, Service
+
+**StatsCache**:
+Порт read-through кэша страницы статистики (TTL и stale-while-revalidate — решения
+application-слоя, localStorage — infrastructure). Просроченное значение показывается
+с пометкой «кэшированная копия», пока идёт фоновое обновление.
+_Avoid_: Store, Repository

@@ -1,0 +1,30 @@
+<main class="page stats-page">
+  <header class="page-head">
+    <h1 class="page-title">{{ title() }}</h1>
+    <p class="page-subtitle">{{ subtitle() }}</p>
+    <p class="page-headline">{{ headline() }}</p>
+  </header>
+
+  <div class="stats-grid">
+    @for (platformView of view().platforms; track platformView.target.platform) {
+      <app-platform-card
+        [label]="platformLabel[platformView.target.platform]"
+        [view]="platformView"
+      >
+        @if (platformView.state.status === 'ready') {
+          @switch (platformView.target.platform) {
+            @case ('leetcode') {
+              <app-leetcode-card [profile]="platformView.state.profile" />
+            }
+            @case ('codeforces') {
+              <app-codeforces-card [profile]="platformView.state.profile" />
+            }
+            @case ('codewars') {
+              <app-codewars-card [profile]="platformView.state.profile" />
+            }
+          }
+        }
+      </app-platform-card>
+    }
+  </div>
+</main>

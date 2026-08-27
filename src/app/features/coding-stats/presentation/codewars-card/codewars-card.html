@@ -1,0 +1,23 @@
+<div class="cw-summary">
+  <div class="cw-hero">
+    <span class="cw-kyu-badge">{{ facts().kyuName }}</span>
+    <span class="cw-hero-caption">{{ kyuLabel() }}</span>
+  </div>
+
+  <ul class="cw-facts">
+    <li>
+      <span class="fact-label">{{ honorLabel() }}</span>
+      <span class="fact-value">{{ facts().honor }}</span>
+    </li>
+    <li>
+      <span class="fact-label">{{ completedLabel() }}</span>
+      <span class="fact-value">{{ facts().completedKata }}</span>
+    </li>
+    @if (facts().leaderboardPosition !== undefined) {
+      <li>
+        <span class="fact-label">{{ leaderboardLabel() }}</span>
+        <span class="fact-value">#{{ facts().leaderboardPosition }}</span>
+      </li>
+    }
+  </ul>
+</div>

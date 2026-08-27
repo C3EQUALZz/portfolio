@@ -1,0 +1,126 @@
+/* Codeforces rank colors are the platform's own brand semantics. */
+:host {
+  --cf-gray: #8a8f9e;
+  --cf-green: #3f9e4d;
+  --cf-cyan: #1fa8a0;
+  --cf-blue: #4c6fd9;
+  --cf-violet: #8b4cd9;
+  --cf-orange: #d9822b;
+  --cf-red: #d94040;
+}
+
+.cf-summary {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+/* The hero mirrors the LeetCode donut: fixed tile, big value, caption. */
+.cf-hero {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 108px;
+  height: 108px;
+  padding: 8px;
+  text-align: center;
+  border: 1px solid currentcolor;
+  border-radius: var(--radius-lg);
+}
+
+.cf-hero-value {
+  font-family: var(--font-heading);
+  font-size: 30px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cf-hero-caption {
+  font-size: 11px;
+  text-transform: capitalize;
+}
+
+.cf-gray {
+  color: var(--cf-gray);
+  background: color-mix(in srgb, var(--cf-gray) 12%, transparent);
+}
+
+.cf-green {
+  color: var(--cf-green);
+  background: color-mix(in srgb, var(--cf-green) 12%, transparent);
+}
+
+.cf-cyan {
+  color: var(--cf-cyan);
+  background: color-mix(in srgb, var(--cf-cyan) 12%, transparent);
+}
+
+.cf-blue {
+  color: var(--cf-blue);
+  background: color-mix(in srgb, var(--cf-blue) 12%, transparent);
+}
+
+.cf-violet {
+  color: var(--cf-violet);
+  background: color-mix(in srgb, var(--cf-violet) 12%, transparent);
+}
+
+.cf-orange {
+  color: var(--cf-orange);
+  background: color-mix(in srgb, var(--cf-orange) 12%, transparent);
+}
+
+.cf-red {
+  color: var(--cf-red);
+  background: color-mix(in srgb, var(--cf-red) 12%, transparent);
+}
+
+.cf-unrated,
+.cf-hero.cf-unrated {
+  color: var(--color-text-muted);
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+.cf-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.fact-label {
+  display: block;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.fact-value {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.cf-sub {
+  margin: 18px 0 8px;
+  font-size: 11px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cf-sparkline {
+  width: 100%;
+  height: 60px;
+}
+
+.cf-sparkline-line {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+}

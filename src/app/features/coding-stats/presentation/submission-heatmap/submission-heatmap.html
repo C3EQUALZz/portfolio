@@ -1,0 +1,14 @@
+<div class="heatmap">
+  @for (week of weeks(); track $index) {
+    <div class="heatmap-week">
+      @for (day of week; track day.date) {
+        <span
+          class="heatmap-cell"
+          [attr.data-level]="day.level"
+          [class.heatmap-future]="day.future"
+          [title]="day.date + ' · ' + day.submissions"
+        ></span>
+      }
+    </div>
+  }
+</div>

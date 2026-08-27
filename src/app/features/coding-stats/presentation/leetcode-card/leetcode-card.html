@@ -1,0 +1,74 @@
+<div class="lc-summary">
+  <svg class="donut" viewBox="0 0 120 120" role="img" [attr.aria-label]="profile().totalSolved">
+    <circle class="donut-track" cx="60" cy="60" r="52" />
+    @for (segment of segments(); track segment.label) {
+      <circle
+        [class]="'donut-seg ' + segment.className"
+        cx="60"
+        cy="60"
+        r="52"
+        [attr.stroke-dasharray]="segment.dash"
+        [attr.stroke-dashoffset]="segment.offset"
+      />
+    }
+    <text class="donut-total" x="60" y="58" text-anchor="middle">{{ profile().totalSolved }}</text>
+    <text class="donut-caption" x="60" y="74" text-anchor="middle">{{ solvedLabel() }}</text>
+  </svg>
+
+  <ul class="bars">
+    @for (bar of bars(); track bar.className) {
+      <li class="bar-row">
+        <span class="bar-head">
+          <span class="bar-label">{{ bar.label }}</span>
+          <span class="bar-value">
+            {{ bar.solved
+            }}<span [hidden]="bar.available === undefined">&nbsp;/ {{ bar.available }}</span>
+          </span>
+        </span>
+        <span class="bar-track">
+          <span [class]="'bar-fill ' + bar.className" [style.width.%]="bar.percent"></span>
+        </span>
+      </li>
+    }
+  </ul>
+</div>
+
+<ul class="lc-facts">
+  <li [hidden]="facts().ranking === undefined">
+    <span class="fact-label">{{ rankLabel() }}</span>
+    <span class="fact-value">#{{ facts().ranking }}</span>
+  </li>
+  <li [hidden]="facts().contestRating === undefined">
+    <span class="fact-label">{{ contestLabel() }}</span>
+    <span class="fact-value">{{ facts().contestRating }}</span>
+  </li>
+</ul>
+
+<h4 class="lc-sub" [hidden]="topLanguages().length === 0">{{ languagesLabel() }}</h4>
+<ul class="bars lc-languages" [hidden]="topLanguages().length === 0">
+  @for (language of topLanguages(); track language.name) {
+    <li class="bar-row">
+      <span class="bar-head">
+        <span class="bar-label">{{ language.name }}</span>
+        <span class="bar-value">{{ language.solved }}</span>
+      </span>
+      <span class="bar-track">
+        <span class="bar-fill bar-language" [style.width.%]="language.percent"></span>
+      </span>
+    </li>
+  }
+</ul>
+
+<h4 class="lc-sub" [hidden]="recentAccepted().length === 0">{{ recentLabel() }}</h4>
+<ul class="lc-recent" [hidden]="recentAccepted().length === 0">
+  @for (submission of recentAccepted(); track submission.slug) {
+    <li>
+      <a [href]="problemUrl(submission.slug)" target="_blank" rel="noopener noreferrer">
+        {{ submission.title }}
+      </a>
+    </li>
+  }
+</ul>
+
+<h4 class="lc-sub" [hidden]="facts().calendar.length === 0">{{ activityLabel() }}</h4>
+<app-submission-heatmap [hidden]="facts().calendar.length === 0" [calendar]="facts().calendar" />

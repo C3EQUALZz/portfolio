@@ -1,0 +1,33 @@
+<div class="cf-summary">
+  <div [class]="'cf-hero cf-' + band()">
+    @if (facts().rating !== undefined) {
+      <span class="cf-hero-value">{{ facts().rating }}</span>
+      @if (facts().rank !== undefined) {
+        <span class="cf-hero-caption">{{ facts().rank }}</span>
+      }
+    } @else {
+      <span class="cf-hero-value">—</span>
+      <span class="cf-hero-caption">{{ unratedLabel() }}</span>
+    }
+  </div>
+
+  <ul class="cf-facts">
+    <li>
+      <span class="fact-label">{{ solvedLabel() }}</span>
+      <span class="fact-value">{{ profile().totalSolved }}</span>
+    </li>
+    @if (facts().maxRating !== undefined) {
+      <li>
+        <span class="fact-label">{{ bestLabel() }}</span>
+        <span class="fact-value">{{ facts().maxRating }}</span>
+      </li>
+    }
+  </ul>
+</div>
+
+@if (sparkline(); as points) {
+  <h4 class="cf-sub">{{ historyLabel() }}</h4>
+  <svg class="cf-sparkline" viewBox="0 0 300 60" preserveAspectRatio="none" role="img">
+    <polyline class="cf-sparkline-line" [attr.points]="points" />
+  </svg>
+}

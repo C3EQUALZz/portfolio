@@ -76,15 +76,23 @@ features.
 
 ## Bounded Contexts
 
-The domain vocabulary lives in `CONTEXT.md`, decisions in `docs/adr/`. Four
+The domain vocabulary lives in `CONTEXT.md`, decisions in `docs/adr/`. Five
 features:
 
-| Feature        | What it owns                                                                                  |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| `resume`       | The document about the candidate: experience, stack, education, languages. Aggregate `Resume` |
-| `projects`     | The candidate's open source. Aggregate `Project` + `RepositorySnapshot` from GitHub           |
-| `contact`      | Ways to get in touch. The typed union `ContactChannel`                                        |
-| `certificates` | Certificates and their viewing (PDF viewer), the `/certificates` page                         |
+| Feature        | What it owns                                                                                            |
+| -------------- | ------------------------------------------------------------------------------------------------------- |
+| `resume`       | The document about the candidate: experience, stack, education, languages. Aggregate `Resume`           |
+| `projects`     | The candidate's open source. Aggregate `Project` + `RepositorySnapshot` from GitHub                     |
+| `contact`      | Ways to get in touch. The typed union `ContactChannel`                                                  |
+| `certificates` | Certificates and their viewing (PDF viewer), the `/certificates` page                                   |
+| `coding-stats` | Live stats from algorithmic platforms (runtime external APIs, failover chain, TTL cache), `/stats` page |
+
+`coding-stats` is the only feature that talks to the network at runtime:
+ports `CodingStatsSource` (failover composite per platform) and `StatsCache`
+(localStorage, stale-while-revalidate), orchestrated by the `LoadCodingStats`
+use case. Unavailable data is a normal page state, not an error — see
+`docs/adr/0003-runtime-external-coding-stats.md`. Its e2e never hit real
+APIs: Playwright `page.route()` serves fixtures.
 
 Terms to know before changing the domain (full glossary in `CONTEXT.md`,
 including the _Avoid_ lists):
