@@ -43,7 +43,7 @@
     "@angular/compiler": "^22.1.3",
     "@angular/core": "^22.1.3",
     "@angular/platform-browser": "^22.1.3",
-    "@angular/router": "^22.1.3",
+    "@angular/router": "^22.2.0",
     "@jsverse/transloco": "^8.4.0",
     "@jsverse/transloco-messageformat": "^8.4.0",
     "@phosphor-icons/web": "^2.1.2",
