@@ -16,11 +16,18 @@ updates:
           - '@angular*'
           - '@angular-eslint/*'
           - '@angular-devkit/*'
+          - 'angular-eslint'
+      stryker:
+        patterns:
+          - '@stryker-mutator/*'
       npm-minor-patch:
         update-types: ['minor', 'patch']
     ignore:
       # A major Angular bump is a deliberate migration, not a dependency update.
       - dependency-name: '@angular/*'
+        update-types: ['version-update:semver-major']
+      # Angular 22 requires TypeScript >=6.0 <6.1.
+      - dependency-name: 'typescript'
         update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
@@ -31,3 +38,7 @@ updates:
       default-days: 7
     commit-message:
       prefix: 'ci'
+    groups:
+      codeql:
+        patterns:
+          - 'github/codeql-action/*'
