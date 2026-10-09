@@ -67,6 +67,32 @@ async function stubStatsApis(page: Page, options?: { failLeetCode?: boolean }): 
 }
 
 test.describe('stats page', () => {
+  test('loaded stats stay readable on a narrow phone in both locales', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 740 });
+    await stubStatsApis(page);
+    await page.goto('/stats');
+    await expect(page.locator('.donut-total')).toHaveText('9');
+
+    for (const locale of ['en', 'ru']) {
+      await page.getByRole('button', { name: locale, exact: true }).click();
+      await expect(page.locator('a.brand')).toHaveText(locale === 'en' ? 'Portfolio' : 'Портфолио');
+      const clipped = await page
+        .locator('.stat-card-head, .stat-foot, .lc-summary, .bar-head, .cf-summary, .cw-summary')
+        .evaluateAll((elements) =>
+          elements
+            .filter((element) => {
+              const rect = element.getBoundingClientRect();
+              return rect.left < 0 || rect.right > window.innerWidth;
+            })
+            .map((element) => ({
+              className: element.getAttribute('class'),
+              right: element.getBoundingClientRect().right,
+            })),
+        );
+      expect(clipped).toEqual([]);
+    }
+  });
+
   test('renders the cards from the stubbed APIs', async ({ page }) => {
     await stubStatsApis(page);
     await page.goto('/stats');

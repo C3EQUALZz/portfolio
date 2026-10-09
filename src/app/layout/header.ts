@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, type Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  type Signal,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { translateSignal } from '@jsverse/transloco';
@@ -19,8 +28,20 @@ interface NavItem {
   templateUrl: './header.html',
   styleUrl: './header.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(document:click)': 'closeMenuOutside($event)',
+    '(document:keydown.escape)': 'closeMenu(true)',
+    '(window:resize)': 'closeMenu()',
+  },
 })
 export class Header {
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly menuToggle = viewChild<ElementRef<HTMLButtonElement>>('menuToggle');
+
+  protected readonly menuOpen = signal(false);
+  protected readonly menuLabel = translateSignal('header.menu');
+  protected readonly sectionsLabel = translateSignal('header.sections');
+  protected readonly languageLabel = translateSignal('header.language');
   protected readonly locale = inject(LocaleService);
   protected readonly locales = LOCALES;
   protected readonly theme = inject(ThemeService);
@@ -45,4 +66,20 @@ export class Header {
     { fragment: 'stack', label: translateSignal('nav.stack') },
     { fragment: 'contact', label: translateSignal('nav.contact') },
   ];
+
+  protected closeMenu(restoreFocus = false): void {
+    if (!this.menuOpen()) {
+      return;
+    }
+    this.menuOpen.set(false);
+    if (restoreFocus) {
+      this.menuToggle()?.nativeElement.focus();
+    }
+  }
+
+  protected closeMenuOutside(event: MouseEvent): void {
+    if (event.target instanceof Node && !this.element.nativeElement.contains(event.target)) {
+      this.closeMenu();
+    }
+  }
 }

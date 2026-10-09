@@ -52,6 +52,28 @@ test.describe('certificates page', () => {
     await expect(page.getByRole('dialog')).toHaveCount(0);
   });
 
+  test('Russian PDF viewer keeps its title and actions inside a narrow phone', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 740 });
+    await page.getByRole('button', { name: 'ru', exact: true }).click();
+    await expect(page.locator('.page-title')).toHaveText('Сертификаты');
+    await page.locator('button.card', { hasText: 'AL-1702' }).click();
+
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    const title = await dialog.locator('.dialog-title').boundingBox();
+    expect(title?.width).toBeGreaterThan(100);
+    const clipped = await dialog.locator('.dialog-actions > *').evaluateAll(
+      (elements) =>
+        elements.filter((element) => {
+          const rect = element.getBoundingClientRect();
+          return rect.left < 0 || rect.right > window.innerWidth || rect.height < 44;
+        }).length,
+    );
+    expect(clipped).toBe(0);
+    await dialog.getByRole('button', { name: 'Закрыть просмотр' }).click();
+    await expect(dialog).toHaveCount(0);
+  });
+
   test('pdf dialog closes on overlay click', async ({ page }) => {
     await page.locator('button.card', { hasText: 'AL-1703' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();

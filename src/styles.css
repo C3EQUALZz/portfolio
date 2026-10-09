@@ -62,6 +62,7 @@
   --space-4: 11.2px;
   --space-6: 16.8px;
   --space-8: 22.4px;
+  --page-gutter: clamp(20px, 4vw, 32px);
 
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -221,6 +222,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(76px + env(safe-area-inset-top));
 }
 
 body {
@@ -286,8 +288,34 @@ a:hover {
    same container, kicker, block title and lead-tag accent. */
 .section {
   max-width: 1120px;
-  padding: 110px 32px 30px;
+  padding: 110px var(--page-gutter) 30px;
   margin: 0 auto;
+}
+
+.detail-page {
+  max-width: 1120px;
+  padding: 110px var(--page-gutter) 80px;
+  margin: 0 auto;
+}
+
+.detail-page .page-head {
+  margin-bottom: 48px;
+}
+
+.detail-page .page-title {
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: var(--font-heading-weight);
+  letter-spacing: -0.02em;
+}
+
+.detail-page .page-subtitle {
+  max-width: 640px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
 }
 
 .kicker {
@@ -315,6 +343,12 @@ a:hover {
   transition:
     opacity 0.7s ease,
     transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (width <= 600px) {
+  .section {
+    padding-top: 72px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

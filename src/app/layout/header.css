@@ -4,6 +4,7 @@
   right: 0;
   left: 0;
   z-index: 50;
+  padding-top: env(safe-area-inset-top);
   background: color-mix(in srgb, var(--color-bg) 82%, transparent);
   border-bottom: 1px solid var(--color-divider);
   backdrop-filter: blur(14px);
@@ -55,6 +56,9 @@
 }
 
 .links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
   color: var(--color-text-secondary);
   text-decoration: none;
   transition: color 0.25s;
@@ -112,4 +116,101 @@
 
 .theme-toggle:hover {
   color: var(--color-text);
+}
+
+.menu-toggle {
+  display: none;
+  flex: none;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 13px;
+  color: var(--color-text);
+  cursor: pointer;
+  background: var(--color-accent-surface);
+  border: 1px solid var(--color-accent-border);
+  border-radius: var(--radius-md);
+}
+
+.menu-toggle i {
+  font-size: 20px;
+}
+
+@media (width <= 960px) {
+  .header-nav {
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 10px max(16px, env(safe-area-inset-right)) 10px max(16px, env(safe-area-inset-left));
+  }
+
+  .brand {
+    min-height: 44px;
+    margin-right: auto;
+    font-size: 14px;
+  }
+
+  .spacer {
+    display: none;
+  }
+
+  .links {
+    display: none;
+    flex-basis: 100%;
+    gap: 4px;
+    order: 1;
+    max-height: calc(100dvh - 76px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    padding-top: 10px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    font-size: 15px;
+    border-top: 1px solid var(--color-divider);
+  }
+
+  .links-open {
+    display: grid;
+  }
+
+  .links a {
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .links a:hover,
+  .links a.link-active {
+    background: var(--color-accent-surface);
+  }
+
+  .locale-switch {
+    gap: 0;
+  }
+
+  .locale-button {
+    min-width: 36px;
+    min-height: 44px;
+  }
+
+  .theme-toggle {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+}
+
+@media (width <= 480px) {
+  .menu-toggle {
+    padding: 0;
+  }
+
+  .menu-toggle span {
+    display: none;
+  }
 }

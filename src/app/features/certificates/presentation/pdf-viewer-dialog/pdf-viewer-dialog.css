@@ -69,6 +69,39 @@
 .dialog-frame {
   flex: 1;
   width: 100%;
+  min-height: 0;
   background: var(--color-bg);
   border: 0;
+}
+
+@media (width <= 600px) {
+  .dialog {
+    width: calc(100% - 24px);
+    height: calc(100dvh - 24px);
+  }
+
+  .dialog-head {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .dialog-title {
+    flex-basis: 100%;
+    white-space: normal;
+  }
+
+  .dialog-actions {
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+  }
+
+  .dialog-link,
+  .dialog-close {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

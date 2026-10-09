@@ -40,7 +40,7 @@
   align-items: center;
   width: 100%;
   max-width: 1120px;
-  padding: 140px 32px 96px;
+  padding: 140px var(--page-gutter) 96px;
   margin: 0 auto;
 }
 
@@ -283,4 +283,44 @@
 
 .scroll-down:hover {
   color: var(--color-accent);
+}
+
+@media (width <= 600px) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .hero-inner {
+    gap: 40px;
+    padding-top: 64px;
+    padding-bottom: 72px;
+  }
+
+  .availability {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+    letter-spacing: 0.04em;
+  }
+
+  .relocates {
+    flex-basis: 100%;
+    padding-left: 15px;
+  }
+
+  .name {
+    font-size: clamp(40px, 11vw, 60px);
+  }
+
+  .cta a {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ring {
+    flex: none;
+    width: min(100%, 340px);
+    min-width: 0;
+    margin: 0 auto;
+  }
 }

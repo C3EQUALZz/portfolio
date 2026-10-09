@@ -11,6 +11,7 @@
 
 .stat-card-head {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: baseline;
   justify-content: space-between;
@@ -80,6 +81,7 @@
 
 .stat-foot {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   align-items: center;
   justify-content: space-between;
@@ -92,4 +94,10 @@
 
 .stat-stale {
   color: var(--color-accent-text);
+}
+
+@media (width <= 480px) {
+  .stat-button {
+    min-height: 44px;
+  }
 }

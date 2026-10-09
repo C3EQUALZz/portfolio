@@ -14,6 +14,9 @@ export const EN_TRANSLATIONS = {
     stats: 'Stats',
   },
   header: {
+    menu: 'Menu',
+    sections: 'Sections',
+    language: 'Language',
     brand: 'Portfolio',
     themeToLight: 'Switch to light theme',
     themeToDark: 'Switch to dark theme',

@@ -12,6 +12,9 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
     stats: 'Статистика',
   },
   header: {
+    menu: 'Меню',
+    sections: 'Разделы',
+    language: 'Язык',
     brand: 'Портфолио',
     themeToLight: 'Переключиться на светлую тему',
     themeToDark: 'Переключиться на тёмную тему',

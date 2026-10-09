@@ -1,17 +1,21 @@
 <header class="header">
-  <nav class="header-nav" aria-label="Sections">
-    <a class="brand" routerLink="/">
+  <nav class="header-nav" [attr.aria-label]="sectionsLabel()">
+    <a class="brand" routerLink="/" (click)="closeMenu()">
       <span class="brand-dot" aria-hidden="true"></span>{{ brand() }}
     </a>
     <span class="spacer"></span>
-    <div class="links">
+    <div class="links" id="header-links" [class.links-open]="menuOpen()">
       @for (item of navItems; track item.fragment) {
-        <a routerLink="/" [fragment]="item.fragment">{{ item.label() }}</a>
+        <a routerLink="/" [fragment]="item.fragment" (click)="closeMenu()">{{ item.label() }}</a>
       }
-      <a routerLink="/certificates" routerLinkActive="link-active">{{ certificatesLabel() }}</a>
-      <a routerLink="/stats" routerLinkActive="link-active">{{ statsLabel() }}</a>
+      <a routerLink="/certificates" routerLinkActive="link-active" (click)="closeMenu()">
+        {{ certificatesLabel() }}
+      </a>
+      <a routerLink="/stats" routerLinkActive="link-active" (click)="closeMenu()">
+        {{ statsLabel() }}
+      </a>
     </div>
-    <div class="locale-switch" role="group" aria-label="Language">
+    <div class="locale-switch" role="group" [attr.aria-label]="languageLabel()">
       @for (lang of locales; track lang) {
         <button
           type="button"
@@ -37,6 +41,18 @@
         [class.ph-moon]="theme.theme() === 'light'"
         aria-hidden="true"
       ></i>
+    </button>
+    <button
+      #menuToggle
+      type="button"
+      class="menu-toggle"
+      aria-controls="header-links"
+      [attr.aria-expanded]="menuOpen()"
+      [attr.aria-label]="menuLabel()"
+      (click)="menuOpen.set(!menuOpen())"
+    >
+      <i class="ph" [class.ph-list]="!menuOpen()" [class.ph-x]="menuOpen()" aria-hidden="true"></i>
+      <span>{{ menuLabel() }}</span>
     </button>
   </nav>
 </header>

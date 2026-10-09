@@ -40,4 +40,38 @@ describe('Header', () => {
     expect(nav?.textContent).toContain('Опыт');
     expect(ruButton?.getAttribute('aria-pressed')).toBe('true');
   });
+
+  it('toggles the mobile disclosure and closes it on an outside click', async () => {
+    const fixture = TestBed.createComponent(Header);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    const toggle = element.querySelector<HTMLButtonElement>('.menu-toggle')!;
+
+    toggle.click();
+    await fixture.whenStable();
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+    expect(element.querySelector('.links')?.classList.contains('links-open')).toBe(true);
+
+    document.dispatchEvent(new MouseEvent('click'));
+    await fixture.whenStable();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('returns focus to the menu button on Escape only when the menu is open', async () => {
+    const fixture = TestBed.createComponent(Header);
+    await fixture.whenStable();
+    const toggle = (fixture.nativeElement as HTMLElement).querySelector<HTMLButtonElement>(
+      '.menu-toggle',
+    )!;
+    const focus = vi.spyOn(toggle, 'focus');
+
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect(focus).not.toHaveBeenCalled();
+    toggle.click();
+    await fixture.whenStable();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await fixture.whenStable();
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
+    expect(focus).toHaveBeenCalledOnce();
+  });
 });
