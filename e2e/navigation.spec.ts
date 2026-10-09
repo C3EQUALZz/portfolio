@@ -3,6 +3,17 @@ import { expect, test } from '@playwright/test';
 const FRAGMENTS = ['about', 'experience', 'work', 'stack', 'contact'] as const;
 
 test.describe('header navigation', () => {
+  test('direct fragment links reach their sections after the async content loads', async ({
+    page,
+  }) => {
+    for (const fragment of FRAGMENTS) {
+      await page.goto(`/#${fragment}`);
+      await expect(page.locator('#experience .role')).toHaveCount(3);
+      await expect(page.locator('#work .card')).toHaveCount(4);
+      await expect(page.locator(`#${fragment} .kicker`)).toBeInViewport();
+    }
+  });
+
   test('fragment links scroll their section into the viewport', async ({ page }) => {
     await page.goto('/');
 

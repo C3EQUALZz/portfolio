@@ -1,5 +1,12 @@
 import { ViewportScroller } from '@angular/common';
-import { afterEveryRender, ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  afterNextRender,
+  ApplicationRef,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { ContactSection } from '../features/contact';
@@ -31,13 +38,20 @@ import {
 export class LandingPage {
   private readonly route = inject(ActivatedRoute);
   private readonly viewportScroller = inject(ViewportScroller);
+  private readonly application = inject(ApplicationRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    afterEveryRender(() => {
-      const fragment = this.route.snapshot.fragment;
-      if (fragment !== null && fragment !== '') {
-        this.viewportScroller.scrollToAnchor(fragment);
-      }
+    // The initial anchor needs the final layout of the async feature resources.
+    // Later UI renders must preserve the reader's position; the router handles
+    // subsequent fragment navigation once the landing content has loaded.
+    afterNextRender(() => {
+      void this.application.whenStable().then(() => {
+        const fragment = this.route.snapshot.fragment;
+        if (!this.destroyRef.destroyed && fragment !== null && fragment !== '') {
+          this.viewportScroller.scrollToAnchor(fragment);
+        }
+      });
     });
   }
 }
