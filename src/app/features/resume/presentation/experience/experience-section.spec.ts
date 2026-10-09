@@ -20,18 +20,24 @@ describe('ExperienceSection', () => {
       (node) => node.textContent,
     );
 
-    expect(titles[0]).toContain('Spetsvuzavtomatika');
+    expect(titles[0]).toBe('nissva');
+    expect(
+      (fixture.nativeElement as HTMLElement).querySelector('.role-position')?.textContent,
+    ).toBe('Middle Developer');
     expect(titles[titles.length - 1]).toContain('Ecom.tech');
   });
 
-  it('marks the ongoing role as «now» and derives the duration from the period', async () => {
+  it('shows the completed role through August 2026 and derives its duration', async () => {
     const fixture = TestBed.createComponent(ExperienceSection);
     await fixture.whenStable();
     const first = (fixture.nativeElement as HTMLElement).querySelector('.role');
+    const periodText = first?.querySelector('.role-period')?.textContent;
+    const metadata = first?.querySelector('.role-meta')?.textContent;
 
-    expect(first?.querySelector('.role-period')?.textContent).toContain('now');
-    expect(first?.querySelector('.role-meta')?.textContent).toContain('month');
-    expect(first?.querySelector('.role-meta')?.textContent).toContain('on-site');
+    expect(periodText).toContain('Aug 2026');
+    expect(periodText).not.toContain('now');
+    expect(metadata).toContain('9 months');
+    expect(metadata).toContain('on-site');
   });
 
   it('animates only numeric impacts; literals render as text', async () => {
@@ -53,7 +59,10 @@ describe('ExperienceSection', () => {
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.subtitle')?.textContent).toContain('переписывание');
-    expect(element.querySelector('.role-period')?.textContent).toContain('сейчас');
+    expect(element.querySelector('.subtitle')?.textContent).toContain('AppSec');
+    expect(element.querySelector('.role-title')?.textContent).toBe('ФГАНУ НИИ Спецвузавтоматика');
+    expect(element.querySelector('.role-position')?.textContent).toBe('Middle-разработчик');
+    expect(element.querySelector('.role-period')?.textContent).toContain('авг.');
+    expect(element.querySelector('.role-period')?.textContent).not.toContain('сейчас');
   });
 });

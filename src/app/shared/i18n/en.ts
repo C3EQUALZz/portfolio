@@ -29,9 +29,9 @@ export const EN_TRANSLATIONS = {
       '{years, plural, =0 {} one {# year} other {# years}} {months, plural, =0 {} one {# month} other {# months}} of production experience',
   },
   experience: {
-    title: '{years, plural, one {# year} other {# years}} of taking the slow path out',
-    subtitle:
-      'Each role has been a rewrite of something that had stopped scaling — a monolith, a hand-rolled WebSocket server, a SaaS monitoring bill.',
+    title: 'Backend development',
+    subtitle: 'An AppSec platform, an AI assistant for CDEK and a corporate messenger.',
+    companies: { nissva: 'nissva' },
     present: 'now',
     duration:
       '{years, plural, =0 {} one {# year} other {# years}} {months, plural, =0 {} one {# month} other {# months}}',
@@ -51,11 +51,10 @@ export const EN_TRANSLATIONS = {
     native: 'Native',
   },
   work: {
-    title: 'Open source: dishka integrations',
-    subtitlePre:
-      'Dependency injection is the part of a Python service that decides how testable the rest of it will be. I use ',
-    subtitlePost:
-      ' in production, and where a framework had no container integration I wrote and published one — each library carries the same scope model, its own tests and packaging.',
+    title: 'Python libraries',
+    subtitle: 'Task messaging, database storage and dependency injection integrations.',
+    contributionsIntro: 'I also contribute pull requests to',
+    contributionsAnd: 'and',
     kind: {
       library: 'library',
       application: 'application',

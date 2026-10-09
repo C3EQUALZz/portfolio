@@ -20,6 +20,8 @@ describe('ListProjectsHandler', () => {
     const items = await loadItems();
 
     expect(items?.map((item) => item.project.id)).toEqual([
+      'faststream-celery',
+      'jobify-db',
       'dishka-ag2',
       'dishka-airflow',
       'dishka-jobify',
@@ -30,8 +32,8 @@ describe('ListProjectsHandler', () => {
   it('carries the full project, not a projection', async () => {
     const items = await loadItems();
 
-    expect(items?.[0]?.project.tagline.en).toContain('AG2');
-    expect(items?.[0]?.project.repository).toBe('https://github.com/C3EQUALZz/dishka-ag2');
+    expect(items?.[0]?.project.tagline.en).toContain('Celery');
+    expect(items?.[0]?.project.repository).toBe('https://github.com/C3EQUALZz/faststream-celery');
   });
 
   it('pairs each project with its snapshot — none today, and that is a normal state', async () => {

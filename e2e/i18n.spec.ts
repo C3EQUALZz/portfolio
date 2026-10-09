@@ -29,7 +29,11 @@ test.describe('locale switch', () => {
     const experienceLine = page.locator('.hero .experience');
     await expect(experienceLine).toContainText('производственного опыта');
     await expect(experienceLine).toContainText(/(год|года|лет)/);
-    await expect(page.locator('#experience')).toContainText('сейчас');
+    await expect(page.locator('#experience .role-period').first()).toContainText('авг.');
+    await expect(page.locator('#experience .role-title').first()).toHaveText(
+      'ФГАНУ НИИ Спецвузавтоматика',
+    );
+    await expect(page.locator('#experience')).not.toContainText('сейчас');
 
     // Certificate dates use russian month names. Client-side navigation keeps
     // the in-memory locale (a full reload would reset it to english).

@@ -11,15 +11,15 @@ export const resumeContent: ResumeContentDto = {
     roleHeadlines: [
       { en: 'high-load Rust services', ru: 'высоконагруженные сервисы на Rust' },
       {
-        en: 'distributed systems that hold',
-        ru: 'распределённые системы, которые держат нагрузку',
+        en: 'distributed systems',
+        ru: 'распределённые системы',
       },
       { en: 'AppSec analysis platforms', ru: 'платформы AppSec-анализа' },
-      { en: 'AI assistants people use', ru: 'AI-ассистенты, которыми пользуются' },
+      { en: 'AI assistants', ru: 'AI-ассистенты' },
     ],
     summary: {
-      en: 'Across security tooling, AI assistants and microservice platforms — mostly the unglamorous parts that decide whether a system holds: async architecture, message transport, observability and the quality gates around them. Rust and Python, self-hosted infrastructure, and a habit of deleting the legacy path rather than working around it.',
-      ru: 'Инструменты безопасности, AI-ассистенты и микросервисные платформы — в основном та незаметная часть, которая решает, выдержит ли система: асинхронная архитектура, транспорт сообщений, наблюдаемость и гейты качества вокруг них. Rust и Python, self-hosted инфраструктура и привычка удалять legacy-путь вместо того, чтобы обходить его.',
+      en: 'I build backend services in Rust and Python for security tooling, AI assistants and messaging platforms. My work includes async architecture, message transport, monitoring and CI. I also maintain Python libraries for FastStream, Jobify and dishka.',
+      ru: 'Разрабатываю backend на Rust и Python для AppSec-платформ, AI-ассистентов и мессенджеров. Занимаюсь асинхронной архитектурой, обменом сообщениями, мониторингом и CI. Поддерживаю Python-библиотеки для FastStream, Jobify и dishka.',
     },
   },
   availability: {
@@ -35,12 +35,12 @@ export const resumeContent: ResumeContentDto = {
     {
       id: 'spetsvuz',
       start: [2025, 12],
-      end: 'present',
+      end: [2026, 8],
       position: { en: 'Middle Developer', ru: 'Middle-разработчик' },
-      company: { name: 'SRI Spetsvuzavtomatika' },
+      company: { name: 'ФГАНУ НИИ Спецвузавтоматика' },
       product: {
-        en: 'Automated SAST/DAST analysis platform for Android applications — backend, infrastructure and AppSec integrations.',
-        ru: 'Платформа автоматизированного SAST/DAST-анализа Android-приложений — бэкенд, инфраструктура и AppSec-интеграции.',
+        en: 'Automated SAST/DAST analysis of Android applications. Backend development, infrastructure and AppSec integrations.',
+        ru: 'Автоматизированный SAST/DAST-анализ Android-приложений. Разработка backend, инфраструктура и AppSec-интеграции.',
       },
       engagement: 'on-site',
       impacts: [
@@ -64,16 +64,16 @@ export const resumeContent: ResumeContentDto = {
         },
         {
           label: {
-            en: 'Realtime scaling, connections in their own layer',
-            ru: 'Масштабирование realtime, соединения в отдельном слое',
+            en: 'Realtime scaling with Centrifugo',
+            ru: 'Масштабирование realtime с Centrifugo',
           },
           kind: 'literal',
-          text: { en: 'horizontal', ru: 'горизонтальное' },
+          text: { en: 'horizontal', ru: 'по горизонтали' },
         },
         {
           label: {
-            en: 'Where UB and races now fail, not in production',
-            ru: 'Где теперь ловятся UB и гонки — не в проде',
+            en: 'Memory safety checks in Rust',
+            ru: 'Проверки безопасности памяти в Rust',
           },
           kind: 'literal',
           text: { en: 'compile-time', ru: 'на компиляции' },
@@ -83,39 +83,42 @@ export const resumeContent: ResumeContentDto = {
         {
           lead: { en: 'Rebuilt the DAST architecture', ru: 'Перестроил архитектуру DAST' },
           detail: {
-            en: 'moved the analysis pipeline off a Django + Celery monolith onto async Rust (Axum, Tokio, independent workers), multiplying throughput at a fraction of the runtime overhead and retiring the technical debt with it.',
-            ru: 'перенёс конвейер анализа с монолита на Django + Celery на асинхронный Rust (Axum, Tokio, независимые воркеры), увеличив пропускную способность в разы при меньших накладных расходах и закрыв техдолг.',
+            en: 'migrated the analysis pipeline from Django and Celery to async Rust with Axum, Tokio and independent workers. Throughput increased fourfold, with lower runtime overhead.',
+            ru: 'перенёс конвейер анализа с Django и Celery на асинхронный Rust: Axum, Tokio и независимые воркеры. Пропускная способность выросла в четыре раза, накладные расходы снизились.',
           },
         },
         {
-          lead: { en: 'Decomposed the realtime bottleneck', ru: 'Разложил узкое место realtime' },
+          lead: { en: 'Replaced the WebSocket servers', ru: 'Заменил WebSocket-серверы' },
           detail: {
-            en: 'replaced the hand-written WebSocket servers with Centrifugo, isolating connection management so realtime scales horizontally without touching backend services.',
-            ru: 'заменил самописные WebSocket-серверы на Centrifugo, изолировав управление соединениями: realtime масштабируется горизонтально, не трогая бэкенд-сервисы.',
+            en: 'moved connection management from custom WebSocket servers to Centrifugo. The connection layer now scales horizontally, independently of backend services.',
+            ru: 'перенёс управление соединениями из самописных WebSocket-серверов в Centrifugo. Слой соединений масштабируется горизонтально, независимо от backend-сервисов.',
           },
         },
         {
           lead: { en: 'Built observability from zero', ru: 'Построил наблюдаемость с нуля' },
           detail: {
-            en: 'Prometheus, Grafana, Vector and Tempo across the analysis pipelines, with ElasticSearch for full-text search over the DAST log volume: incidents are found in seconds and anomalies surface on their own.',
-            ru: 'Prometheus, Grafana, Vector и Tempo по всем конвейерам анализа, ElasticSearch для полнотекстового поиска по логам DAST: инциденты находятся за секунды, аномалии всплывают сами.',
+            en: 'set up Prometheus, Grafana, Vector and Tempo for the analysis pipelines, and Elasticsearch for DAST logs. Full-text search locates incidents in seconds; monitoring detects anomalies automatically.',
+            ru: 'настроил Prometheus, Grafana, Vector и Tempo для конвейеров анализа, Elasticsearch для логов DAST. Полнотекстовый поиск находит инциденты за секунды, мониторинг автоматически выявляет аномалии.',
           },
         },
         {
           lead: {
-            en: 'Found a cheaper way to read an APK',
-            ru: 'Нашёл более дешёвый способ читать APK',
+            en: 'Simplified APK data extraction',
+            ru: 'Упростил извлечение данных из APK',
           },
           detail: {
-            en: 'researched extraction that skips full reverse-engineering through apktool, cutting a whole fragile stage out of the product and weeks out of the schedule.',
-            ru: 'исследовал извлечение данных без полного реверс-инжиниринга через apktool, убрав из продукта целый хрупкий этап и недели из графика.',
+            en: 'researched data extraction without full reverse-engineering through apktool. Removed an unreliable processing stage and saved weeks of development.',
+            ru: 'исследовал извлечение данных без полного реверс-инжиниринга через apktool. Убрал ненадёжный этап обработки и сократил разработку на несколько недель.',
           },
         },
         {
-          lead: { en: 'Set the quality floor', ru: 'Задал уровень качества' },
+          lead: {
+            en: 'Set up authentication and code checks',
+            ru: 'Настроил аутентификацию и проверки кода',
+          },
           detail: {
-            en: 'Keycloak + oauth2-proxy for central auth instead of home-grown user logic; Clippy, rustfmt, cargo-deny and pre-commit in CI; sccache/mold for fast local builds; AGENTS.md so AI agents work the codebase safely. Whole classes of bug — UB, races — now fail at compile time.',
-            ru: 'Keycloak + oauth2-proxy для центральной аутентификации вместо самописной логики пользователей; Clippy, rustfmt, cargo-deny и pre-commit в CI; sccache/mold для быстрых локальных сборок; AGENTS.md, чтобы AI-агенты работали с кодовой базой безопасно. Целые классы багов — UB, гонки — теперь падают на компиляции.',
+            en: 'centralized authentication with Keycloak and oauth2-proxy. Added Clippy, rustfmt, cargo-deny and pre-commit to CI, accelerated local builds with sccache and mold, and documented agent workflows in AGENTS.md. Rust checks memory ownership and data races at compile time.',
+            ru: 'централизовал аутентификацию через Keycloak и oauth2-proxy. Добавил Clippy, rustfmt, cargo-deny и pre-commit в CI, ускорил локальные сборки с sccache и mold, описал работу AI-агентов в AGENTS.md. Rust проверяет владение памятью и гонки данных при компиляции.',
           },
         },
       ],
@@ -135,8 +138,8 @@ export const resumeContent: ResumeContentDto = {
       position: { en: 'Backend Developer', ru: 'Backend-разработчик' },
       company: { name: 'Iktin Group' },
       product: {
-        en: '«Elya» — an AI assistant for CDEK franchisees, shipped as an official CDEK integration module.',
-        ru: '«Эля» — AI-ассистент для франчайзи СДЭК, выпущенный как официальный модуль интеграции СДЭК.',
+        en: 'Elya, an AI assistant for CDEK franchisees. Published as an official CDEK integration module.',
+        ru: '«Эля», AI-ассистент для франчайзи СДЭК. Опубликован как официальный модуль интеграции СДЭК.',
       },
       engagement: 'remote',
       impacts: [
@@ -152,8 +155,8 @@ export const resumeContent: ResumeContentDto = {
         },
         {
           label: {
-            en: 'Key operation time — rewritten SQL plus Redis caching',
-            ru: 'Время ключевой операции — переписанный SQL плюс кэширование в Redis',
+            en: 'Key operation time after SQL optimisation and Redis caching',
+            ru: 'Время ключевой операции после оптимизации SQL и кэширования в Redis',
           },
           kind: 'numeric',
           amount: 30,
@@ -162,8 +165,8 @@ export const resumeContent: ResumeContentDto = {
         },
         {
           label: {
-            en: "Waybill creation — the product's headline feature",
-            ru: 'Создание накладных — визитная функция продукта',
+            en: 'Waybill creation',
+            ru: 'Создание накладных',
           },
           kind: 'literal',
           text: { en: 'voice', ru: 'голосом' },
@@ -184,8 +187,8 @@ export const resumeContent: ResumeContentDto = {
             ru: 'Спроектировал RAG-систему ответов',
           },
           detail: {
-            en: '(LangChain, ChromaDB, GigaChat) that closes routine requests without a human — manager load fell 40%.',
-            ru: '(LangChain, ChromaDB, GigaChat), закрывающую рутинные запросы без человека — нагрузка на менеджеров упала на 40%.',
+            en: 'using LangChain, ChromaDB and GigaChat. It answers routine requests automatically, reducing manager workload by 40%.',
+            ru: 'на LangChain, ChromaDB и GigaChat. Она автоматически отвечает на рутинные запросы, снизив нагрузку на менеджеров на 40%.',
           },
         },
         {
@@ -194,8 +197,8 @@ export const resumeContent: ResumeContentDto = {
             ru: 'Построил библиотеку распознавания речи',
           },
           detail: {
-            en: "(SaluteSpeech) behind voice-created waybills — the product's headline feature — and set up Label Studio so managers annotate their own data.",
-            ru: '(SaluteSpeech) для голосового создания накладных — визитной функции продукта — и настроил Label Studio, чтобы менеджеры размечали данные сами.',
+            en: 'using SaluteSpeech for voice-created waybills. Set up Label Studio so managers can annotate data themselves.',
+            ru: 'на SaluteSpeech для голосового создания накладных. Настроил Label Studio, чтобы менеджеры могли сами размечать данные.',
           },
         },
         {
@@ -204,8 +207,8 @@ export const resumeContent: ResumeContentDto = {
             ru: 'Перенёс legacy-кодовую базу на Clean Architecture',
           },
           detail: {
-            en: 'event-driven messaging and DI (dishka), and started the Celery → FastStream migration so inter-service communication is typed rather than hopeful.',
-            ru: 'событийный обмен сообщениями и DI (dishka), начал миграцию Celery → FastStream, чтобы межсервисное взаимодействие было типизированным, а не «надеждой».',
+            en: 'introduced event-driven messaging and dependency injection with dishka. Started migrating from Celery to FastStream for typed inter-service messaging.',
+            ru: 'внедрил событийный обмен сообщениями и DI с dishka. Начал переход с Celery на FastStream для типизированного межсервисного взаимодействия.',
           },
         },
         {
@@ -235,8 +238,8 @@ export const resumeContent: ResumeContentDto = {
       position: { en: 'Python Backend Developer', ru: 'Python backend-разработчик' },
       company: { name: 'Ecom.tech' },
       product: {
-        en: 'A corporate messenger built from scratch for pickup-point staff — an open-source alternative to Mattermost, on microservices. Full cycle: API design through production and observability.',
-        ru: 'Корпоративный мессенджер с нуля для сотрудников пунктов выдачи — open-source альтернатива Mattermost на микросервисах. Полный цикл: от проектирования API до прода и наблюдаемости.',
+        en: 'An open-source corporate messenger for pickup-point staff, built as a microservice alternative to Mattermost. Developed from API design through production deployment and monitoring.',
+        ru: 'Корпоративный open-source мессенджер для сотрудников пунктов выдачи, микросервисная альтернатива Mattermost. Разработка от проектирования API до запуска в продакшене и настройки мониторинга.',
       },
       engagement: 'outstaff',
       impacts: [
@@ -252,8 +255,8 @@ export const resumeContent: ResumeContentDto = {
         },
         {
           label: {
-            en: 'Dropped connections — the reason Mattermost was dropped',
-            ru: 'Обрывы соединений — причина, по которой отказались от Mattermost',
+            en: 'Dropped connections after the switch from Mattermost',
+            ru: 'Обрывы соединений после перехода с Mattermost',
           },
           kind: 'numeric',
           amount: 40,
@@ -284,12 +287,12 @@ export const resumeContent: ResumeContentDto = {
       achievements: [
         {
           lead: {
-            en: 'Laid out the microservice landscape',
-            ru: 'Развернул микросервисный ландшафт',
+            en: 'Designed the microservice architecture',
+            ru: 'Спроектировал микросервисную архитектуру',
           },
           detail: {
-            en: 'REST, GraphQL and gRPC contracts, Kong as the gateway for routing, rate-limiting and central auth, RabbitMQ/Kafka for async work, so auth, chat and notification evolve and scale independently.',
-            ru: 'REST, GraphQL и gRPC контракты, Kong как шлюз для роутинга, rate-limiting и центральной аутентификации, RabbitMQ/Kafka для асинхронной работы — auth, чат и уведомления развиваются и масштабируются независимо.',
+            en: 'defined REST, GraphQL and gRPC contracts. Set up Kong for routing, rate limiting and authentication, and RabbitMQ and Kafka for async work. Authentication, chat and notifications scale independently.',
+            ru: 'описал REST, GraphQL и gRPC-контракты. Настроил Kong для маршрутизации, ограничения запросов и аутентификации, RabbitMQ и Kafka для асинхронной работы. Сервисы аутентификации, чата и уведомлений масштабируются независимо.',
           },
         },
         {
@@ -298,22 +301,22 @@ export const resumeContent: ResumeContentDto = {
             ru: 'Вынес WebSocket-соединения в отдельный слой Centrifugo',
           },
           detail: {
-            en: '(pub/sub): fan-out throughput up ~50%, dropped connections down ~40%, and the delivery instability that made the team abandon Mattermost in the first place was gone.',
-            ru: '(pub/sub): пропускная способность fan-out выросла на ~50%, обрывы соединений упали на ~40%, а нестабильность доставки, из-за которой команда когда-то отказалась от Mattermost, исчезла.',
+            en: 'used pub/sub for message delivery. Fan-out throughput increased by about 50% and dropped connections decreased by about 40%, resolving the delivery instability that prompted the switch from Mattermost.',
+            ru: 'использовал pub/sub для доставки сообщений. Пропускная способность fan-out выросла примерно на 50%, число обрывов соединений снизилось на 40%. Устранил нестабильность доставки, из-за которой команда отказалась от Mattermost.',
           },
         },
         {
           lead: { en: 'Migrated monitoring off SaaS', ru: 'Перенёс мониторинг с SaaS' },
           detail: {
-            en: 'onto Prometheus, Loki and Grafana with OpenTelemetry tracing and Sentry — coverage to 100%, MTTR down ~50%, the subscription bill to zero.',
-            ru: 'на Prometheus, Loki и Grafana с трейсингом OpenTelemetry и Sentry — покрытие до 100%, MTTR ниже на ~50%, счёт за подписку — до нуля.',
+            en: 'deployed Prometheus, Loki and Grafana with OpenTelemetry tracing and Sentry on our own infrastructure. Metrics and traces cover every microservice, MTTR fell by about 50%, and subscription costs were eliminated.',
+            ru: 'развернул Prometheus, Loki и Grafana с трейсингом OpenTelemetry и Sentry на собственной инфраструктуре. Все микросервисы покрыты метриками и трейсами, MTTR снизился примерно на 50%, расходы на подписку исчезли.',
           },
         },
         {
           lead: { en: 'Made the logs machine-readable', ru: 'Сделал логи машиночитаемыми' },
           detail: {
-            en: 'structlog JSON with trace_id and request_id threaded through every service, so Loki can aggregate and alert; root-cause search ~30% faster. Also shipped the LLM services (OpenAI API) that put assistants inside the messenger.',
-            ru: 'structlog JSON с trace_id и request_id, прошитыми через каждый сервис, чтобы Loki мог агрегировать и алертить; поиск первопричины быстрее на ~30%. Плюс запустил LLM-сервисы (OpenAI API), встроившие ассистентов в мессенджер.',
+            en: 'configured JSON logs with structlog, trace_id and request_id across services, plus aggregation and alerts in Loki. Root-cause analysis became about 30% faster. Built LLM services using the OpenAI API for assistants in the messenger.',
+            ru: 'настроил JSON-логи через structlog с trace_id и request_id во всех сервисах, агрегацию и алерты в Loki. Поиск первопричины стал примерно на 30% быстрее. Разработал LLM-сервисы на OpenAI API для ассистентов в мессенджере.',
           },
         },
       ],
@@ -415,22 +418,22 @@ export const resumeContent: ResumeContentDto = {
     {
       topic: 'architecture',
       text: {
-        en: 'I work from DDD, Clean Architecture and event-driven design, go deep on observability — OpenTelemetry and the Grafana stack — and spend real time optimising legacy rather than routing around it.',
-        ru: 'Работаю от DDD, Clean Architecture и событийного дизайна, глубоко в observability — OpenTelemetry и стек Grafana — и трачу реальное время на оптимизацию legacy, а не на обходные пути.',
+        en: 'I use DDD, Clean Architecture and event-driven design. I set up metrics and tracing with OpenTelemetry and Grafana, and refactor and optimise legacy services.',
+        ru: 'Использую DDD, Clean Architecture и событийную архитектуру. Настраиваю метрики и трейсинг с OpenTelemetry и Grafana, рефакторю и оптимизирую legacy-сервисы.',
       },
     },
     {
       topic: 'open-source',
       text: {
-        en: 'I contribute to the Python open-source ecosystem: I build and maintain integrations between the dishka DI container and popular frameworks.',
-        ru: 'Вношу вклад в open-source экосистему Python: создаю и поддерживаю интеграции DI-контейнера dishka с популярными фреймворками.',
+        en: 'I develop and maintain Python libraries: faststream-celery, jobify-db and dishka integrations.',
+        ru: 'Разрабатываю и поддерживаю Python-библиотеки: faststream-celery, jobify-db и интеграции dishka.',
       },
     },
     {
       topic: 'collaboration',
       text: {
-        en: 'I take part in code review and architecture discussions, and use AI tooling — Cursor, Claude Code — as part of daily development to shorten the delivery cycle.',
-        ru: 'Участвую в код-ревью и архитектурных обсуждениях, использую AI-инструменты — Cursor, Claude Code — в ежедневной разработке, чтобы сокращать цикл поставки.',
+        en: 'I review code and discuss architecture with the team. I use Cursor and Claude Code in daily development.',
+        ru: 'Участвую в код-ревью и обсуждаю архитектуру с командой. В ежедневной разработке использую Cursor и Claude Code.',
       },
     },
   ],

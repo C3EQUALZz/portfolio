@@ -13,16 +13,16 @@ describe('ProjectsSection', () => {
     }).compileComponents();
   });
 
-  it('renders the four dishka integrations as cards linking to their repositories', async () => {
+  it('renders the maintained libraries as cards linking to their repositories', async () => {
     const fixture = TestBed.createComponent(ProjectsSection);
     await fixture.whenStable();
     const cards = [
       ...(fixture.nativeElement as HTMLElement).querySelectorAll<HTMLAnchorElement>('.card'),
     ];
 
-    expect(cards).toHaveLength(4);
-    expect(cards[0]?.href).toBe('https://github.com/C3EQUALZz/dishka-ag2');
-    expect(cards[0]?.textContent).toContain('dishka-ag2');
+    expect(cards).toHaveLength(6);
+    expect(cards[0]?.href).toBe('https://github.com/C3EQUALZz/faststream-celery');
+    expect(cards[0]?.textContent).toContain('faststream-celery');
   });
 
   it('renders cards without a repository snapshot — no stars, no error', async () => {
@@ -30,7 +30,7 @@ describe('ProjectsSection', () => {
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
 
-    expect(element.querySelectorAll('.card')).toHaveLength(4);
+    expect(element.querySelectorAll('.card')).toHaveLength(6);
     expect(element.querySelector('.ph-star')).toBeNull();
   });
 
@@ -44,7 +44,7 @@ describe('ProjectsSection', () => {
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.card-tagline')?.textContent).toContain('AG2');
+    expect(element.querySelector('.card-tagline')?.textContent).toContain('Celery');
     expect(element.textContent).toContain('библиотека');
   });
 });

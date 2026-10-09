@@ -15,6 +15,8 @@ describe('ProjectsStore', () => {
 
     expect(store.isLoading()).toBe(false);
     expect(store.data()?.map((project) => project.id)).toEqual([
+      'faststream-celery',
+      'jobify-db',
       'dishka-ag2',
       'dishka-airflow',
       'dishka-jobify',

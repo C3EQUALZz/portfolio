@@ -9,6 +9,6 @@ describe('staticProjectRepository', () => {
       throw new Error('repository must list the projects');
     }
 
-    expect(result.value).toHaveLength(4);
+    expect(result.value).toHaveLength(6);
   });
 });

@@ -11,7 +11,8 @@
           <p class="role-meta">{{ card.durationText }} · {{ card.engagementText }}</p>
         </div>
         <div class="role-main">
-          <h3 class="role-title">{{ card.title }}</h3>
+          <h3 class="role-title">{{ card.company }}</h3>
+          <p class="role-position">{{ card.position }}</p>
           <p class="role-product">{{ card.product }}</p>
 
           <div class="impacts">
@@ -26,9 +27,10 @@
           <ul class="achievements">
             @for (achievement of card.achievements; track achievement.lead) {
               <li>
-                <span class="bullet" aria-hidden="true">◆</span>
+                <span class="bullet" aria-hidden="true">•</span>
                 <span
-                  ><strong>{{ achievement.lead }}</strong> {{ achievement.detail }}</span
+                  ><strong>{{ achievement.lead }}</strong
+                  >: {{ achievement.detail }}</span
                 >
               </li>
             }

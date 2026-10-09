@@ -8,6 +8,8 @@ import { LocaleService } from '../../../../shared/i18n/locale.service';
 
 /** The Phosphor icon per project — presentational, keyed by slug. */
 const PROJECT_ICON: Record<string, string> = {
+  'faststream-celery': 'ph-arrows-left-right',
+  'jobify-db': 'ph-database',
   'dishka-ag2': 'ph-robot',
   'dishka-airflow': 'ph-git-fork',
   'dishka-jobify': 'ph-queue',
@@ -43,8 +45,9 @@ export class ProjectsSection {
 
   protected readonly kicker = translateSignal('nav.work');
   protected readonly title = translateSignal('work.title');
-  protected readonly subtitlePre = translateSignal('work.subtitlePre');
-  protected readonly subtitlePost = translateSignal('work.subtitlePost');
+  protected readonly subtitle = translateSignal('work.subtitle');
+  protected readonly contributionsIntro = translateSignal('work.contributionsIntro');
+  protected readonly contributionsAnd = translateSignal('work.contributionsAnd');
 
   private readonly items = this.listProjects.handle({ kind: 'listProjects' });
 

@@ -32,6 +32,6 @@ describe('AboutSection', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     await fixture.whenStable();
 
-    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Работаю от DDD');
+    expect((fixture.nativeElement as HTMLElement).textContent).toContain('Использую DDD');
   });
 });

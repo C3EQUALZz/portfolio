@@ -29,8 +29,8 @@ test.describe('landing page', () => {
     await expect(page.locator('#about')).toContainText('OpenTelemetry');
 
     const experience = page.locator('#experience');
-    await expect(experience.locator('.title')).toContainText('of taking the slow path out');
-    await expect(experience).toContainText('SRI Spetsvuzavtomatika');
+    await expect(experience.locator('.title')).toContainText('Backend development');
+    await expect(experience).toContainText('nissva');
     await expect(experience).toContainText('Iktin Group');
     await expect(experience).toContainText('Ecom.tech');
 
@@ -41,22 +41,39 @@ test.describe('landing page', () => {
 
   test('work section links every project card to its repository', async ({ page }) => {
     const section = page.locator('#work');
-    await expect(section.locator('.title')).toHaveText('Open source: dishka integrations');
+    await expect(section.locator('.title')).toHaveText('Python libraries');
 
     // External links are checked by attribute only — never navigated to.
-    const dishka = section.locator('.subtitle-link');
-    await expect(dishka).toHaveAttribute('href', 'https://github.com/reagento/dishka');
+    const dishka = section.locator('.contributions a').last();
+    await expect(dishka).toHaveAttribute(
+      'href',
+      'https://github.com/faststream-community/dishka-faststream/pull/58',
+    );
     await expect(dishka).toHaveAttribute('target', '_blank');
     await expect(dishka).toHaveAttribute('rel', 'noopener noreferrer');
 
     const cards = section.locator('a.card');
-    await expect(cards).toHaveCount(4);
-    for (const name of ['dishka-ag2', 'dishka-airflow', 'dishka-jobify', 'dishka-flet']) {
+    await expect(cards).toHaveCount(6);
+    for (const name of [
+      'faststream-celery',
+      'dishka-ag2',
+      'dishka-airflow',
+      'dishka-jobify',
+      'dishka-flet',
+    ]) {
       const card = section.locator(`a.card[aria-label="${name}"]`);
       await expect(card).toHaveAttribute('href', `https://github.com/C3EQUALZz/${name}`);
       await expect(card).toHaveAttribute('target', '_blank');
       await expect(card).toHaveAttribute('rel', 'noopener noreferrer');
     }
+    const storage = section.getByRole('link', { exact: true, name: 'jobify-db' });
+    await expect(storage).toHaveAttribute('href', 'https://github.com/Jobify-Community/jobify-db');
+    await expect(storage).toHaveAttribute('target', '_blank');
+    await expect(storage).toHaveAttribute('rel', 'noopener noreferrer');
+    await expect(section.locator('.contributions a').first()).toHaveAttribute(
+      'href',
+      'https://github.com/ag2ai/faststream/pull/3191',
+    );
   });
 
   test('contact section exposes channels with safe link attributes', async ({ page }) => {

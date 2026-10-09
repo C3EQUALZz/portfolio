@@ -11,10 +11,6 @@
   color: var(--color-text-secondary);
 }
 
-.subtitle-link {
-  color: var(--color-accent-text);
-}
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
@@ -88,4 +84,34 @@
   gap: 8px;
   font-size: 12px;
   color: var(--color-text-muted);
+}
+
+.card-featured {
+  background: color-mix(in srgb, var(--color-accent-surface) 40%, var(--color-surface));
+  border-color: var(--color-accent-border);
+}
+
+.contributions {
+  margin: 28px 0 0;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+.contributions a {
+  color: var(--color-accent-text);
+}
+
+@media (width >= 760px) {
+  .card-featured {
+    grid-column: 1 / -1;
+    padding: 32px;
+  }
+
+  .card-featured .card-name {
+    font-size: 28px;
+  }
+
+  .card-featured .card-description {
+    max-width: 72ch;
+  }
 }

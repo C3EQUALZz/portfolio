@@ -1,11 +1,50 @@
 import type { ProjectDto } from './to-project';
 
 /**
- * The four dishka integrations from the Nocturne template. A typed literal,
+ * Maintained Python libraries. A typed literal,
  * not JSON over HTTP: the compiler checks it, no network, no prerender
  * breakage. Moving to the GitHub API means replacing one adapter.
  */
 export const projectsContent: readonly ProjectDto[] = [
+  {
+    id: 'faststream-celery',
+    name: 'faststream-celery',
+    tagline: {
+      en: 'A Celery-compatible broker for FastStream',
+      ru: 'Брокер для FastStream с поддержкой протокола Celery',
+    },
+    description: {
+      en: 'Async FastStream handlers consume tasks from Celery clients and publish tasks to Celery workers. Supports RabbitMQ, Redis and task results, so services can migrate from Celery one at a time.',
+      ru: 'Асинхронные обработчики FastStream принимают задачи от клиентов Celery и отправляют задачи его воркерам. Поддерживает RabbitMQ, Redis и результаты задач, позволяя переносить сервисы с Celery по одному.',
+    },
+    repository: 'https://github.com/C3EQUALZz/faststream-celery',
+    language: 'Python',
+    kind: 'library',
+    topics: [
+      { en: 'FastStream', ru: 'FastStream' },
+      { en: 'Celery', ru: 'Celery' },
+      { en: 'Messaging', ru: 'Обмен сообщениями' },
+    ],
+  },
+  {
+    id: 'jobify-db',
+    name: 'jobify-db',
+    tagline: {
+      en: 'Database storage backends for Jobify',
+      ru: 'Хранилища в базах данных для Jobify',
+    },
+    description: {
+      en: 'Stores Jobify tasks in PostgreSQL, MongoDB or MySQL. Accepts a connection string or an existing pool or client, and creates tables and collections on startup.',
+      ru: 'Хранит задачи Jobify в PostgreSQL, MongoDB или MySQL. Принимает строку подключения либо готовый пул или клиент, создаёт таблицы и коллекции при запуске.',
+    },
+    repository: 'https://github.com/Jobify-Community/jobify-db',
+    language: 'Python',
+    kind: 'library',
+    topics: [
+      { en: 'Jobify', ru: 'Jobify' },
+      { en: 'Databases', ru: 'Базы данных' },
+    ],
+  },
   {
     id: 'dishka-ag2',
     name: 'dishka-ag2',
@@ -14,8 +53,8 @@ export const projectsContent: readonly ProjectDto[] = [
       ru: 'Внедрение зависимостей для мультиагентных приложений AG2',
     },
     description: {
-      en: 'Container integration for AG2 multi-agent applications: agents and tools receive their dependencies from dishka instead of holding module-level globals, so an agent graph stays unit-testable.',
-      ru: 'Интеграция контейнера с мультиагентными приложениями AG2: агенты и инструменты получают зависимости из dishka вместо глобальных переменных уровня модуля, поэтому граф агентов остаётся тестируемым юнит-тестами.',
+      en: 'Connects dishka to AG2: agents and tools receive dependencies from the container. Dependencies can be replaced in unit tests without changing the agent graph.',
+      ru: 'Подключает dishka к AG2: агенты и инструменты получают зависимости из контейнера. В юнит-тестах зависимости можно подменить без изменений графа агентов.',
     },
     repository: 'https://github.com/C3EQUALZz/dishka-ag2',
     language: 'Python',
@@ -33,8 +72,8 @@ export const projectsContent: readonly ProjectDto[] = [
       ru: 'Внедрение зависимостей для Airflow',
     },
     description: {
-      en: 'DI for Airflow DAGs and operators — a request scope per task run, so pipeline code declares what it needs and the container resolves connections, clients and sessions around it.',
-      ru: 'DI для DAG’ов и операторов Airflow — request-скоуп на каждый запуск задачи: код пайплайна объявляет, что ему нужно, а контейнер разрешает соединения, клиенты и сессии вокруг него.',
+      en: 'Injects dependencies into Airflow DAGs and operators. Each task run has its own request scope for connections, clients and database sessions.',
+      ru: 'Внедряет зависимости в DAG и операторы Airflow. У каждого запуска задачи свой request-скоуп для соединений, клиентов и сессий базы данных.',
     },
     repository: 'https://github.com/C3EQUALZz/dishka-airflow',
     language: 'Python',
@@ -48,12 +87,12 @@ export const projectsContent: readonly ProjectDto[] = [
     id: 'dishka-jobify',
     name: 'dishka-jobify',
     tagline: {
-      en: 'Scoped DI for background jobs',
-      ru: 'Скоупированный DI для фоновых задач',
+      en: 'Dependency injection for Jobify tasks',
+      ru: 'Внедрение зависимостей для задач Jobify',
     },
     description: {
-      en: 'Background jobs with a proper lifetime: each job runs inside its own container scope, so sessions and clients are opened and closed with the job rather than leaked across the worker.',
-      ru: 'Фоновые задачи с правильным временем жизни: каждая задача выполняется в собственном скоупе контейнера, поэтому сессии и клиенты открываются и закрываются вместе с задачей, а не утекают по воркеру.',
+      en: 'Runs each Jobify task in a separate dishka scope. Database sessions and clients are created for the task and closed when it finishes.',
+      ru: 'Выполняет каждую задачу Jobify в отдельном скоупе dishka. Сессии базы данных и клиенты создаются для задачи и закрываются после её завершения.',
     },
     repository: 'https://github.com/C3EQUALZz/dishka-jobify',
     language: 'Python',
@@ -71,8 +110,8 @@ export const projectsContent: readonly ProjectDto[] = [
       ru: 'Внедрение зависимостей для приложений Flet',
     },
     description: {
-      en: 'The same container model on the client side of Flet: a scope per user session, so UI views resolve services the way a backend handler does — one architecture across the stack.',
-      ru: 'Та же модель контейнера на клиентской стороне Flet: скоуп на пользовательскую сессию, поэтому UI-представления разрешают сервисы так же, как backend-обработчик, — одна архитектура на весь стек.',
+      en: 'Connects the dishka container to Flet applications. Views receive services through dependency injection, with a separate scope for each user session.',
+      ru: 'Подключает контейнер dishka к приложениям Flet. Представления получают сервисы через внедрение зависимостей, у каждой пользовательской сессии свой скоуп.',
     },
     repository: 'https://github.com/C3EQUALZz/dishka-flet',
     language: 'Python',

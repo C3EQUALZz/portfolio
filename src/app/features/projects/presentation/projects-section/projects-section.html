@@ -1,21 +1,13 @@
 <section id="work" class="section">
   <h6 class="kicker">{{ kicker() }}</h6>
   <h2 class="title">{{ title() }}</h2>
-  <p class="subtitle">
-    {{ subtitlePre()
-    }}<a
-      href="https://github.com/reagento/dishka"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="subtitle-link"
-      >dishka</a
-    >{{ subtitlePost() }}
-  </p>
+  <p class="subtitle">{{ subtitle() }}</p>
 
   <div class="grid">
     @for (card of cards(); track card.id) {
       <a
         class="card"
+        [class.card-featured]="card.id === 'faststream-celery'"
         [href]="card.repository"
         target="_blank"
         rel="noopener noreferrer"
@@ -25,7 +17,7 @@
           <i class="ph {{ card.icon }}" aria-hidden="true"></i>
           <i class="ph ph-arrow-up-right card-link-icon" aria-hidden="true"></i>
         </div>
-        <h4 class="card-name">{{ card.name }}</h4>
+        <h3 class="card-name">{{ card.name }}</h3>
         <p class="card-tagline">{{ card.tagline }}</p>
         <p class="card-description">{{ card.description }}</p>
         <div class="card-meta">
@@ -42,4 +34,20 @@
       </a>
     }
   </div>
+  <p class="contributions">
+    {{ contributionsIntro() }}
+    <a
+      href="https://github.com/ag2ai/faststream/pull/3191"
+      target="_blank"
+      rel="noopener noreferrer"
+      >FastStream</a
+    >
+    {{ contributionsAnd() }}
+    <a
+      href="https://github.com/faststream-community/dishka-faststream/pull/58"
+      target="_blank"
+      rel="noopener noreferrer"
+      >dishka-faststream</a
+    >.
+  </p>
 </section>

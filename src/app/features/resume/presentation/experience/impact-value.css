@@ -1,7 +1,8 @@
 .impact-value {
   font-family: var(--font-heading);
   font-size: 27px;
-  line-height: 1;
+  line-height: 1.2;
   color: var(--color-accent-text);
   letter-spacing: -0.025em;
+  overflow-wrap: anywhere;
 }

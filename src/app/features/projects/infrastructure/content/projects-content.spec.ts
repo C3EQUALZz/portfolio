@@ -10,13 +10,15 @@ describe('projectsContent', () => {
     expect(toProjects(projectsContent)).toMatchObject({ ok: true });
   });
 
-  it('contains the four dishka integrations, all Python libraries', () => {
+  it('contains the broker, storage backends and DI integrations as Python libraries', () => {
     const parsed = toProjects(projectsContent);
     if (!parsed.ok) {
       throw new Error('content must parse');
     }
 
     expect(parsed.value.map((item) => item.id)).toEqual([
+      'faststream-celery',
+      'jobify-db',
       'dishka-ag2',
       'dishka-airflow',
       'dishka-jobify',

@@ -9,7 +9,7 @@ test.describe('header navigation', () => {
     for (const fragment of FRAGMENTS) {
       await page.goto(`/#${fragment}`);
       await expect(page.locator('#experience .role')).toHaveCount(3);
-      await expect(page.locator('#work .card')).toHaveCount(4);
+      await expect(page.locator('#work .card')).toHaveCount(6);
       await expect(page.locator(`#${fragment} .kicker`)).toBeInViewport();
     }
   });

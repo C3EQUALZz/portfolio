@@ -25,6 +25,15 @@ describe('resumeContent', () => {
     });
   });
 
+  it('does not accrue experience after the last role ended in August 2026', () => {
+    const parsed = must(toResume(resumeContent));
+
+    expect(resume.totalExperience(parsed, must(yearMonth.create(2030, 1)))).toEqual({
+      years: 3,
+      months: 7,
+    });
+  });
+
   it('keeps lead technologies within the hero ring limit', () => {
     const parsed = must(toResume(resumeContent));
     const leadCount = parsed.skillGroups.reduce(

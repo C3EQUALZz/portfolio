@@ -10,7 +10,6 @@ import {
   type ExperienceTimelineItem,
   GetExperienceTimelineHandler,
 } from '../../application/queries/get-experience-timeline/get-experience-timeline';
-import { GetTotalExperienceHandler } from '../../application/queries/get-total-experience/get-total-experience';
 
 import { LocaleService } from '../../../../shared/i18n/locale.service';
 import type { Period } from '../../../../shared/kernel/time/period';
@@ -37,12 +36,18 @@ interface RoleCard {
   readonly periodLabel: string;
   readonly durationText: string;
   readonly engagementText: string;
-  readonly title: string;
+  readonly company: string;
+  readonly position: string;
   readonly product: string;
   readonly impacts: readonly ImpactItem[];
   readonly achievements: readonly AchievementItem[];
   readonly clusters: readonly ClusterItem[];
 }
+
+/** Local display names; the domain retains the company's registered name. */
+const COMPANY_NAME_KEY: Readonly<Record<string, string>> = {
+  'ФГАНУ НИИ Спецвузавтоматика': 'experience.companies.nissva',
+};
 
 /** Experience timeline: every role with its metrics, achievements and stack. */
 @Component({
@@ -54,24 +59,15 @@ interface RoleCard {
 })
 export class ExperienceSection {
   private readonly getExperienceTimeline = inject(GetExperienceTimelineHandler);
-  private readonly getTotalExperience = inject(GetTotalExperienceHandler);
   private readonly localeService = inject(LocaleService);
   private readonly transloco = inject(TranslocoService);
 
   private readonly timeline = this.getExperienceTimeline.handle({
     kind: 'getExperienceTimeline',
   });
-  private readonly totalExperience = this.getTotalExperience.handle({
-    kind: 'getTotalExperience',
-  });
-
-  protected readonly years = computed(() => this.totalExperience()?.years ?? 0);
 
   protected readonly kicker = translateSignal('nav.experience');
-  protected readonly title = translateSignal(
-    'experience.title',
-    computed(() => ({ years: this.years() })),
-  );
+  protected readonly title = translateSignal('experience.title');
   protected readonly subtitle = translateSignal('experience.subtitle');
 
   protected readonly cards = computed<readonly RoleCard[]>(() =>
@@ -80,6 +76,7 @@ export class ExperienceSection {
 
   private toCard(item: ExperienceTimelineItem): RoleCard {
     const experience = item.experience;
+    const companyKey = COMPANY_NAME_KEY[experience.company.name];
     // The domain returns bare months; the { years, months } split is a locale concern.
     const duration = {
       years: Math.floor(item.durationInMonths / 12),
@@ -90,7 +87,8 @@ export class ExperienceSection {
       periodLabel: this.formatPeriod(experience.period),
       durationText: this.transloco.translate('experience.duration', duration),
       engagementText: this.transloco.translate(`experience.engagement.${experience.engagement}`),
-      title: `${this.localeService.pick(experience.position)} — ${experience.company.name}`,
+      company: companyKey ? this.transloco.translate(companyKey) : experience.company.name,
+      position: this.localeService.pick(experience.position),
       product: this.localeService.pick(experience.product),
       impacts: experience.impacts.map((value) => ({
         impact: value,

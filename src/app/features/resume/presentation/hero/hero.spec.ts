@@ -102,7 +102,7 @@ describe('Hero', () => {
     await fixture.whenStable();
 
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.querySelector('.summary')?.textContent).toContain('Инструменты безопасности');
+    expect(element.querySelector('.summary')?.textContent).toContain('Разрабатываю backend');
     expect(element.querySelector('.experience')?.textContent).toContain('года');
   });
 });

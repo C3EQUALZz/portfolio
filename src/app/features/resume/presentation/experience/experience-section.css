@@ -44,12 +44,24 @@
 }
 
 .role-title {
-  margin: 0 0 4px;
-  font-size: 24px;
+  margin: 0 0 8px;
+  font-size: clamp(22px, 2.4vw, 28px);
+  line-height: 1.25;
   letter-spacing: -0.02em;
 }
 
+.role-main {
+  min-width: 0;
+}
+
+.role-position {
+  margin: 0 0 12px;
+  font-size: 15px;
+  color: var(--color-accent-text);
+}
+
 .role-product {
+  max-width: 68ch;
   margin: 0 0 24px;
   font-size: 14px;
   color: var(--color-text-secondary);
@@ -83,17 +95,17 @@
 
 .achievements li {
   display: grid;
-  grid-template-columns: 16px 1fr;
-  gap: 12px;
+  grid-template-columns: 8px 1fr;
+  gap: 10px;
   font-size: 14.5px;
   line-height: 1.6;
   color: color-mix(in srgb, var(--color-text) 78%, transparent);
 }
 
 .bullet {
-  padding-top: 5px;
-  font-size: 12px;
-  color: var(--color-accent);
+  padding-top: 2px;
+  font-size: 14px;
+  color: var(--color-text-muted);
 }
 
 .achievements strong {

@@ -27,10 +27,9 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
       '{years, plural, =0 {} one {# год} few {# года} many {# лет} other {# года}} {months, plural, =0 {} one {# месяц} few {# месяца} many {# месяцев} other {# месяца}} производственного опыта',
   },
   experience: {
-    title:
-      '{years, plural, one {# год} few {# года} many {# лет} other {# года}} пути «медленно, но надёжно»',
-    subtitle:
-      'Каждая роль — переписывание того, что перестало масштабироваться: монолита, самописного WebSocket-сервера, счёта за SaaS-мониторинг.',
+    title: 'Backend-разработка',
+    subtitle: 'AppSec-платформа, AI-ассистент для СДЭК и корпоративный мессенджер.',
+    companies: { nissva: 'ФГАНУ НИИ Спецвузавтоматика' },
     present: 'сейчас',
     duration:
       '{years, plural, =0 {} one {# год} few {# года} many {# лет} other {# года}} {months, plural, =0 {} one {# месяц} few {# месяца} many {# месяцев} other {# месяца}}',
@@ -50,11 +49,10 @@ export const RU_TRANSLATIONS: typeof EN_TRANSLATIONS = {
     native: 'Родной',
   },
   work: {
-    title: 'Open source: интеграции dishka',
-    subtitlePre:
-      'Внедрение зависимостей — та часть Python-сервиса, которая решает, насколько тестируемым будет всё остальное. Я использую ',
-    subtitlePost:
-      ' в проде, а там, где у фреймворка не было интеграции с контейнером, я написал и опубликовал её — у каждой библиотеки та же модель скоупов, свои тесты и упаковка.',
+    title: 'Python-библиотеки',
+    subtitle: 'Обмен задачами, хранение данных и интеграции для внедрения зависимостей.',
+    contributionsIntro: 'Также отправляю PR в',
+    contributionsAnd: 'и',
     kind: {
       library: 'библиотека',
       application: 'приложение',
