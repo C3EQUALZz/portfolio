@@ -29,7 +29,7 @@ export interface Resume {
 
 export type ResumeInput = Resume;
 
-export type ResumeErrorKind =
+type ResumeErrorKind =
   | 'EmptyExperiences'
   | 'DuplicateExperienceIds'
   | 'MultipleOngoingRoles'
